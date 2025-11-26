@@ -1,0 +1,15 @@
+﻿@model Tuvankienthuc.Models.MonHoc
+
+@{
+    ViewData["Title"] = "Chi tiết môn học";
+}
+
+<h2>Chi tiết môn học</h2>
+
+<div>
+    <h4>@Model.TenMH</h4>
+    <p>@Model.MoTa</p>
+</div>
+
+<a asp-action="Edit" asp-route-id="@Model.MaMH" class="btn btn-warning">Sửa</a>
+<a asp-action="Index" class="btn btn-secondary">Quay lại</a>

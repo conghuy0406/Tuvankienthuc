@@ -1,0 +1,45 @@
+﻿@model Tuvankienthuc.ViewModels.TaiLieuUpsertVM
+@{
+    ViewData["Title"] = "Thêm tài liệu";
+}
+
+<h2>Thêm tài liệu</h2>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="TaiLieu.TieuDe" class="form-label"></label>
+        <input asp-for="TaiLieu.TieuDe" class="form-control" />
+        <span asp-validation-for="TaiLieu.TieuDe" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TaiLieu.MoTa" class="form-label"></label>
+        <textarea asp-for="TaiLieu.MoTa" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="TaiLieu.MoTa" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TaiLieu.DuongDan" class="form-label"></label>
+        <input asp-for="TaiLieu.DuongDan" class="form-control" />
+        <span asp-validation-for="TaiLieu.DuongDan" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TaiLieu.LoaiTL" class="form-label"></label>
+        <input asp-for="TaiLieu.LoaiTL" class="form-control" />
+        <span asp-validation-for="TaiLieu.LoaiTL" class="text-danger"></span>
+    </div>
+
+    <!-- Chọn nhiều Chủ đề -->
+    <div class="mb-3">
+        <label class="form-label">Chủ đề</label>
+        <select asp-for="SelectedMaCDs" asp-items="ViewBag.ChuDeList" multiple class="form-select" size="8"></select>
+        <small class="text-muted">Giữ Ctrl/Command để chọn nhiều chủ đề</small>
+        <span asp-validation-for="SelectedMaCDs" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Lưu</button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

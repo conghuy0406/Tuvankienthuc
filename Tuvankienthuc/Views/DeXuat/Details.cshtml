@@ -1,0 +1,31 @@
+﻿@model Tuvankienthuc.Models.DeXuat
+
+@{
+    ViewData["Title"] = "Chi tiết đề xuất";
+}
+
+<h2>Chi tiết đề xuất</h2>
+
+<div class="card p-3">
+    <dl class="row">
+        <dt class="col-sm-3">Mã đề xuất</dt>
+        <dd class="col-sm-9">@Model.MaDX</dd>
+
+        <dt class="col-sm-3">Sinh viên</dt>
+        <dd class="col-sm-9">@Model.User?.HoTen</dd>
+
+        <dt class="col-sm-3">Nội dung</dt>
+        <dd class="col-sm-9">@Model.NoiDung</dd>
+
+        <dt class="col-sm-3">Nguồn</dt>
+        <dd class="col-sm-9">@Model.Nguon</dd>
+
+        <dt class="col-sm-3">Thời gian</dt>
+        <dd class="col-sm-9">@Model.ThoiGian.ToString("dd/MM/yyyy HH:mm")</dd>
+    </dl>
+</div>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.MaDX" class="btn btn-warning">Sửa</a> |
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</p>

@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Tư vấn học tập";
+}
+<style>
+    body {
+        background: linear-gradient(135deg, #e3f2fd, #ede7f6);
+        background-attachment: fixed;
+    }
+</style>
+<h2>Tư vấn học tập cá nhân hóa</h2>
+
+<form asp-action="TuDanhGia" method="get">
+    <div class="form-group mb-3">
+        <label>Chọn môn học:</label>
+        <select name="maMH" class="form-control">
+            @foreach (var m in ViewBag.MonHocs)
+            {
+                <option value="@m.MaMH">@m.TenMH</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Bắt đầu tự đánh giá</button>
+</form>

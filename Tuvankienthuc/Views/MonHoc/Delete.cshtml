@@ -1,0 +1,18 @@
+﻿@model Tuvankienthuc.Models.MonHoc
+
+@{
+    ViewData["Title"] = "Xóa môn học";
+}
+
+<h2>Bạn có chắc chắn muốn xóa?</h2>
+
+<div>
+    <h4>@Model.TenMH</h4>
+    <p>@Model.MoTa</p>
+</div>
+
+<form asp-action="DeleteConfirmed">
+    <input type="hidden" asp-for="MaMH" />
+    <button type="submit" class="btn btn-danger">Xóa</button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

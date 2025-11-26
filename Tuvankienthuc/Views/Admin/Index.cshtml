@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "Quản trị hệ thống";
+}
+
+<div class="container py-4">
+
+    <h2 class="mb-4 text-danger fw-bold">
+        <i class="bi bi-shield-lock"></i> Bảng điều khiển quản trị
+    </h2>
+
+    <div class="row g-4">
+
+        <!-- Quản lý người dùng -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-people"></i> Người dùng</h5>
+                    <p class="card-text text-muted">Quản lý tài khoản: sinh viên, giảng viên, quản trị.</p>
+                    <a href="/Users" class="btn btn-primary w-100">
+                        <i class="bi bi-arrow-right-circle"></i> Truy cập
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Môn học -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-journal-bookmark"></i> Môn học</h5>
+                    <p class="card-text text-muted">Quản lý danh sách môn học trong hệ thống.</p>
+                    <a href="/MonHoc" class="btn btn-primary w-100">
+                        <i class="bi bi-arrow-right-circle"></i> Truy cập
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chủ đề -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-layers"></i> Chủ đề</h5>
+                    <p class="card-text text-muted">Quản lý chủ đề của từng môn học.</p>
+                    <a href="/ChuDe" class="btn btn-primary w-100">
+                        <i class="bi bi-arrow-right-circle"></i> Truy cập
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kiến thức -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-lightbulb"></i> Kiến thức</h5>
+                    <p class="card-text text-muted">Quản lý kiến thức thuộc các chủ đề.</p>
+                    <a href="/KienThuc" class="btn btn-primary w-100">
+                        <i class="bi bi-arrow-right-circle"></i> Truy cập
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tài liệu -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-file-earmark-text"></i> Tài liệu</h5>
+                    <p class="card-text text-muted">Quản lý tài liệu PDF, video, slide.</p>
+                    <a href="/TaiLieu" class="btn btn-primary w-100">
+                        <i class="bi bi-arrow-right-circle"></i> Truy cập
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Đề xuất -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-stars"></i> Đề xuất</h5>
+                    <p class="card-text text-muted">Quản lý hệ thống gợi ý và đề xuất kiến thức.</p>
+                    <a href="/DeXuat" class="btn btn-primary w-100">
+                        <i class="bi bi-arrow-right-circle"></i> Truy cập
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

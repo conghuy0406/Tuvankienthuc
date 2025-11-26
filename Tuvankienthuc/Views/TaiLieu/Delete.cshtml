@@ -1,0 +1,42 @@
+﻿@model Tuvankienthuc.Models.TaiLieu
+@{
+    ViewData["Title"] = "Xoá tài liệu";
+    var chuDeNames = ViewBag.ChuDeNames as List<string> ?? new List<string>();
+}
+
+<h2>Xoá tài liệu</h2>
+
+<div class="alert alert-warning">
+    Bạn có chắc muốn xoá tài liệu này?
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h4>@Model.TieuDe</h4>
+        <p>@Model.MoTa</p>
+        <p><strong>Loại:</strong> @Model.LoaiTL</p>
+        <p><strong>Đường dẫn:</strong> @Model.DuongDan</p>
+        <p>
+            <strong>Chủ đề:</strong>
+            @if (chuDeNames.Any())
+            {
+                <ul class="mb-0">
+                    @foreach (var cd in chuDeNames)
+                    {
+                        <li>@cd</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <span class="text-muted">Chưa gắn chủ đề</span>
+            }
+        </p>
+    </div>
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="MaTL" />
+    <button type="submit" class="btn btn-danger">Xoá</button>
+    <a asp-action="Index" class="btn btn-secondary">Huỷ</a>
+</form>

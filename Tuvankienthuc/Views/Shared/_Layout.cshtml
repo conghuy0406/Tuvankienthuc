@@ -1,0 +1,167 @@
+﻿@{
+    var title = ViewData["Title"] as string ?? "Topic Listing";
+
+    // ✅ Lấy thông tin từ Session (do AuthController lưu)
+    var userId = Context.Session.GetInt32("UserId");
+    var userName = Context.Session.GetString("UserName");
+    var role = Context.Session.GetString("Role");
+
+    bool isLoggedIn = userId != null;
+    bool isAdmin =
+        string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase) ||
+        string.Equals(role, "GiangVien", StringComparison.OrdinalIgnoreCase) ||
+        string.Equals(role, "GiaoVien", StringComparison.OrdinalIgnoreCase);
+}
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Hệ thống tư vấn học tập AI" />
+    <meta name="author" content="2PIG" />
+    <title>@title</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet" />
+
+    <!-- CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/bootstrap-icons.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/templatemo-topic-listing.css" rel="stylesheet" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+</head>
+<body id="top">
+
+    <main>
+        <!-- ========== NAVBAR CHUNG ========== -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-primary" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-book"></i> 2PIG
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                        <!-- Luôn có -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index" asp-fragment="section_1">Trang chủ</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index" asp-fragment="section_2">Chủ đề</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="TuVan" asp-action="Index">Tư vấn học tập</a>
+                        </li>
+
+                        <!-- Menu cho Giảng viên -->
+                        @if (role == "GiangVien" || role == "Admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-info" asp-controller="GiangVien" asp-action="Index">
+                                    Giảng viên
+                                </a>
+                            </li>
+                        }
+
+                        <!-- Menu dành riêng cho Admin -->
+                        @if (role == "Admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-danger fw-bold" asp-controller="Admin" asp-action="Index">
+                                    Quản trị hệ thống
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                    <!-- Tài khoản (Login / Register / Chào User / Logout) -->
+                    <ul class="navbar-nav ms-auto">
+                        @if (!isLoggedIn)
+                        {
+                            <!-- Khi chưa đăng nhập -->
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Auth" asp-action="Login">Đăng nhập</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Auth" asp-action="Register">Đăng ký</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <!-- Khi đã đăng nhập -->
+                            <li class="nav-item d-flex align-items-center me-2">
+                                <span class="navbar-text text-primary">
+                                    👋 Xin chào, <strong>@userName</strong>
+                                    <span class="badge bg-secondary ms-1">@role</span>
+                                </span>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Auth" asp-action="Logout">
+                                    <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+
+        <!-- ========== NỘI DUNG CHÍNH ========== -->
+        <div class="container mt-4 mb-5">
+            @RenderBody()
+        </div>
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="site-footer section-padding bg-dark text-light mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-12 mb-4">
+                    <h5 class="fw-bold text-light">2PIG Học Tập AI</h5>
+                    <p>Hệ thống tư vấn học tập thông minh giúp sinh viên xác định lộ trình học cá nhân hóa dựa trên AI.</p>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-6">
+                    <h6 class="text-uppercase fw-bold">Liên kết nhanh</h6>
+                    <ul class="list-unstyled">
+                        <li><a class="text-light text-decoration-none" asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                        <li><a class="text-light text-decoration-none" asp-controller="TuVan" asp-action="Index">Tư vấn học tập</a></li>
+                        <li><a class="text-light text-decoration-none" asp-controller="Contact" asp-action="Index">Liên hệ</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-6">
+                    <h6 class="text-uppercase fw-bold">Liên hệ</h6>
+                    <p><i class="bi bi-telephone"></i> 034-235-3400</p>
+                    <p><i class="bi bi-envelope"></i> conheogioi@gmail.com</p>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-12 text-lg-end mt-3 mt-lg-0">
+                    <p class="small text-secondary">© 2025 2PIG Learning System - Design by HeoThongMinh</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="~/js/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="~/js/jquery.sticky.js" asp-append-version="true"></script>
+    <script src="~/js/click-scroll.js" asp-append-version="true"></script>
+    <script src="~/js/custom.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

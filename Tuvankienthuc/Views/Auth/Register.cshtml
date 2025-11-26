@@ -1,0 +1,43 @@
+﻿@model Tuvankienthuc.Models.User
+
+@{
+    ViewData["Title"] = "Đăng ký tài khoản";
+}
+
+<div class="container mt-5" style="max-width: 500px;">
+    <h3 class="text-center mb-4">Đăng ký tài khoản</h3>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <form asp-action="Register" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="form-group mb-3">
+            <label asp-for="HoTen"></label>
+            <input asp-for="HoTen" class="form-control" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="MatKhau"></label>
+            <input asp-for="MatKhau" type="password" class="form-control" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Nhập lại mật khẩu</label>
+            <input type="password" name="passwordConfirm" class="form-control" />
+        </div>
+
+        <!-- Hidden Role -->
+        <input type="hidden" name="Role" value="SinhVien" />
+
+        <button type="submit" class="btn btn-success w-100">Đăng ký</button>
+    </form>
+</div>

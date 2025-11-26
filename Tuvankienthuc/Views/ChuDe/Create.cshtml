@@ -1,0 +1,32 @@
+﻿@model Tuvankienthuc.Models.ChuDe
+@{
+    ViewData["Title"] = "Thêm Chủ Đề";
+}
+
+<h2>Thêm Chủ Đề</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="TenCD" class="control-label"></label>
+        <input asp-for="TenCD" class="form-control" />
+        <span asp-validation-for="TenCD" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MoTa" class="control-label"></label>
+        <textarea asp-for="MoTa" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="IsKienThucCoBan" class="control-label"></label>
+        <input asp-for="IsKienThucCoBan" type="checkbox" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MaMH" class="control-label">Môn học</label>
+        <select asp-for="MaMH" class="form-control" asp-items="ViewBag.MaMH"></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

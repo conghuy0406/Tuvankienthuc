@@ -1,0 +1,27 @@
+﻿@model Tuvankienthuc.Models.KienThuc
+
+@{
+    ViewData["Title"] = "Chi tiết Kiến Thức";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <h4>Thông tin chi tiết</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Chủ đề</dt>
+        <dd class="col-sm-10">@Model.ChuDe?.TenCD</dd>
+
+        <dt class="col-sm-2">Nội dung</dt>
+        <dd class="col-sm-10">@Model.NoiDung</dd>
+
+        <dt class="col-sm-2">Độ khó</dt>
+        <dd class="col-sm-10">@Model.DoKho</dd>
+    </dl>
+</div>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.MaKT" class="btn btn-warning">Sửa</a> |
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</p>

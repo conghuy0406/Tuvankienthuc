@@ -1,0 +1,69 @@
+﻿@model List<(Tuvankienthuc.Models.KienThuc kt, float score)>
+
+@{
+    var moTaKT = ViewBag.MoTaKT as Dictionary<int, string>;
+    int daysLeft = ViewBag.DaysLeft;
+    int index = 0;
+}
+
+<div class="container my-4">
+
+    <h2 class="fw-bold text-primary mb-3">🚀 Kết quả tư vấn – @ViewBag.TenMonHoc</h2>
+
+    <div class="alert alert-info shadow-sm">
+        🤖 <strong>Mô hình AI đang sử dụng:</strong> @ViewBag.AIModel
+    </div>
+
+    <div class="alert alert-success shadow-sm">
+        <strong>Lời khuyên học tập:</strong><br />
+        @Html.Raw(ViewBag.LoiKhuyen)
+    </div>
+
+    <h4 class="fw-bold text-secondary mt-4 mb-2">📌 Lộ trình kiến thức ưu tiên</h4>
+
+    @foreach (var item in Model)
+    {
+        var kt = item.kt;
+        var score = item.score;
+        index++;
+
+        string urgencyClass, urgencyLabel;
+
+        if (score > 1.2f) { urgencyClass = "bg-danger"; urgencyLabel = "Rất cấp bách"; }
+        else if (score > 0.9f) { urgencyClass = "bg-warning text-dark"; urgencyLabel = "Ưu tiên cao"; }
+        else if (score > 0.6f) { urgencyClass = "bg-info text-dark"; urgencyLabel = "Nên học sớm"; }
+        else if (score > 0.3f) { urgencyClass = "bg-secondary"; urgencyLabel = "Ôn nhẹ"; }
+        else { urgencyClass = "bg-success"; urgencyLabel = "Đã ổn"; }
+
+        int minutes = kt.DoKho >= 7 ? 40 :
+        kt.DoKho >= 5 ? 30 :
+        kt.DoKho >= 3 ? 25 : 20;
+
+        int day = Math.Min(daysLeft, index);
+
+        <div class="card shadow-sm border-0 mb-3">
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+                    <h5>@kt.NoiDung</h5>
+                    <span class="badge @urgencyClass px-3 py-2">@urgencyLabel – @score.ToString("0.00")</span>
+                </div>
+
+                <div class="text-muted small">Chủ đề: @kt.ChuDe?.TenCD</div>
+
+                <div class="small mt-1">
+                    ⏱ Thời gian học: <strong>@minutes phút</strong><br />
+                    📅 Nên học vào: <strong>Ngày @day</strong>
+                </div>
+
+                @if (moTaKT != null && moTaKT.ContainsKey(kt.MaKT))
+                {
+                    <div class="alert alert-light border mt-2">
+                        🧠 <em>@moTaKT[kt.MaKT]</em>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+</div>

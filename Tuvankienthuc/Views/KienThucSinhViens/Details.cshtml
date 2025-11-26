@@ -1,0 +1,19 @@
+﻿@model Tuvankienthuc.Models.KienThucSinhVien
+
+<h2>Chi tiết Kiến thức sinh viên</h2>
+
+<div class="card p-3">
+    <dl class="row">
+        <dt class="col-sm-3">Sinh viên</dt>
+        <dd class="col-sm-9">@Model.user?.HoTen</dd>
+
+        <dt class="col-sm-3">Kiến thức</dt>
+        <dd class="col-sm-9">@Model.KienThuc?.NoiDung</dd>
+
+        <dt class="col-sm-3">Trạng thái</dt>
+        <dd class="col-sm-9">@Model.TrangThai</dd>
+    </dl>
+</div>
+
+<a asp-action="Edit" asp-route-MaSV="@Model.MaSV" asp-route-MaKT="@Model.MaKT" class="btn btn-warning">Sửa</a>
+<a asp-action="Index" class="btn btn-secondary">Quay lại</a>

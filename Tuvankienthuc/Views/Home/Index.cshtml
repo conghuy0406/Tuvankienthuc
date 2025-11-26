@@ -1,0 +1,458 @@
+﻿@{
+    ViewData["Title"] = "Topic Listing";
+}
+e
+
+<section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-12 mx-auto">
+                <h1 class="text-white text-center">Hỗ trợ.Đề xuất.Lựa chọn</h1>
+                <h6 class="text-center">Nền tảng hỗ trợ đề xuất kiến thức cho sinh viên</h6>
+                <form method="get" class="custom-form mt-4 pt-2 mb-lg-0 mb-5" role="search">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text bi-search" id="basic-addon1"></span>
+                        <input name="keyword" type="search" class="form-control" id="keyword" placeholder="Kiến thức môn học bạn muốn bổ sung ..." aria-label="Search">
+                        <button type="submit" class="form-control">Tìm kiếm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="featured-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-12 mb-4 mb-lg-0">
+                <div class="custom-block bg-white shadow-lg">
+                    <a asp-controller="Topics" asp-action="Detail">
+                        <div class="d-flex">
+                            <div>
+                                <h5 class="mb-2">Quản lý môn học</h5>
+                                <p class="mb-0">Hệ thống cho phép sinh viên xem danh sách các môn học, thông tin chi tiết, và các yêu cầu tiên quyết để đăng ký.</p>
+                            </div>
+                            <span class="badge bg-design rounded-pill ms-auto">14</span>
+                        </div>
+                        <img src="~/images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-12">
+                <div class="custom-block custom-block-overlay">
+                    <div class="d-flex flex-column h-100">
+                        <img src="~/images/businesswoman-using-tablet-analysis.jpg" class="custom-block-image img-fluid" alt="">
+                        <div class="custom-block-overlay-text d-flex">
+                            <div>
+                                <h5 class="text-white mb-2">Hỗ trợ lựa chọn môn học</h5>
+                                <p class="text-white">Website cung cấp chức năng tìm kiếm, so sánh môn học, và gợi ý lịch học phù hợp với kế hoạch cá nhân của sinh viên.</p>
+                                <a asp-controller="Topics" asp-action="Detail" class="btn custom-btn mt-2 mt-lg-3">Tìm hiểu thêm</a>
+                            </div>
+                            <span class="badge bg-finance rounded-pill ms-auto">25</span>
+                        </div>
+                        <div class="social-share d-flex">
+                            <p class="text-white me-4">Chia sẻ:</p>
+                            <ul class="social-icon">
+                                <li class="social-icon-item"><a href="#" class="social-icon-link bi-twitter"></a></li>
+                                <li class="social-icon-item"><a href="#" class="social-icon-link bi-facebook"></a></li>
+                                <li class="social-icon-item"><a href="#" class="social-icon-link bi-pinterest"></a></li>
+                            </ul>
+                            <a href="#" class="custom-icon bi-bookmark ms-auto"></a>
+                        </div>
+                        <div class="section-overlay"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="explore-section section-padding" id="section_2">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="mb-4">Môn Học</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="design-tab" data-bs-toggle="tab" data-bs-target="#design-tab-pane" type="button" role="tab" aria-controls="design-tab-pane" aria-selected="true">Ngoại Ngữ</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="marketing-tab" data-bs-toggle="tab" data-bs-target="#marketing-tab-pane" type="button" role="tab" aria-controls="marketing-tab-pane" aria-selected="false">Công Nghệ</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="finance-tab" data-bs-toggle="tab" data-bs-target="#finance-tab-pane" type="button" role="tab" aria-controls="finance-tab-pane" aria-selected="false">Y Dược</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="music-tab" data-bs-toggle="tab" data-bs-target="#music-tab-pane" type="button" role="tab" aria-controls="music-tab-pane" aria-selected="false">Kinh tế</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="education-tab" data-bs-toggle="tab" data-bs-target="#education-tab-pane" type="button" role="tab" aria-controls="education-tab-pane" aria-selected="false">Quản Lý</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="tab-content" id="myTabContent">
+                    <!-- Ngoại ngữ -->
+                    <div class="tab-pane fade show active" id="design-tab-pane" role="tabpanel" aria-labelledby="design-tab" tabindex="0">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                                <div class="custom-block bg-white shadow-lg">
+                                    <a asp-controller="Topics" asp-action="Detail">
+                                        <div class="d-flex">
+                                            <div>
+                                                <h5 class="mb-2">Ôn tập Tiếng Anh</h5>
+                                                <p class="mb-0">Cung cấp kiến thức ngữ pháp, từ vựng và kỹ năng nghe – nói – đọc – viết. Hỗ trợ sinh viên tự tin giao tiếp và học tập trong môi trường quốc tế.</p>
+                                            </div>
+                                            <span class="badge bg-design rounded-pill ms-auto">14</span>
+                                        </div>
+                                        <img src="~/images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt="">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-0">
+                                <div class="custom-block bg-white shadow-lg">
+                                    <a asp-controller="Topics" asp-action="Detail">
+                                        <div class="d-flex">
+                                            <div>
+                                                <h5 class="mb-2">Ôn tập Tiếng Hàn</h5>
+                                                <p class="mb-0">Giúp sinh viên làm quen bảng chữ cái, phát âm và ngữ pháp cơ bản. Tăng khả năng giao tiếp và tìm hiểu văn hóa Hàn Quốc.</p>
+                                            </div>
+                                            <span class="badge bg-design rounded-pill ms-auto">75</span>
+                                        </div>
+                                        <img src="~/images/topics/undraw_Redesign_feedback_re_jvm0.png" class="custom-block-image img-fluid" alt="">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="custom-block bg-white shadow-lg">
+                                    <a asp-controller="Topics" asp-action="Detail">
+                                        <div class="d-flex">
+                                            <div>
+                                                <h5 class="mb-2">Ôn tập Tiếng Trung</h5>
+                                                <p class="mb-0">Trang bị kiến thức về ngữ âm, chữ Hán và giao tiếp cơ bản. Giúp sinh viên rèn luyện kỹ năng nghe – nói – đọc – viết và hiểu văn hóa Trung Hoa.</p>
+                                            </div>
+                                            <span class="badge bg-design rounded-pill ms-auto">100</span>
+                                        </div>
+                                        <img src="~/images/topics/colleagues-working-cozy-office-medium-shot.png" class="custom-block-image img-fluid" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Công nghệ -->
+                    <div class="tab-pane fade" id="marketing-tab-pane" role="tabpanel" aria-labelledby="marketing-tab" tabindex="0">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                <div class="custom-block bg-white shadow-lg">
+                                    <a asp-controller="Topics" asp-action="Detail">
+                                        <div class="d-flex">
+                                            <div>
+                                                <h5 class="mb-2">Công nghệ thông tin</h5>
+                                                <p class="mb-0">Trang bị kiến thức nền tảng về máy tính, lập trình, cơ sở dữ liệu và mạng. Giúp sinh viên làm chủ công nghệ và ứng dụng hiệu quả trong học tập, nghiên cứu và công việc.</p>
+                                            </div>
+                                            <span class="badge bg-advertising rounded-pill ms-auto">30</span>
+                                        </div>
+                                        <img src="~/images/topics/undraw_online_ad_re_ol62.png" class="custom-block-image img-fluid" alt="">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                <div class="custom-block bg-white shadow-lg">
+                                    <a asp-controller="Topics" asp-action="Detail">
+                                        <div class="d-flex">
+                                            <div>
+                                                <h5 class="mb-2">Khoa học dữ liệu & Trí tuệ nhân tạo</h5>
+                                                <p class="mb-0">Cung cấp kiến thức về xử lý dữ liệu, học máy và AI. Giúp sinh viên phân tích, khai thác dữ liệu lớn và phát triển ứng dụng thông minh trong nhiều lĩnh vực.</p>
+                                            </div>
+                                            <span class="badge bg-advertising rounded-pill ms-auto">65</span>
+                                        </div>
+                                        <img src="~/images/topics/undraw_Group_video_re_btu7.png" class="custom-block-image img-fluid" alt="">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="custom-block bg-white shadow-lg">
+                                    <a asp-controller="Topics" asp-action="Detail">
+                                        <div class="d-flex">
+                                            <div>
+                                                <h5 class="mb-2">An toàn thông tin</h5>
+                                                <p class="mb-0">Trang bị kiến thức về bảo mật hệ thống, mã hóa dữ liệu và phòng chống tấn công mạng. Giúp sinh viên bảo vệ thông tin và đảm bảo an toàn cho hạ tầng công nghệ.</p>
+                                            </div>
+                                            <span class="badge bg-advertising rounded-pill ms-auto">50</span>
+                                        </div>
+                                        <img src="~/images/topics/undraw_viral_tweet_gndb.png" class="custom-block-image img-fluid" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Y dược -->
+                    <div class="tab-pane fade" id="finance-tab-pane" role="tabpanel" aria-labelledby="finance-tab" tabindex="0">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-12 mb-4 mb-lg-0">
+                                <div class="custom-block bg-white shadow-lg">
+                                    <a asp-controller="Topics" asp-action="Detail">
+                                        <div class="d-flex">
+                                            <div>
+                                                <h5 class="mb-2">Y khoa</h5>
+                                                <p class="mb-0">Cung cấp kiến thức về cấu tạo cơ thể, bệnh lý và phương pháp chẩn đoán – điều trị. Giúp sinh viên hình thành nền tảng để trở thành bác sĩ, phục vụ công tác khám chữa bệnh và chăm sóc sức khỏe cộng đồng.</p>
+                                            </div>
+                                            <span class="badge bg-finance rounded-pill ms-auto">30</span>
+                                        </div>
+                                        <img src="~/images/topics/undraw_Finance_re_gnv2.png" class="custom-block-image img-fluid" alt="">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="custom-block custom-block-overlay">
+                                    <div class="d-flex flex-column h-100">
+                                        <img src="~/images/businesswoman-using-tablet-analysis-graph-company-finance-strategy-statistics-success-concept-planning-future-office-room.jpg" class="custom-block-image img-fluid" alt="">
+                                        <div class="custom-block-overlay-text d-flex">
+                                            <div>
+                                                <h5 class="text-white mb-2">Dược học</h5>
+                                                <p class="text-white">Trang bị kiến thức về dược chất, bào chế và kiểm nghiệm thuốc. Giúp sinh viên trở thành dược sĩ, tham gia nghiên cứu, sản xuất và tư vấn sử dụng thuốc an toàn, hiệu quả.</p>
+                                                <a asp-controller="Topics" asp-action="Detail" class="btn custom-btn mt-2 mt-lg-3">Learn More</a>
+                                            </div>
+                                            <span class="badge bg-finance rounded-pill ms-auto">25</span>
+                                        </div>
+                                        <div class="social-share d-flex">
+                                            <p class="text-white me-4">Share:</p>
+                                            <ul class="social-icon">
+                                                <li class="social-icon-item"><a href="#" class="social-icon-link bi-twitter"></a></li>
+                                                <li class="social-icon-item"><a href="#" class="social-icon-link bi-facebook"></a></li>
+                                                <li class="social-icon-item"><a href="#" class="social-icon-link bi-pinterest"></a></li>
+                                            </ul>
+                                            <a href="#" class="custom-icon bi-bookmark ms-auto"></a>
+                                        </div>
+                                        <div class="section-overlay"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kinh tế -->
+                    <div class="tab-pane fade" id="music-tab-pane" role="tabpanel" aria-labelledby="music-tab" tabindex="0">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                <div class="custom-block bg-white shadow-lg">
+                                    <a asp-controller="Topics" asp-action="Detail">
+                                        <div class="d-flex">
+                                            <div>
+                                                <h5 class="mb-2">Kinh tế học</h5>
+                                                <p class="mb-0">Nghiên cứu quy luật sản xuất, phân phối và tiêu dùng nguồn lực. Giúp sinh viên phân tích thị trường, chính sách kinh tế và xu hướng phát triển.</p>
+                                            </div>
+                                            <span class="badge bg-music rounded-pill ms-auto">45</span>
+                                        </div>
+                                        <img src="~/images/topics/undraw_Compose_music_re_wpiw.png" class="custom-block-image img-fluid" alt="">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-12 mb-4 mb-lg-3">
+                                <div class="custom-block bg-white shadow-lg">
+                                    <a asp-controller="Topics" asp-action="Detail">
+                                        <div class="d-flex">
+                                            <div>
+                                                <h5 class="mb-2">Quản trị kinh doanh</h5>
+                                                <p class="mb-0">Trang bị kiến thức về quản lý, điều hành doanh nghiệp, marketing, tài chính và nhân sự. Giúp sinh viên có khả năng tổ chức, hoạch định và ra quyết định trong kinh doanh.</p>
+                                            </div>
+                                            <span class="badge bg-music rounded-pill ms-auto">45</span>
+                                        </div>
+                                        <img src="~/images/topics/undraw_happy_music_g6wc.png" class="custom-block-image img-fluid" alt="">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="custom-block bg-white shadow-lg">
+                                    <a asp-controller="Topics" asp-action="Detail">
+                                        <div class="d-flex">
+                                            <div>
+                                                <h5 class="mb-2">Tài chính – Ngân hàng</h5>
+                                                <p class="mb-0">Cung cấp kiến thức về quản lý vốn, đầu tư, tín dụng và hoạt động ngân hàng. Giúp sinh viên tham gia vào lĩnh vực tài chính doanh nghiệp, chứng khoán và dịch vụ ngân hàng.</p>
+                                            </div>
+                                            <span class="badge bg-music rounded-pill ms-auto">20</span>
+                                        </div>
+                                        <img src="~/images/topics/undraw_Podcast_audience_re_4i5q.png" class="custom-block-image img-fluid" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quản lý -->
+                    <div class="tab-pane fade" id="education-tab-pane" role="tabpanel" aria-labelledby="education-tab" tabindex="0">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-12 mb-4 mb-lg-3">
+                                <div class="custom-block bg-white shadow-lg">
+                                    <a asp-controller="Topics" asp-action="Detail">
+                                        <div class="d-flex">
+                                            <div>
+                                                <h5 class="mb-2">Quản lý công</h5>
+                                                <p class="mb-0">Trang bị kiến thức về quản trị nhà nước, hoạch định chính sách và quản lý xã hội. Giúp sinh viên làm việc trong cơ quan hành chính, tổ chức công và lĩnh vực công cộng.</p>
+                                            </div>
+                                            <span class="badge bg-education rounded-pill ms-auto">80</span>
+                                        </div>
+                                        <img src="~/images/topics/undraw_Graduation_re_gthn.png" class="custom-block-image img-fluid" alt="">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-12">
+                                <div class="custom-block bg-white shadow-lg">
+                                    <a asp-controller="Topics" asp-action="Detail">
+                                        <div class="d-flex">
+                                            <div>
+                                                <h5 class="mb-2">Quản lý nhân lực</h5>
+                                                <p class="mb-0">Cung cấp kiến thức về tuyển dụng, đào tạo, đánh giá và phát triển nguồn nhân lực. Giúp sinh viên có khả năng quản trị con người hiệu quả trong doanh nghiệp và tổ chức.</p>
+                                            </div>
+                                            <span class="badge bg-education rounded-pill ms-auto">75</span>
+                                        </div>
+                                        <img src="~/images/topics/undraw_Educator_re_ju47.png" class="custom-block-image img-fluid" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="timeline-section section-padding" id="section_3">
+    <div class="section-overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white mb-4">Nó hoạt động thế nào?</h2>
+            </div>
+            <div class="col-lg-10 col-12 mx-auto">
+                <div class="timeline-container">
+                    <ul class="vertical-scrollable-timeline" id="vertical-scrollable-timeline">
+                        <div class="list-progress"><div class="inner"></div></div>
+                        <li>
+                            <h4 class="text-white mb-3">Tìm kiếm chủ đề yêu thích và cần thiết đối với bạn</h4>
+                            <p class="text-white">Tìm kiếm thông tin về các môn học, chương trình đào tạo và tài liệu liên quan. Hệ thống giúp bạn nhanh chóng tra cứu môn học theo tên, lĩnh vực hoặc giảng viên. </p>
+                            <div class="icon-holder"><i class="bi-search"></i></div>
+                        </li>
+                        <li>
+                            <h4 class="text-white mb-3">Lưu lại và quản lý riêng</h4>
+                            <p class="text-white">Đánh dấu những môn học hoặc kiến thức mà bạn quan tâm. Bạn có thể lưu vào danh sách cá nhân để tiện theo dõi và quay lại bất cứ lúc nào.</p>
+                            <div class="icon-holder"><i class="bi-bookmark"></i></div>
+                        </li>
+                        <li>
+                            <h4 class="text-white mb-3">Đọc và trải nghiệm</h4>
+                            <p class="text-white">Khám phá nội dung chi tiết của từng môn học, tham khảo kinh nghiệm từ sinh viên đi trước và nhận các gợi ý phù hợp với định hướng học tập của bạn.</p>
+                            <div class="icon-holder"><i class="bi-book"></i></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 text-center mt-5">
+                <p class="text-white">
+                    Bạn muốn học thêm?
+                    <a href="#" class="btn custom-btn custom-border-btn ms-3">Xem ngay trên YouTube nhé!</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="faq-section section-padding" id="section_4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-12">
+                <h2 class="mb-4">Các câu hỏi thường gặp</h2>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-lg-5 col-12">
+                <img src="~/images/faq_graphic.jpg" class="img-fluid" alt="FAQs">
+            </div>
+            <div class="col-lg-6 col-12 m-auto">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Danh sách môn học là gì?</button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                Danh sách môn học là nơi tổng hợp thông tin về các môn trong chương trình đào tạo. Sinh viên có thể dễ dàng xem chi tiết từng môn, bao gồm mô tả, số tín chỉ, giảng viên phụ trách và các kiến thức liên quan. Chức năng này giúp bạn thuận tiện hơn trong việc so sánh, lựa chọn và xây dựng kế hoạch học tập phù hợp.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Làm thế nào để tìm môn học?</button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                Bạn có thể sử dụng thanh tìm kiếm trên website để nhập từ khóa như tên môn học (ví dụ: Lập trình Java, Cơ sở dữ liệu), lĩnh vực (Công nghệ thông tin, Kinh tế), hoặc theo tên giảng viên. Hệ thống sẽ gợi ý nhanh những môn học phù hợp với nhu cầu của bạn.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Có phải trả phí không?</button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                Không. Website hỗ trợ sinh viên này hoàn toàn miễn phí. Bạn có thể thoải mái tra cứu thông tin môn học, lưu danh sách yêu thích hoặc tham khảo tài liệu mà không mất bất kỳ khoản phí nào.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="contact-section section-padding section-bg" id="section_5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-12 text-center">
+                <h2 class="mb-5">Liên hệ</h2>
+            </div>
+
+            <div class="col-lg-5 col-12 mb-4 mb-lg-0">
+                <iframe class="google-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2595.065641062665!2d-122.4230416990949!3d37.80335401520422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858127459fabad%3A0x808ba520e5e9edb7!2sFrancisco%20Park!5e1!3m2!1sen!2sth!4v1684340239744!5m2!1sen!2sth" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-12 mb-3 mb-lg-0 mb-md-0 ms-auto">
+                <h4 class="mb-3">Vị trí</h4>
+                <p>Đại học công nghệ Tp.HCM, Hutech</p>
+                <hr />
+                <p class="d-flex align-items-center mb-1"><span class="me-2">Điện thoại</span> <a href="tel:025-520-0225" class="site-footer-link">025-520-0225</a></p>
+                <p class="d-flex align-items-center"><span class="me-2">Email</span> <a href="mailto:conheongu@gmail.com" class="site-footer-link">conheongu@gmail.com</a></p>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-12 mx-auto">
+                <h4 class="mb-3">Vị trí</h4>
+                <p>Nhà</p>
+                <hr />
+                <p class="d-flex align-items-center mb-1"><span class="me-2">Điện thoại</span> <a href="tel:034-235-3400" class="site-footer-link">034-235-3400</a></p>
+                <p class="d-flex align-items-center"><span class="me-2">Email</span> <a href="mailto:conheogioi@gmail.com" class="site-footer-link">conheogioi@gmail.com</a></p>
+            </div>
+        </div>
+    </div>
+</section>

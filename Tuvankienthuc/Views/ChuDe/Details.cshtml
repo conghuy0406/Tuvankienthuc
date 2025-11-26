@@ -1,0 +1,20 @@
+﻿@model Tuvankienthuc.Models.ChuDe
+@{
+    ViewData["Title"] = "Chi tiết Chủ đề";
+}
+
+<h2>Chi tiết Chủ đề</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h4>@Model.TenCD</h4>
+        <p><strong>Môn học:</strong> @Model.MonHoc?.TenMH</p>
+        <p><strong>Mô tả:</strong> @Model.MoTa</p>
+        <p><strong>Kiến thức cơ bản:</strong> @(Model.IsKienThucCoBan ? "Có" : "Không")</p>
+    </div>
+</div>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.MaCD" class="btn btn-warning">Sửa</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</p>

@@ -1,0 +1,21 @@
+﻿@model Tuvankienthuc.Models.ChatLog
+
+@{
+    ViewData["Title"] = "Xóa Chat Log";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h4>Bạn có chắc chắn muốn xóa bản ghi này?</h4>
+
+<div class="card p-3 mt-3">
+    <p><strong>Sinh viên:</strong> @Model.User?.HoTen</p>
+    <p><strong>Câu hỏi:</strong> @Model.NoiDung</p>
+    <p><strong>Trả lời:</strong> @Model.TraLoi</p>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Xóa</button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Tuvankienthuc.Models.KienThucSinhVien>
+
+<h2>Danh sách Kiến thức sinh viên</h2>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Thêm mới</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Sinh viên</th>
+            <th>Kiến thức</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.user?.HoTen</td>
+                <td>@item.KienThuc?.NoiDung</td>
+                <td>@item.TrangThai</td>
+                <td>
+                    <a asp-action="Edit" asp-route-MaSV="@item.MaSV" asp-route-MaKT="@item.MaKT">Sửa</a> |
+                    <a asp-action="Details" asp-route-MaSV="@item.MaSV" asp-route-MaKT="@item.MaKT">Chi tiết</a> |
+                    <a asp-action="Delete" asp-route-MaSV="@item.MaSV" asp-route-MaKT="@item.MaKT">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

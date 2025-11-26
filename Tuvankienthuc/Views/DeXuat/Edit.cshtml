@@ -1,0 +1,71 @@
+﻿@model Tuvankienthuc.Models.DeXuat
+
+@{
+    ViewData["Title"] = "Sửa đề xuất";
+}
+
+<h2>Sửa đề xuất</h2>
+
+<form asp-action="Edit" method="post" class="mt-3">
+    <input type="hidden" asp-for="MaDX" />
+
+    <!-- Sinh viên -->
+    <div class="form-group mb-3">
+        <label asp-for="MaSV" class="control-label">Sinh viên</label>
+        <select asp-for="MaSV" class="form-control" asp-items="ViewBag.MaSV" disabled>
+            <option value="">-- Chọn sinh viên --</option>
+        </select>
+        <input type="hidden" asp-for="MaSV" />
+        <span asp-validation-for="MaSV" class="text-danger"></span>
+    </div>
+
+    <!-- Môn học -->
+    <div class="form-group mb-3">
+        <label asp-for="MaMH" class="control-label">Môn học</label>
+        <select asp-for="MaMH" class="form-control" asp-items="ViewBag.MaMH">
+            <option value="">-- Chọn môn học --</option>
+        </select>
+        <span asp-validation-for="MaMH" class="text-danger"></span>
+    </div>
+
+    <!-- Nội dung -->
+    <div class="form-group mb-3">
+        <label asp-for="NoiDung" class="control-label">Nội dung</label>
+        <textarea asp-for="NoiDung" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="NoiDung" class="text-danger"></span>
+    </div>
+
+    <!-- Nguồn -->
+    <div class="form-group mb-3">
+        <label asp-for="Nguon" class="control-label">Nguồn</label>
+        <input asp-for="Nguon" class="form-control" />
+        <span asp-validation-for="Nguon" class="text-danger"></span>
+    </div>
+
+    <!-- Mục tiêu học tập -->
+    <div class="form-group mb-3">
+        <label asp-for="Goal" class="control-label">Mục tiêu học tập</label>
+        <select asp-for="Goal" class="form-control">
+            <option value="">-- Chọn mục tiêu --</option>
+            <option value="Thi qua môn">Thi qua môn</option>
+            <option value="Đạt điểm cao">Đạt điểm cao</option>
+            <option value="Làm đồ án">Làm đồ án</option>
+        </select>
+        <span asp-validation-for="Goal" class="text-danger"></span>
+    </div>
+
+    <!-- Thời gian -->
+    <div class="form-group mb-3">
+        <label asp-for="ThoiGian" class="control-label">Thời gian tạo</label>
+        <input asp-for="ThoiGian" class="form-control" readonly />
+    </div>
+
+    <button type="submit" class="btn btn-success">Cập nhật</button>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

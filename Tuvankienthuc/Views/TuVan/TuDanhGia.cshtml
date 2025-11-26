@@ -1,0 +1,109 @@
+﻿@using Tuvankienthuc.Services
+@model IEnumerable<KienThucTuDanhGiaVm>
+
+@{
+    ViewData["Title"] = "Tự đánh giá kiến thức";
+    var groups = Model.GroupBy(m => m.KienThuc.ChuDe?.TenCD ?? "Chủ đề khác")
+                      .OrderBy(g => g.Key);
+}
+
+<div class="container my-4">
+
+    <h2 class="text-primary fw-bold mb-1">@ViewBag.TenMonHoc – Tự đánh giá</h2>
+    <p class="text-muted mb-4">Tick vào các kiến thức mà bạn đã hiểu rõ. Hệ thống sẽ tư vấn lộ trình học phù hợp.</p>
+
+    @foreach (var group in groups)
+    {
+        <div class="card border-0 shadow-sm mb-4">
+
+            <div class="card-header text-white" style="background: linear-gradient(90deg,#0d6efd,#6610f2)">
+                <h5 class="mb-0">@group.Key</h5>
+                <div class="small opacity-75">Có @group.Count() kiến thức</div>
+            </div>
+
+            <div class="card-body bg-light">
+
+                @foreach (var item in group)
+                {
+                    var kt = item.KienThuc;
+
+                    <div class="p-3 bg-white rounded-3 shadow-sm mb-3">
+
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="small text-muted">Kiến thức</div>
+                                <div class="fw-semibold">@kt.NoiDung</div>
+                            </div>
+
+                            <span class="badge js-status-badge @(item.TrangThai == 2 ? "bg-success" : "bg-secondary")">
+                                @(item.TrangThai == 2 ? "Đã hiểu" : "Chưa đánh dấu")
+                            </span>
+                        </div>
+
+                        <div class="mt-2">
+                            <div class="small text-muted">Câu hỏi tự đánh giá</div>
+                            <em class="text-primary">@kt.CauHoiAI</em>
+                        </div>
+
+                        <div class="mt-3">
+                            <input type="checkbox"
+                                   class="form-check-input me-2 js-kienthuc-toggle"
+                                   data-id="@kt.MaKT"
+                                   @(item.TrangThai == 2 ? "checked" : "") />
+                            Tôi đã hiểu kiến thức này
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    }
+
+    <form id="formTuVan" method="post" action="@Url.Action("TuVanKetQua","TuVan")" class="mt-4">
+        <input type="hidden" name="maMH" value="@ViewBag.MaMH" />
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">🎯 Mục tiêu học tập</label>
+            <select name="goal" class="form-select" required>
+                <option value="">-- Chọn mục tiêu --</option>
+                <option value="Thi qua môn">Thi qua môn</option>
+                <option value="Đạt điểm cao">Đạt điểm cao</option>
+                <option value="Hiểu sâu kiến thức">Hiểu sâu kiến thức</option>
+                <option value="Làm được bài tập lớn">Làm bài tập lớn</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">⏱ Số ngày còn lại</label>
+            <input type="number" name="daysLeft" class="form-control" value="7" min="0" required />
+        </div>
+
+        <button class="btn btn-primary btn-lg px-4" id="btnTuVan">🚀 Tư vấn ngay</button>
+    </form>
+
+</div>
+
+@section Scripts {
+    <script>
+        $(function(){
+
+            $(".js-kienthuc-toggle").on("change", function(){
+                var maKT = $(this).data("id");
+                var daHieu = $(this).is(":checked");
+                var badge = $(this).closest("div").find(".js-status-badge");
+
+                $.post("@Url.Action("CapNhatTrangThai", "TuVan")", { maKT: maKT, daHieu: daHieu })
+                    .done(() => {
+                        badge.removeClass("bg-secondary bg-success")
+                             .addClass(daHieu ? "bg-success" : "bg-secondary")
+                             .text(daHieu ? "Đã hiểu" : "Chưa đánh dấu");
+                    });
+            });
+
+            $("#formTuVan").on("submit", function(){
+                $("#btnTuVan").prop("disabled",true).text("⏳ Đang tư vấn...");
+            });
+
+        });
+    </script>
+}

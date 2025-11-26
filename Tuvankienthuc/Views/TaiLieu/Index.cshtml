@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Tuvankienthuc.Models.TaiLieu>
+@{
+    ViewData["Title"] = "Tài liệu";
+}
+
+<h2>Tài liệu</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Thêm tài liệu</a>
+</p>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Tiêu đề</th>
+            <th>Loại</th>
+            <th>Ngày thêm</th>
+            <th style="width:180px;">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.TieuDe</td>
+                <td>@item.LoaiTL</td>
+                <td>@item.NgayThem.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.MaTL" class="btn btn-sm btn-info">Chi tiết</a>
+                    <a asp-action="Edit" asp-route-id="@item.MaTL" class="btn btn-sm btn-warning">Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@item.MaTL" class="btn btn-sm btn-danger">Xoá</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

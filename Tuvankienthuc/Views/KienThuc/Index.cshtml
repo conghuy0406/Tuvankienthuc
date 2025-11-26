@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Tuvankienthuc.Models.KienThuc>
+
+@{
+    ViewData["Title"] = "Danh sách Kiến Thức";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Thêm kiến thức mới</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Chủ đề</th>
+            <th>Nội dung</th>
+            <th>Độ khó</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ChuDe?.TenCD</td>
+                <td>@item.NoiDung</td>
+                <td>@item.DoKho</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.MaKT" class="btn btn-info btn-sm">Chi tiết</a> |
+                    <a asp-action="Edit" asp-route-id="@item.MaKT" class="btn btn-warning btn-sm">Sửa</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MaKT" class="btn btn-danger btn-sm">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

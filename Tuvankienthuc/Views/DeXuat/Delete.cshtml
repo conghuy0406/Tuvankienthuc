@@ -1,0 +1,33 @@
+﻿@model Tuvankienthuc.Models.DeXuat
+
+@{
+    ViewData["Title"] = "Xóa đề xuất";
+}
+
+<h2>Xóa đề xuất</h2>
+
+<h4>Bạn có chắc chắn muốn xóa đề xuất này?</h4>
+<div class="card p-3 mt-2">
+    <dl class="row">
+        <dt class="col-sm-3">Mã DX</dt>
+        <dd class="col-sm-9">@Model.MaDX</dd>
+
+        <dt class="col-sm-3">Sinh viên</dt>
+        <dd class="col-sm-9">@Model.User?.HoTen</dd>
+
+        <dt class="col-sm-3">Nội dung</dt>
+        <dd class="col-sm-9">@Model.NoiDung</dd>
+
+        <dt class="col-sm-3">Nguồn</dt>
+        <dd class="col-sm-9">@Model.Nguon</dd>
+
+        <dt class="col-sm-3">Thời gian</dt>
+        <dd class="col-sm-9">@Model.ThoiGian.ToString("dd/MM/yyyy HH:mm")</dd>
+    </dl>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="MaDX" />
+    <button type="submit" class="btn btn-danger">Xóa</button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

@@ -1,0 +1,18 @@
+﻿@model Tuvankienthuc.Models.ChatLog
+
+@{
+    ViewData["Title"] = "Chi tiết Chat Log";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card mt-3 p-3">
+    <p><strong>Sinh viên:</strong> @Model.User?.HoTen</p>
+    <p><strong>Đề xuất:</strong> @Model.DeXuat?.NoiDung</p>
+    <p><strong>Câu hỏi:</strong> @Model.NoiDung</p>
+    <p><strong>Trả lời:</strong> @Model.TraLoi</p>
+    <p><strong>Thời gian:</strong> @Model.ThoiGian.ToString("dd/MM/yyyy HH:mm")</p>
+</div>
+
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a>
+<a asp-action="Index" class="btn btn-secondary">Quay lại</a>

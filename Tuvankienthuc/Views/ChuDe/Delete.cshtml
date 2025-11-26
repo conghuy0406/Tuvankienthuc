@@ -1,0 +1,16 @@
+﻿@model Tuvankienthuc.Models.ChuDe
+@{
+    ViewData["Title"] = "Xóa Chủ đề";
+}
+
+<h2>Xóa Chủ đề</h2>
+
+<div class="alert alert-danger">
+    <p>Bạn có chắc chắn muốn xóa Chủ đề <strong>@Model.TenCD</strong> thuộc môn <strong>@Model.MonHoc?.TenMH</strong> không?</p>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="MaCD" />
+    <button type="submit" class="btn btn-danger">Xóa</button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

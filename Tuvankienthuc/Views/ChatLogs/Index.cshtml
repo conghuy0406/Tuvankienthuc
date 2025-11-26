@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Tuvankienthuc.Models.ChatLog>
+
+@{
+    ViewData["Title"] = "Lịch sử Chat AI";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary mb-2">Thêm bản ghi</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-light">
+        <tr>
+            <th>Thời gian</th>
+            <th>Sinh viên</th>
+            <th>Đề xuất</th>
+            <th>Câu hỏi</th>
+            <th>Trả lời</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ThoiGian.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@item.User?.HoTen</td>
+                <td>@item.DeXuat?.NoiDung</td>
+                <td>@item.NoiDung</td>
+                <td>@item.TraLoi</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Sửa</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Chi tiết</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,54 @@
+﻿@model Tuvankienthuc.Models.KienThucSinhVien
+
+@{
+    ViewData["Title"] = "Thêm Kiến thức sinh viên";
+}
+
+<h2>Thêm Kiến thức sinh viên</h2>
+
+<form asp-action="Create" method="post" class="mt-3">
+    <!-- Sinh viên -->
+    <div class="form-group mb-3">
+        <label asp-for="MaSV" class="control-label">Sinh viên</label>
+        <select asp-for="MaSV" class="form-control" asp-items="ViewBag.MaSV">
+            <option value="">-- Chọn sinh viên --</option>
+        </select>
+        <span asp-validation-for="MaSV" class="text-danger"></span>
+    </div>
+
+    <!-- Kiến thức -->
+    <div class="form-group mb-3">
+        <label asp-for="MaKT" class="control-label">Kiến thức</label>
+        <select asp-for="MaKT" class="form-control" asp-items="ViewBag.MaKT">
+            <option value="">-- Chọn kiến thức --</option>
+        </select>
+        <span asp-validation-for="MaKT" class="text-danger"></span>
+    </div>
+
+    <!-- Trạng thái -->
+    <div class="form-group mb-3">
+        <label asp-for="TrangThai" class="control-label">Trạng thái</label>
+        <select asp-for="TrangThai" class="form-control">
+            <option value="0">Chưa nắm vững</option>
+            <option value="1">Hiểu cơ bản</option>
+            <option value="2">Đã nắm vững</option>
+        </select>
+        <span asp-validation-for="TrangThai" class="text-danger"></span>
+    </div>
+
+    <!-- Lần học cuối -->
+    <div class="form-group mb-3">
+        <label asp-for="LanHocCuoi" class="control-label">Lần học gần nhất</label>
+        <input asp-for="LanHocCuoi" class="form-control" readonly value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")" />
+        <span asp-validation-for="LanHocCuoi" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Lưu</button>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
