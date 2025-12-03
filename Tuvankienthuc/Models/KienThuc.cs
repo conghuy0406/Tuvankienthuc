@@ -12,6 +12,14 @@ namespace Tuvankienthuc.Models
         [Required]
         public string NoiDung { get; set; }
 
+        // Điểm AI phân tích
+        public double? DoKhoAI { get; set; }            // 0–10
+        public bool? IsCoreAI { get; set; }             // kiến thức nền tảng hay không
+        public int? PrereqCountAI { get; set; }         // số tiền đề ước lượng
+
+        // Lưu raw JSON từ AI để sau này phân tích lại
+        public string? MetaAIJson { get; set; }
+
         public int MaCD { get; set; }
 
         public double DoKho { get; set; } = 1;

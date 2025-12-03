@@ -1,0 +1,36 @@
+﻿@model Tuvankienthuc.Models.User
+
+<h3 class="mb-3">Chỉnh sửa tài khoản</h3>
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label>Họ tên</label>
+        <input asp-for="HoTen" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Quyền</label>
+        <select asp-for="Role" class="form-select">
+            <option value="SinhVien">Sinh viên</option>
+            <option value="GiangVien">Giảng viên</option>
+            <option value="Admin">Admin</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Trạng thái</label>
+        <select asp-for="IsActive" class="form-select">
+            <option value="true">Hoạt động</option>
+            <option value="false">Khoá</option>
+        </select>
+    </div>
+
+    <button class="btn btn-primary">Cập nhật</button>
+</form>

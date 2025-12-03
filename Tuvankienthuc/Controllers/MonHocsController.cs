@@ -134,7 +134,31 @@ namespace Tuvankienthuc.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        // ===== Gán giảng viên =====
+        [HttpGet]
+        public async Task<IActionResult> GanGiangVien(int id)
+        {
+            var mon = await _context.MonHocs.FindAsync(id);
+            if (mon == null) return NotFound();
 
+            ViewBag.GiangViens = await _context.Users
+                .Where(u => u.Role == "GiangVien").ToListAsync();
+
+            return View(mon);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GanGiangVien(int id, int giangVienId)
+        {
+            var mon = await _context.MonHocs.FindAsync(id);
+            if (mon == null) return NotFound();
+
+            mon.GiangVienId = giangVienId;
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Gán giảng viên thành công!";
+            return RedirectToAction("Index");
+        }
 
 
     }

@@ -167,11 +167,20 @@ namespace Tuvankienthuc.Migrations
                     b.Property<double>("DoKho")
                         .HasColumnType("float");
 
+                    b.Property<double?>("DoKhoAI")
+                        .HasColumnType("float");
+
+                    b.Property<bool?>("IsCoreAI")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsKienThucCoBan")
                         .HasColumnType("bit");
 
                     b.Property<int>("MaCD")
                         .HasColumnType("int");
+
+                    b.Property<string>("MetaAIJson")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("MucDoCauHoi")
                         .HasColumnType("int");
@@ -179,6 +188,9 @@ namespace Tuvankienthuc.Migrations
                     b.Property<string>("NoiDung")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PrereqCountAI")
+                        .HasColumnType("int");
 
                     b.Property<int>("SoKienThucTruoc")
                         .HasColumnType("int");
@@ -221,6 +233,9 @@ namespace Tuvankienthuc.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaMH"));
 
+                    b.Property<int?>("GiangVienId")
+                        .HasColumnType("int");
+
                     b.Property<string>("MoTa")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -231,6 +246,8 @@ namespace Tuvankienthuc.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("MaMH");
+
+                    b.HasIndex("GiangVienId");
 
                     b.ToTable("MonHocs");
                 });
@@ -308,25 +325,26 @@ namespace Tuvankienthuc.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Lop")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("MatKhau")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("NamHoc")
-                        .HasColumnType("int");
-
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -434,6 +452,15 @@ namespace Tuvankienthuc.Migrations
                     b.Navigation("KienThuc");
 
                     b.Navigation("user");
+                });
+
+            modelBuilder.Entity("Tuvankienthuc.Models.MonHoc", b =>
+                {
+                    b.HasOne("Tuvankienthuc.Models.User", "GiangVien")
+                        .WithMany()
+                        .HasForeignKey("GiangVienId");
+
+                    b.Navigation("GiangVien");
                 });
 
             modelBuilder.Entity("Tuvankienthuc.Models.TaiLieuChuDe", b =>

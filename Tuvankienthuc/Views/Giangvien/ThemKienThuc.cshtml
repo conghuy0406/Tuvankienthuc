@@ -1,0 +1,35 @@
+﻿@model Tuvankienthuc.Models.KienThuc
+
+<h3 class="mb-4">Thêm kiến thức</h3>
+
+<form method="post">
+    <input type="hidden" asp-for="MaCD" />
+
+    <div class="mb-3">
+        <label class="form-label">Nội dung kiến thức</label>
+        <textarea asp-for="NoiDung" class="form-control"></textarea>
+        <span asp-validation-for="NoiDung" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Độ khó (1–5)</label>
+        <input asp-for="DoKho" type="number" min="1" max="5" step="0.5" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Số kiến thức trước</label>
+        <input asp-for="SoKienThucTruoc" type="number" min="0" class="form-control" />
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="IsKienThucCoBan" class="form-check-input" />
+        <label class="form-check-label">Là kiến thức cơ bản</label>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Câu hỏi AI (tuỳ chọn)</label>
+        <textarea asp-for="CauHoiAI" class="form-control"></textarea>
+    </div>
+
+    <button class="btn btn-success">Thêm</button>
+</form>

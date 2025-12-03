@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Tuvankienthuc.Models.DeXuat>
+
+<div class="container my-4">
+    <h2 class="fw-bold text-primary">📜 Lịch sử tư vấn học tập</h2>
+
+    @foreach (var dx in Model)
+    {
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+
+                <h5 class="fw-bold">@dx.MonHoc.TenMH</h5>
+                <div class="text-muted small">
+                    Ngày tư vấn: @dx.ThoiGian.ToString("dd/MM/yyyy HH:mm")
+                </div>
+                <div class="mt-2">
+                    🎯 Mục tiêu: <strong>@dx.Goal</strong>
+                </div>
+
+                <a asp-action="ChiTietLichSu"
+                   asp-route-maDX="@dx.MaDX"
+                   class="btn btn-outline-primary mt-2">
+                    Xem chi tiết
+                </a>
+            </div>
+        </div>
+    }
+</div>

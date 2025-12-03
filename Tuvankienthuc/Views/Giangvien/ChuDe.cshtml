@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Tuvankienthuc.Models.ChuDe>
+@{
+    var mon = ViewBag.MonHoc as Tuvankienthuc.Models.MonHoc;
+}
+
+<h2 class="mb-3">
+    Chủ đề của môn: <strong>@mon.TenMH</strong>
+</h2>
+
+<a class="btn btn-success mb-3"
+   asp-action="ThemChuDe" asp-route-maMH="@mon.MaMH">
+    + Thêm chủ đề
+</a>
+
+<table class="table table-striped table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Mã CD</th>
+            <th>Tên chủ đề</th>
+            <th>Cơ bản?</th>
+            <th>Mô tả</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cd in Model)
+        {
+            <tr>
+                <td>@cd.MaCD</td>
+                <td>@cd.TenCD</td>
+                <td>@(cd.IsKienThucCoBan ? "Có" : "Không")</td>
+                <td>@cd.MoTa</td>
+                <td>
+                    <a class="btn btn-primary btn-sm"
+                       asp-action="KienThuc" asp-route-maCD="@cd.MaCD">
+                        Kiến thức
+                    </a>
+
+                    <a class="btn btn-warning btn-sm"
+                       asp-action="SuaChuDe" asp-route-id="@cd.MaCD">
+                        Sửa
+                    </a>
+
+                    <a class="btn btn-danger btn-sm"
+                       asp-action="XoaChuDe" asp-route-id="@cd.MaCD"
+                       onclick="return confirm('Xóa chủ đề này?')">
+                        Xóa
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

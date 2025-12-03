@@ -1,0 +1,31 @@
+﻿@model Tuvankienthuc.Models.User
+
+<h3 class="mb-3">Tạo tài khoản mới</h3>
+
+<form method="post">
+    <div class="mb-3">
+        <label>Họ tên</label>
+        <input asp-for="HoTen" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Mật khẩu</label>
+        <input asp-for="MatKhau" class="form-control" type="password" />
+    </div>
+
+    <div class="mb-3">
+        <label>Quyền</label>
+        <select asp-for="Role" class="form-select">
+            <option value="SinhVien">Sinh viên</option>
+            <option value="GiangVien">Giảng viên</option>
+            <option value="Admin">Admin</option>
+        </select>
+    </div>
+
+    <button class="btn btn-success">Tạo</button>
+</form>

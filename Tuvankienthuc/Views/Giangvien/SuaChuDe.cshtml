@@ -1,0 +1,26 @@
+﻿@model Tuvankienthuc.Models.ChuDe
+
+<h3 class="mb-4">Sửa chủ đề</h3>
+
+<form method="post">
+
+    <input type="hidden" asp-for="MaCD" />
+    <input type="hidden" asp-for="MaMH" />
+
+    <div class="mb-3">
+        <label class="form-label">Tên chủ đề</label>
+        <input asp-for="TenCD" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Mô tả</label>
+        <textarea asp-for="MoTa" class="form-control"></textarea>
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="IsKienThucCoBan" class="form-check-input" />
+        <label class="form-check-label">Chủ đề cơ bản</label>
+    </div>
+
+    <button class="btn btn-primary">Cập nhật</button>
+</form>

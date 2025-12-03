@@ -1,103 +1,33 @@
 ﻿@{
-    ViewData["Title"] = "Trang Giảng Viên";
+    ViewData["Title"] = "Trang giang vien";
+    Layout = "~/Views/Shared/_LayoutGiangVien.cshtml";
 }
+@model IEnumerable<Tuvankienthuc.Models.MonHoc>
 
-<div class="container py-4">
-    <h2 class="mb-4 text-info fw-bold">
-        <i class="bi bi-mortarboard"></i> Bảng điều khiển giảng viên
-    </h2>
+<h2 class="mb-4 text-info fw-bold">
+    <i class="bi bi-person-video3"></i> Trang giảng viên
+</h2>
 
-    <div class="row g-4">
+<div class="alert alert-primary">
+    Bạn đang phụ trách <strong>@ViewBag.SoMon</strong> môn học.
+</div>
 
-        <!-- QL môn giảng dạy -->
+<div class="row g-4">
+    @foreach (var m in Model)
+    {
         <div class="col-md-4">
-            <div class="card shadow-sm border-0 h-100">
+            <div class="card shadow-sm border-0">
                 <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="bi bi-journal-check"></i> Môn giảng dạy
-                    </h5>
-                    <p class="card-text text-muted">Xem & quản lý các môn mà giảng viên phụ trách.</p>
-                    <a href="/GiangVien/MonHoc" class="btn btn-info text-white w-100">
-                        <i class="bi bi-arrow-right-circle"></i> Truy cập
+                    <h5 class="fw-bold">@m.TenMH</h5>
+                    <p class="text-muted">@m.MoTa</p>
+
+                    <a class="btn btn-info text-white w-100 mt-2"
+                       asp-action="ChuDe"
+                       asp-route-maMH="@m.MaMH">
+                        Quản lý chủ đề →
                     </a>
                 </div>
             </div>
         </div>
-
-        <!-- QL chủ đề -->
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="bi bi-layers-half"></i> Chủ đề & kiến thức
-                    </h5>
-                    <p class="card-text text-muted">Cập nhật chủ đề, kiến thức trong môn giảng dạy.</p>
-                    <a href="/GiangVien/ChuDe" class="btn btn-info text-white w-100">
-                        <i class="bi bi-arrow-right-circle"></i> Truy cập
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Trả lời câu hỏi -->
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="bi bi-chat-left-text"></i> Hỏi đáp sinh viên
-                    </h5>
-                    <p class="card-text text-muted">Xem câu hỏi và trả lời cho sinh viên.</p>
-                    <a href="/GiangVien/HoiDap" class="btn btn-info text-white w-100">
-                        <i class="bi bi-arrow-right-circle"></i> Truy cập
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tài liệu -->
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="bi bi-file-earmark-text"></i> Tài liệu giảng dạy
-                    </h5>
-                    <p class="card-text text-muted">Quản lý PDF, Video, Slide cho môn học.</p>
-                    <a href="/GiangVien/TaiLieu" class="btn btn-info text-white w-100">
-                        <i class="bi bi-arrow-right-circle"></i> Truy cập
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Theo dõi sinh viên -->
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="bi bi-clipboard-data"></i> Theo dõi sinh viên
-                    </h5>
-                    <p class="card-text text-muted">Xem tiến độ học tập của sinh viên theo môn.</p>
-                    <a href="/GiangVien/SinhVien" class="btn btn-info text-white w-100">
-                        <i class="bi bi-arrow-right-circle"></i> Truy cập
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Gợi ý / Đánh giá đề xuất -->
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <i class="bi bi-stars"></i> Đề xuất từ AI
-                    </h5>
-                    <p class="card-text text-muted">Đánh giá, chỉnh sửa gợi ý từ hệ thống AI.</p>
-                    <a href="/GiangVien/DeXuat" class="btn btn-info text-white w-100">
-                        <i class="bi bi-arrow-right-circle"></i> Truy cập
-                    </a>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    }
 </div>

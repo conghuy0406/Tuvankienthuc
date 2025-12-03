@@ -41,65 +41,78 @@ namespace Tuvankienthuc.Controllers
                 return View();
             }
 
-            string hashed = HashPassword(password);
-
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.MatKhau == hashed);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             if (user == null)
             {
                 ViewBag.Error = "Sai email hoặc mật khẩu.";
                 return View();
             }
 
-            // ✅ Lưu Session
+            // 🟡 USER CŨ -> CHƯA CÓ SALT
+            if (string.IsNullOrEmpty(user.Salt))
+            {
+                // Hash kiểu cũ (không salt)
+                string oldHash = HashPassword_NoSalt(password);
+
+                if (oldHash == user.MatKhau)
+                {
+                    // Tự động nâng cấp lên cơ chế có salt
+                    user.Salt = GenerateSalt(user.Email);
+                    user.MatKhau = HashPassword(password, user.Salt);
+                    user.UpdatedAt = DateTime.Now;
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    ViewBag.Error = "Sai email hoặc mật khẩu.";
+                    return View();
+                }
+            }
+            else
+            {
+                // 🟢 USER MỚI -> CÓ SALT
+                string hashed = HashPassword(password, user.Salt);
+
+                if (hashed != user.MatKhau)
+                {
+                    ViewBag.Error = "Sai email hoặc mật khẩu.";
+                    return View();
+                }
+            }
+
+            // LOGIN THÀNH CÔNG -> LƯU SESSION
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("UserName", user.HoTen);
-            HttpContext.Session.SetString("Role", user.Role ?? "SinhVien");
+            HttpContext.Session.SetString("Role", user.Role);
 
-            // ✅ Lưu Claims để dùng trong User.Identity
+            // LOGIN THÀNH CÔNG -> COOKIE AUTH
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Email),
                 new Claim("UserId", user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role ?? "SinhVien")
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                new AuthenticationProperties
-                {
-                    IsPersistent = true,
-                    ExpiresUtc = DateTime.UtcNow.AddHours(4)
-                });
+                new ClaimsPrincipal(identity)
+            );
 
             return RedirectToAction("Index", "Home");
         }
 
         // ======================================
-        // GET: /Auth/Register
+        // REGISTER
         // ======================================
         [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
+        public IActionResult Register() => View();
 
-        // ======================================
-        // POST: /Auth/Register
-        // ======================================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(User user, string passwordConfirm)
         {
-            user.Role ??= "SinhVien";
-
-            if (!ModelState.IsValid)
-            {
-                ViewBag.Error = "Dữ liệu không hợp lệ.";
-                return View(user);
-            }
-
             if (passwordConfirm != user.MatKhau)
             {
                 ViewBag.Error = "Mật khẩu nhập lại không khớp.";
@@ -112,8 +125,8 @@ namespace Tuvankienthuc.Controllers
                 return View(user);
             }
 
-            user.MatKhau = HashPassword(user.MatKhau);
-            user.CreatedAt = DateTime.Now;
+            user.Salt = GenerateSalt(user.Email);
+            user.MatKhau = HashPassword(user.MatKhau, user.Salt);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -123,7 +136,27 @@ namespace Tuvankienthuc.Controllers
         }
 
         // ======================================
-        // GET: /Auth/Logout
+        // RESET PASSWORD
+        // ======================================
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null) return NotFound();
+
+            string newPass = "123456";
+            user.Salt = GenerateSalt(user.Email);
+            user.MatKhau = HashPassword(newPass, user.Salt);
+            user.UpdatedAt = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Reset mật khẩu thành công!";
+            return RedirectToAction("Index", "User");
+        }
+
+        // ======================================
+        // LOGOUT
         // ======================================
         public async Task<IActionResult> Logout()
         {
@@ -133,14 +166,30 @@ namespace Tuvankienthuc.Controllers
         }
 
         // ======================================
-        // HÀM BĂM MẬT KHẨU
+        // HASH CÓ SALT
         // ======================================
-        private string HashPassword(string password)
+        private string HashPassword(string password, string salt)
         {
             using var sha = SHA256.Create();
-            var bytes = Encoding.UTF8.GetBytes(password);
-            var hash = sha.ComputeHash(bytes);
-            return BitConverter.ToString(hash).Replace("-", "").ToLower();
+            var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(password + salt));
+            return Convert.ToBase64String(bytes);
+        }
+
+        // HASH KHÔNG SALT (cũ)
+        private string HashPassword_NoSalt(string password)
+        {
+            using var sha = SHA256.Create();
+            var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
+            return BitConverter.ToString(bytes).Replace("-", "").ToLower();
+        }
+
+        // TẠO SALT
+        private string GenerateSalt(string email)
+        {
+            string raw = email + Guid.NewGuid().ToString();
+            using var sha = SHA256.Create();
+            var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(raw));
+            return Convert.ToBase64String(bytes);
         }
     }
 }

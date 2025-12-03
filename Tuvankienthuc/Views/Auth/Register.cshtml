@@ -4,40 +4,154 @@
     ViewData["Title"] = "Đăng ký tài khoản";
 }
 
-<div class="container mt-5" style="max-width: 500px;">
-    <h3 class="text-center mb-4">Đăng ký tài khoản</h3>
+@section Styles {
+    <style>
+        /* Tận dụng lại style của trang Login để đồng bộ */
+        .register-section {
+            min-height: 85vh; /* Cao hơn chút vì form dài hơn */
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+            padding: 40px 0;
+        }
 
-    @if (ViewBag.Error != null)
-    {
-        <div class="alert alert-danger">@ViewBag.Error</div>
-    }
+        .register-card {
+            border: none;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(15, 118, 110, 0.1);
+            overflow: hidden;
+            background: white;
+        }
 
-    <form asp-action="Register" method="post">
-        @Html.AntiForgeryToken()
+        .form-control-custom {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 50px;
+            padding: 12px 20px;
+            padding-left: 45px;
+            transition: all 0.3s;
+        }
 
-        <div class="form-group mb-3">
-            <label asp-for="HoTen"></label>
-            <input asp-for="HoTen" class="form-control" />
+            .form-control-custom:focus {
+                background-color: #fff;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.1);
+            }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%; /* Canh giữa theo chiều dọc của khung input */
+            transform: translateY(10%); /* Tinh chỉnh nhẹ vì có label ở trên */
+            color: #94a3b8;
+            font-size: 1.1rem;
+            z-index: 10;
+        }
+
+        /* Chỉnh lại vị trí icon cho khớp với layout có Label */
+        .form-group {
+            position: relative;
+        }
+
+            .form-group .input-icon {
+                top: 42px; /* Đẩy xuống dưới label */
+                transform: none;
+            }
+
+        .btn-register {
+            background: var(--primary);
+            border: none;
+            border-radius: 50px;
+            padding: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(15, 118, 110, 0.3);
+        }
+
+            .btn-register:hover {
+                background: #115e59;
+                transform: translateY(-2px);
+            }
+
+        .link-login {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+            .link-login:hover {
+                text-decoration: underline;
+                color: #134e4a;
+            }
+    </style>
+}
+
+<div class="register-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+
+                <div class="register-card p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <div class="mb-3 text-primary" style="font-size: 3rem;">
+                            <i class="bi bi-person-plus-fill"></i>
+                        </div>
+                        <h3 class="fw-bold text-dark">Tạo tài khoản mới</h3>
+                        <p class="text-muted small">Tham gia cộng đồng 2PIG Learning ngay hôm nay</p>
+                    </div>
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger border-0 rounded-4 d-flex align-items-center mb-4">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            <div>@ViewBag.Error</div>
+                        </div>
+                    }
+
+                    <form asp-action="Register" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group mb-3">
+                            <label asp-for="HoTen" class="form-label fw-bold small text-muted ms-3">Họ và tên</label>
+                            <i class="bi bi-person input-icon"></i>
+                            <input asp-for="HoTen" class="form-control form-control-custom" placeholder="Nguyễn Văn A" required />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Email" class="form-label fw-bold small text-muted ms-3">Email</label>
+                            <i class="bi bi-envelope input-icon"></i>
+                            <input asp-for="Email" class="form-control form-control-custom" placeholder="email@example.com" type="email" required />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="MatKhau" class="form-label fw-bold small text-muted ms-3">Mật khẩu</label>
+                            <i class="bi bi-lock input-icon"></i>
+                            <input asp-for="MatKhau" type="password" class="form-control form-control-custom" placeholder="••••••••" required />
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label fw-bold small text-muted ms-3">Xác nhận mật khẩu</label>
+                            <i class="bi bi-shield-check input-icon"></i>
+                            <input type="password" name="passwordConfirm" class="form-control form-control-custom" placeholder="••••••••" required />
+                        </div>
+
+                        <input type="hidden" name="Role" value="SinhVien" />
+
+                        <button type="submit" class="btn btn-primary w-100 btn-register text-white mb-3">
+                            Đăng Ký
+                        </button>
+
+                        <div class="text-center">
+                            <p class="text-muted mb-0">
+                                Đã có tài khoản?
+                                <a asp-action="Login" class="link-login">Đăng nhập ngay</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
         </div>
-
-        <div class="form-group mb-3">
-            <label asp-for="Email"></label>
-            <input asp-for="Email" class="form-control" />
-        </div>
-
-        <div class="form-group mb-3">
-            <label asp-for="MatKhau"></label>
-            <input asp-for="MatKhau" type="password" class="form-control" />
-        </div>
-
-        <div class="form-group mb-3">
-            <label>Nhập lại mật khẩu</label>
-            <input type="password" name="passwordConfirm" class="form-control" />
-        </div>
-
-        <!-- Hidden Role -->
-        <input type="hidden" name="Role" value="SinhVien" />
-
-        <button type="submit" class="btn btn-success w-100">Đăng ký</button>
-    </form>
+    </div>
 </div>

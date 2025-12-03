@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Tuvankienthuc.Models.KienThuc>
+@{
+    var cd = ViewBag.ChuDe as Tuvankienthuc.Models.ChuDe;
+}
+
+<h2 class="mb-3">
+    Kiến thức thuộc chủ đề: <strong>@cd.TenCD</strong>
+</h2>
+
+<a class="btn btn-success mb-3"
+   asp-action="ThemKienThuc" asp-route-maCD="@cd.MaCD">
+    + Thêm kiến thức
+</a>
+
+<table class="table table-bordered align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Mã KT</th>
+            <th>Nội dung</th>
+            <th>Độ khó</th>
+            <th>Cơ bản?</th>
+            <th>Số kiến thức trước</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var kt in Model)
+        {
+            <tr>
+                <td>@kt.MaKT</td>
+                <td>@kt.NoiDung</td>
+                <td>@kt.DoKho</td>
+                <td>@(kt.IsKienThucCoBan ? "Có" : "Không")</td>
+                <td>@kt.SoKienThucTruoc</td>
+                <td>
+                    <a class="btn btn-warning btn-sm"
+                       asp-action="SuaKienThuc" asp-route-id="@kt.MaKT">Sửa</a>
+
+                    <a class="btn btn-danger btn-sm"
+                       asp-action="XoaKienThuc" asp-route-id="@kt.MaKT"
+                       onclick="return confirm('Bạn có chắc muốn xóa?')">
+                        Xóa
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,17 @@
+﻿@model Tuvankienthuc.Models.MonHoc
+
+<h3 class="mb-3">Gán giảng viên cho môn: @Model.TenMH</h3>
+
+<form method="post">
+    <div class="mb-3">
+        <label>Chọn giảng viên</label>
+        <select name="giangVienId" class="form-select">
+            @foreach (var gv in ViewBag.GiangViens)
+            {
+                <option value="@gv.Id">@gv.HoTen (@gv.Email)</option>
+            }
+        </select>
+    </div>
+
+    <button class="btn btn-primary">Lưu thay đổi</button>
+</form>
