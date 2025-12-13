@@ -1,38 +1,95 @@
 ﻿@model IEnumerable<Tuvankienthuc.Models.ChuDe>
+
 @{
     ViewData["Title"] = "Danh sách Chủ đề";
 }
 
-<h2>Danh sách Chủ đề</h2>
+<div class="container pt-5 mt-3" style="max-width: 1100px;">
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">+ Thêm mới</a>
-</p>
+    <div class="card border-0 shadow-sm rounded-4">
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Tên Chủ đề</th>
-            <th>Mô tả</th>
-            <th>Kiến thức cơ bản</th>
-            <th>Môn học</th>
-            <th>Thao tác</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.TenCD</td>
-                <td>@item.MoTa</td>
-                <td>@(item.IsKienThucCoBan ? "Có" : "Không")</td>
-                <td>@item.MonHoc?.TenMH</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.MaCD" class="btn btn-info btn-sm">Chi tiết</a>
-                    <a asp-action="Edit" asp-route-id="@item.MaCD" class="btn btn-warning btn-sm">Sửa</a>
-                    <a asp-action="Delete" asp-route-id="@item.MaCD" class="btn btn-danger btn-sm">Xóa</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        <!-- HEADER -->
+        <div class="card-header bg-primary text-white py-2 rounded-top-4 d-flex justify-content-between align-items-center">
+            <strong>@ViewData["Title"]</strong>
+
+            <a asp-action="Create"
+               class="btn btn-light btn-sm fw-semibold rounded-pill px-3">
+                + Thêm mới
+            </a>
+        </div>
+
+        <!-- BODY -->
+        <div class="card-body p-3">
+
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light small text-muted">
+                    <tr>
+                        <th>Tên chủ đề</th>
+                        <th>Mô tả</th>
+                        <th style="width:140px;">Kiến thức cơ bản</th>
+                        <th style="width:180px;">Môn học</th>
+                        <th style="width:220px;" class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">
+                                @item.TenCD
+                            </td>
+
+                            <td class="text-truncate" style="max-width: 300px;">
+                                @item.MoTa
+                            </td>
+
+                            <td>
+                                @if (item.IsKienThucCoBan)
+                                {
+                                    <span class="badge bg-success rounded-pill px-3">
+                                        Có
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary rounded-pill px-3">
+                                        Không
+                                    </span>
+                                }
+                            </td>
+
+                            <td>
+                                @item.MonHoc?.TenMH
+                            </td>
+
+                            <!-- ACTION -->
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a asp-action="Details"
+                                       asp-route-id="@item.MaCD"
+                                       class="btn btn-outline-info btn-sm">
+                                        Chi tiết
+                                    </a>
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.MaCD"
+                                       class="btn btn-outline-warning btn-sm mx-1">
+                                        Sửa
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@item.MaCD"
+                                       class="btn btn-outline-danger btn-sm">
+                                        Xóa
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

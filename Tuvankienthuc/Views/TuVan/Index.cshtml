@@ -1,24 +1,115 @@
 ﻿@{
     ViewData["Title"] = "Tư vấn học tập";
 }
+
 <style>
     body {
-        background: linear-gradient(135deg, #e3f2fd, #ede7f6);
+        background: linear-gradient(135deg, #89D2C5, #8FAFD6, #8E7CC3);
         background-attachment: fixed;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Hero section */
+    .hero-box {
+        text-align: center;
+        padding: 130px 20px 60px;
+        color: #1f3e3e;
+    }
+
+    .hero-title {
+        font-size: 45px;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+
+    .hero-sub {
+        font-size: 18px;
+        opacity: 0.9;
+        margin-bottom: 40px;
+    }
+
+    /* Card form */
+    .form-wrapper {
+        max-width: 650px;
+        margin: 0 auto 120px;
+        background: white;
+        padding: 40px 45px;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    label {
+        font-weight: 600;
+        color: #2e4f4f;
+    }
+
+    .form-select-custom {
+        border-radius: 14px;
+        padding: 12px;
+        border: 1.5px solid #dfe7e7;
+        transition: 0.25s;
+    }
+
+        .form-select-custom:focus {
+            border-color: #2F8F83;
+            box-shadow: 0 0 8px rgba(47,143,131,0.25);
+        }
+
+    .btn-start {
+        width: 100%;
+        padding: 14px;
+        background: #8FAFD6;
+        border: none;
+        color: white;
+        font-weight: 600;
+        font-size: 18px;
+        border-radius: 14px;
+        margin-top: 20px;
+        transition: 0.25s;
+    }
+
+        .btn-start:hover {
+            background: #8FAFD6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+        }
+
+    @@keyframes fadeIn {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
     }
 </style>
-<h2>Tư vấn học tập cá nhân hóa</h2>
 
-<form asp-action="TuDanhGia" method="get">
-    <div class="form-group mb-3">
+
+<!-- HERO SECTION -->
+<div class="hero-box">
+    <h1 class="hero-title">Tư vấn học tập cá nhân hóa</h1>
+    <div class="hero-sub">Hệ thống đề xuất kiến thức phù hợp theo mục tiêu của bạn</div>
+</div>
+
+
+<!-- FORM CARD -->
+<div class="form-wrapper">
+    <form asp-action="TuDanhGia" method="get">
         <label>Chọn môn học:</label>
-        <select name="maMH" class="form-control">
+        <select name="maMH" class="form-select-custom form-control mb-3">
             @foreach (var m in ViewBag.MonHocs)
             {
                 <option value="@m.MaMH">@m.TenMH</option>
             }
         </select>
-    </div>
 
-    <button type="submit" class="btn btn-primary">Bắt đầu tự đánh giá</button>
-</form>
+        <button type="submit" class="btn-start">Bắt đầu tự đánh giá</button>
+    </form>
+</div>

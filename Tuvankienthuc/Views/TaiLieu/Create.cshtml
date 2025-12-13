@@ -3,43 +3,94 @@
     ViewData["Title"] = "Thêm tài liệu";
 }
 
-<h2>Thêm tài liệu</h2>
 
-<form asp-action="Create" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="mb-3">
-        <label asp-for="TaiLieu.TieuDe" class="form-label"></label>
-        <input asp-for="TaiLieu.TieuDe" class="form-control" />
-        <span asp-validation-for="TaiLieu.TieuDe" class="text-danger"></span>
+<div class="create-bg">
+
+    <div class="container pt-5 mt-3" style="max-width: 820px;">
+
+        <div class="card border-0 shadow rounded-4">
+            <div class="card-header bg-success text-white py-2 rounded-top-4">
+                <strong>➕ Thêm tài liệu mới</strong>
+            </div>
+
+            <div class="card-body p-3">
+
+                <form asp-action="Create" method="post">
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="alert alert-danger py-1 small mb-2"></div>
+
+                    <!-- TIÊU ĐỀ -->
+                    <div class="mb-2">
+                        <label class="form-label small fw-semibold">Tiêu đề</label>
+                        <input asp-for="TaiLieu.TieuDe"
+                               class="form-control form-control-sm"
+                               placeholder="Nhập tiêu đề tài liệu" />
+                        <span asp-validation-for="TaiLieu.TieuDe" class="text-danger small"></span>
+                    </div>
+
+                    <!-- MÔ TẢ -->
+                    <div class="mb-2">
+                        <label class="form-label small fw-semibold">Mô tả</label>
+                        <textarea asp-for="TaiLieu.MoTa"
+                                  class="form-control form-control-sm"
+                                  rows="2"
+                                  placeholder="Mô tả ngắn nội dung tài liệu"></textarea>
+                        <span asp-validation-for="TaiLieu.MoTa" class="text-danger small"></span>
+                    </div>
+
+                    <!-- LINK + LOẠI -->
+                    <div class="row g-2">
+                        <div class="col-md-8">
+                            <label class="form-label small fw-semibold">Đường dẫn</label>
+                            <input asp-for="TaiLieu.DuongDan"
+                                   class="form-control form-control-sm"
+                                   placeholder="https://drive.google.com/..." />
+                            <span asp-validation-for="TaiLieu.DuongDan" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small fw-semibold">Loại</label>
+                            <input asp-for="TaiLieu.LoaiTL"
+                                   class="form-control form-control-sm"
+                                   placeholder="PDF / Video / Link" />
+                            <span asp-validation-for="TaiLieu.LoaiTL" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- CHỦ ĐỀ -->
+                    <div class="mt-3">
+                        <label class="form-label small fw-semibold">📚 Chủ đề</label>
+                        <select asp-for="SelectedMaCDs"
+                                asp-items="ViewBag.ChuDeList"
+                                multiple
+                                class="form-select form-select-sm"
+                                size="4">
+                        </select>
+                        <small class="text-muted fst-italic">
+                            Giữ Ctrl / Command để chọn nhiều
+                        </small>
+                        <span asp-validation-for="SelectedMaCDs" class="text-danger small"></span>
+                    </div>
+
+                    <!-- ACTION -->
+                    <div class="d-flex justify-content-end gap-2 mt-3">
+                        <a asp-action="Index"
+                           class="btn btn-outline-secondary btn-sm px-3">
+                            ← Quay lại
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-success btn-sm px-4">
+                            💾 Lưu
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
     </div>
-
-    <div class="mb-3">
-        <label asp-for="TaiLieu.MoTa" class="form-label"></label>
-        <textarea asp-for="TaiLieu.MoTa" class="form-control" rows="3"></textarea>
-        <span asp-validation-for="TaiLieu.MoTa" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="TaiLieu.DuongDan" class="form-label"></label>
-        <input asp-for="TaiLieu.DuongDan" class="form-control" />
-        <span asp-validation-for="TaiLieu.DuongDan" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="TaiLieu.LoaiTL" class="form-label"></label>
-        <input asp-for="TaiLieu.LoaiTL" class="form-control" />
-        <span asp-validation-for="TaiLieu.LoaiTL" class="text-danger"></span>
-    </div>
-
-    <!-- Chọn nhiều Chủ đề -->
-    <div class="mb-3">
-        <label class="form-label">Chủ đề</label>
-        <select asp-for="SelectedMaCDs" asp-items="ViewBag.ChuDeList" multiple class="form-select" size="8"></select>
-        <small class="text-muted">Giữ Ctrl/Command để chọn nhiều chủ đề</small>
-        <span asp-validation-for="SelectedMaCDs" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-success">Lưu</button>
-    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
-</form>
+</div>

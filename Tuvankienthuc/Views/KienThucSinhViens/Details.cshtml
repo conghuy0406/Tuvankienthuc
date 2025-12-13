@@ -1,19 +1,64 @@
 ﻿@model Tuvankienthuc.Models.KienThucSinhVien
 
-<h2>Chi tiết Kiến thức sinh viên</h2>
+@{
+    ViewData["Title"] = "Chi tiết kiến thức sinh viên";
+}
 
-<div class="card p-3">
-    <dl class="row">
-        <dt class="col-sm-3">Sinh viên</dt>
-        <dd class="col-sm-9">@Model.user?.HoTen</dd>
+<div class="container pt-5 mt-3" style="max-width:720px;">
 
-        <dt class="col-sm-3">Kiến thức</dt>
-        <dd class="col-sm-9">@Model.KienThuc?.NoiDung</dd>
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-header bg-info text-white py-2 rounded-top-4">
+            <strong>📘 Chi tiết kiến thức sinh viên</strong>
+        </div>
 
-        <dt class="col-sm-3">Trạng thái</dt>
-        <dd class="col-sm-9">@Model.TrangThai</dd>
-    </dl>
+        <div class="card-body p-3">
+
+            <dl class="row mb-0 small">
+                <dt class="col-4 text-muted">👤 Sinh viên</dt>
+                <dd class="col-8 fw-semibold">
+                    @Model.user?.HoTen
+                </dd>
+
+                <dt class="col-4 text-muted">📚 Kiến thức</dt>
+                <dd class="col-8">
+                    @Model.KienThuc?.NoiDung
+                </dd>
+
+                <dt class="col-4 text-muted">📊 Trạng thái</dt>
+                <dd class="col-8">
+                    @if (Model.TrangThai == 2)
+                    {
+                        <span class="badge bg-success">Đã nắm vững</span>
+                    }
+                    else if (Model.TrangThai == 1)
+                    {
+                        <span class="badge bg-warning text-dark">Hiểu cơ bản</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Chưa nắm vững</span>
+                    }
+                </dd>
+
+                <dt class="col-4 text-muted">⏱ Lần học gần nhất</dt>
+                <dd class="col-8">
+                    @(Model.LanHocCuoi?.ToString("dd/MM/yyyy HH:mm") ?? "Chưa có dữ liệu")
+                </dd>
+            </dl>
+
+        </div>
+
+        <div class="card-footer bg-light d-flex justify-content-end gap-2 py-2">
+            <a asp-action="Index"
+               class="btn btn-outline-secondary btn-sm px-3">
+                ← Quay lại
+            </a>
+            <a asp-action="Edit"
+               asp-route-MaSV="@Model.MaSV"
+               asp-route-MaKT="@Model.MaKT"
+               class="btn btn-warning btn-sm px-3">
+                ✏️ Sửa
+            </a>
+        </div>
+    </div>
 </div>
-
-<a asp-action="Edit" asp-route-MaSV="@Model.MaSV" asp-route-MaKT="@Model.MaKT" class="btn btn-warning">Sửa</a>
-<a asp-action="Index" class="btn btn-secondary">Quay lại</a>

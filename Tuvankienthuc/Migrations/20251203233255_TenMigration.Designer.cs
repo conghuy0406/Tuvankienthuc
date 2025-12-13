@@ -5,15 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Tuvankienthuc.Models;
 
 #nullable disable
 
 namespace Tuvankienthuc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250928115139_Fix_TaiLieuChuDe_FK")]
-    partial class Fix_TaiLieuChuDe_FK
+    [Migration("20251203233255_TenMigration")]
+    partial class TenMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +23,40 @@ namespace Tuvankienthuc.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Tuvankienthuc.Models.ChatLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("MaDX")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaSV")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NoiDung")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ThoiGian")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TraLoi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaDX");
+
+                    b.HasIndex("MaSV");
+
+                    b.ToTable("ChatLogs");
+                });
 
             modelBuilder.Entity("Tuvankienthuc.Models.ChuDe", b =>
                 {
@@ -63,55 +96,64 @@ namespace Tuvankienthuc.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaDX"));
 
+                    b.Property<string>("Goal")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MaMH")
+                        .HasMaxLength(10)
+                        .HasColumnType("int");
+
                     b.Property<int>("MaSV")
                         .HasColumnType("int");
 
                     b.Property<string>("Nguon")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("NoiDung")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<DateTime>("ThoiGian")
                         .HasColumnType("datetime2");
 
                     b.HasKey("MaDX");
 
+                    b.HasIndex("MaMH");
+
                     b.HasIndex("MaSV");
 
                     b.ToTable("DeXuats");
                 });
 
-            modelBuilder.Entity("Tuvankienthuc.Models.HoiDap", b =>
+            modelBuilder.Entity("Tuvankienthuc.Models.DeXuatChiTiet", b =>
                 {
-                    b.Property<int>("MaHD")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("MaDX")
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
+
+                    b.Property<int>("MaKT")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.Property<bool?>("IsAccepted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("RankIndex")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaHD"));
-
-                    b.Property<string>("CauHoi")
-                        .IsRequired()
+                    b.Property<string>("Reason")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MaSV")
-                        .HasColumnType("int");
+                    b.Property<float>("Score")
+                        .HasColumnType("real");
 
-                    b.Property<DateTime>("ThoiGian")
-                        .HasColumnType("datetime2");
+                    b.HasKey("MaDX", "MaKT");
 
-                    b.Property<string>("TraLoi")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasIndex("MaKT");
 
-                    b.HasKey("MaHD");
-
-                    b.HasIndex("MaSV");
-
-                    b.ToTable("HoiDaps");
+                    b.ToTable("DeXuatChiTiets");
                 });
 
             modelBuilder.Entity("Tuvankienthuc.Models.KienThuc", b =>
@@ -122,15 +164,27 @@ namespace Tuvankienthuc.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaKT"));
 
-                    b.Property<int>("DoKho")
-                        .HasColumnType("int");
+                    b.Property<string>("CauHoiAI")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("DoKho")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsKienThucCoBan")
+                        .HasColumnType("bit");
 
                     b.Property<int>("MaCD")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MucDoCauHoi")
                         .HasColumnType("int");
 
                     b.Property<string>("NoiDung")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SoKienThucTruoc")
+                        .HasColumnType("int");
 
                     b.HasKey("MaKT");
 
@@ -142,15 +196,18 @@ namespace Tuvankienthuc.Migrations
             modelBuilder.Entity("Tuvankienthuc.Models.KienThucSinhVien", b =>
                 {
                     b.Property<int>("MaSV")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
 
                     b.Property<int>("MaKT")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
 
-                    b.Property<string>("TrangThai")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<DateTime?>("LanHocCuoi")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TrangThai")
+                        .HasColumnType("int");
 
                     b.HasKey("MaSV", "MaKT");
 
@@ -285,6 +342,24 @@ namespace Tuvankienthuc.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Tuvankienthuc.Models.ChatLog", b =>
+                {
+                    b.HasOne("Tuvankienthuc.Models.DeXuat", "DeXuat")
+                        .WithMany()
+                        .HasForeignKey("MaDX")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Tuvankienthuc.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("MaSV")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DeXuat");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Tuvankienthuc.Models.ChuDe", b =>
                 {
                     b.HasOne("Tuvankienthuc.Models.MonHoc", "MonHoc")
@@ -298,24 +373,40 @@ namespace Tuvankienthuc.Migrations
 
             modelBuilder.Entity("Tuvankienthuc.Models.DeXuat", b =>
                 {
+                    b.HasOne("Tuvankienthuc.Models.MonHoc", "MonHoc")
+                        .WithMany("DeXuats")
+                        .HasForeignKey("MaMH")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Tuvankienthuc.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("MaSV")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("MonHoc");
+
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Tuvankienthuc.Models.HoiDap", b =>
+            modelBuilder.Entity("Tuvankienthuc.Models.DeXuatChiTiet", b =>
                 {
-                    b.HasOne("Tuvankienthuc.Models.User", "user")
-                        .WithMany()
-                        .HasForeignKey("MaSV")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("Tuvankienthuc.Models.DeXuat", "DeXuat")
+                        .WithMany("ChiTiets")
+                        .HasForeignKey("MaDX")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("user");
+                    b.HasOne("Tuvankienthuc.Models.KienThuc", "KienThuc")
+                        .WithMany()
+                        .HasForeignKey("MaKT")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("DeXuat");
+
+                    b.Navigation("KienThuc");
                 });
 
             modelBuilder.Entity("Tuvankienthuc.Models.KienThuc", b =>
@@ -372,6 +463,11 @@ namespace Tuvankienthuc.Migrations
                     b.Navigation("KienThucs");
                 });
 
+            modelBuilder.Entity("Tuvankienthuc.Models.DeXuat", b =>
+                {
+                    b.Navigation("ChiTiets");
+                });
+
             modelBuilder.Entity("Tuvankienthuc.Models.KienThuc", b =>
                 {
                     b.Navigation("KienThucSinhViens");
@@ -380,6 +476,8 @@ namespace Tuvankienthuc.Migrations
             modelBuilder.Entity("Tuvankienthuc.Models.MonHoc", b =>
                 {
                     b.Navigation("ChuDes");
+
+                    b.Navigation("DeXuats");
                 });
 #pragma warning restore 612, 618
         }

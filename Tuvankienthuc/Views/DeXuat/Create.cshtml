@@ -4,55 +4,95 @@
     ViewData["Title"] = "Thêm đề xuất";
 }
 
-<h2>Thêm đề xuất</h2>
+<div class="container pt-5 mt-3" style="max-width: 900px;">
 
-<form asp-action="Create" method="post" class="mt-3">
+    <div class="card border-0 shadow-sm rounded-4">
 
-    <!-- Sinh viên -->
-    <div class="form-group mb-2">
-        <label asp-for="MaSV" class="control-label">Sinh viên</label>
-        <select asp-for="MaSV" class="form-control" asp-items="ViewBag.MaSV"></select>
-        <span asp-validation-for="MaSV" class="text-danger"></span>
+        <!-- HEADER -->
+        <div class="card-header bg-primary text-white py-2 rounded-top-4">
+            <strong>➕ @ViewData["Title"]</strong>
+        </div>
+
+        <!-- BODY -->
+        <div class="card-body p-3">
+
+            <form asp-action="Create" method="post">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger py-1 small mb-2"></div>
+
+                <!-- SINH VIÊN -->
+                <div class="mb-2">
+                    <label class="form-label small fw-semibold">👤 Sinh viên</label>
+                    <select asp-for="MaSV"
+                            class="form-select form-select-sm"
+                            asp-items="ViewBag.MaSV">
+                        <option value="">-- Chọn sinh viên --</option>
+                    </select>
+                    <span asp-validation-for="MaSV" class="text-danger small"></span>
+                </div>
+
+                <!-- MÔN HỌC -->
+                <div class="mb-2">
+                    <label class="form-label small fw-semibold">📚 Môn học</label>
+                    <select asp-for="MaMH"
+                            class="form-select form-select-sm"
+                            asp-items="ViewBag.MaMH">
+                        <option value="">-- Chọn môn học --</option>
+                    </select>
+                    <span asp-validation-for="MaMH" class="text-danger small"></span>
+                </div>
+
+                <!-- NỘI DUNG -->
+                <div class="mb-2">
+                    <label class="form-label small fw-semibold">📝 Nội dung đề xuất</label>
+                    <textarea asp-for="NoiDung"
+                              class="form-control form-control-sm"
+                              rows="3"
+                              placeholder="Nhập nội dung đề xuất"></textarea>
+                    <span asp-validation-for="NoiDung" class="text-danger small"></span>
+                </div>
+
+                <!-- NGUỒN + MỤC TIÊU -->
+                <div class="row g-2">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">🔗 Nguồn</label>
+                        <input asp-for="Nguon"
+                               class="form-control form-control-sm"
+                               placeholder="AI / Sinh viên / Giảng viên" />
+                        <span asp-validation-for="Nguon" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">🎯 Mục tiêu học tập</label>
+                        <select asp-for="Goal" class="form-select form-select-sm">
+                            <option value="">-- Chọn mục tiêu --</option>
+                            <option value="Thi qua môn">Thi qua môn</option>
+                            <option value="Đạt điểm cao">Đạt điểm cao</option>
+                            <option value="Làm đồ án">Làm đồ án</option>
+                        </select>
+                        <span asp-validation-for="Goal" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <!-- ACTION -->
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary btn-sm px-3">
+                        ← Hủy
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary btn-sm px-4">
+                        💾 Lưu
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
     </div>
-
-    <!-- Môn học -->
-    <div class="form-group mb-2">
-        <label asp-for="MaMH" class="control-label">Môn học</label>
-        <select asp-for="MaMH" class="form-control" asp-items="ViewBag.MaMH">
-            <option value="">-- Chọn môn học --</option>
-        </select>
-        <span asp-validation-for="MaMH" class="text-danger"></span>
-    </div>
-
-    <!-- Nội dung đề xuất -->
-    <div class="form-group mb-2">
-        <label asp-for="NoiDung" class="control-label">Nội dung</label>
-        <textarea asp-for="NoiDung" class="form-control" rows="3"></textarea>
-        <span asp-validation-for="NoiDung" class="text-danger"></span>
-    </div>
-
-    <!-- Nguồn -->
-    <div class="form-group mb-2">
-        <label asp-for="Nguon" class="control-label">Nguồn</label>
-        <input asp-for="Nguon" class="form-control" />
-        <span asp-validation-for="Nguon" class="text-danger"></span>
-    </div>
-
-    <!-- Mục tiêu học tập -->
-    <div class="form-group mb-3">
-        <label asp-for="Goal" class="control-label">Mục tiêu học tập</label>
-        <select asp-for="Goal" class="form-control">
-            <option value="">-- Chọn mục tiêu --</option>
-            <option value="Thi qua môn">Thi qua môn</option>
-            <option value="Đạt điểm cao">Đạt điểm cao</option>
-            <option value="Làm đồ án">Làm đồ án</option>
-        </select>
-        <span asp-validation-for="Goal" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Lưu</button>
-    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
-</form>
+</div>
 
 @section Scripts {
     @{

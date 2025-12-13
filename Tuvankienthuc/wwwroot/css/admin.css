@@ -1,0 +1,107 @@
+/* ====== ADMIN DASHBOARD THEME ====== */
+
+body {
+    background: #f7f9fa;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* ====== HERO ADMIN ====== */
+
+.admin-hero {
+    background: linear-gradient(135deg, #2F8F83, #89D2C5);
+    padding: 45px 25px;
+    border-radius: 18px;
+    margin-bottom: 35px;
+    color: white;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+    .admin-hero h1 {
+        font-weight: 800;
+        font-size: 36px;
+        margin: 0;
+    }
+
+    .admin-hero p {
+        opacity: 0.9;
+        font-size: 17px;
+        margin-top: 5px;
+    }
+
+/* ====== ADMIN CARD ====== */
+
+.admin-card {
+    border: none;
+    border-radius: 18px;
+    padding: 25px;
+    transition: 0.25s;
+    background: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+    .admin-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+/* ====== ICON TRÒN ====== */
+
+.admin-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #eaf7f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #2F8F83;
+    margin-bottom: 12px;
+}
+
+/* ====== TEXT ====== */
+
+.admin-card h5 {
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #144949;
+}
+
+.admin-card p {
+    color: #6c7a7a;
+    font-size: 14px;
+}
+
+/* ====== BUTTON ====== */
+
+.admin-btn {
+    width: 100%;
+    background: #2F8F83;
+    border-radius: 12px;
+    padding: 10px;
+    color: white;
+    font-weight: 600;
+    border: none;
+    transition: 0.2s;
+    margin-top: 10px;
+}
+
+    .admin-btn:hover {
+        background: #256d66;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.18);
+        transform: translateY(-2px);
+    }
+
+/* ====== GRID SPACING FIX FOR SMALL SCREENS ====== */
+
+@media (max-width: 768px) {
+    .admin-card {
+        padding: 20px;
+    }
+
+    .admin-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+    }
+}

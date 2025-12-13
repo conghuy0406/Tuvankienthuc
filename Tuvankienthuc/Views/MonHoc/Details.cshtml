@@ -4,12 +4,48 @@
     ViewData["Title"] = "Chi tiết môn học";
 }
 
-<h2>Chi tiết môn học</h2>
+<div class="container pt-5 mt-3" style="max-width:900px;">
 
-<div>
-    <h4>@Model.TenMH</h4>
-    <p>@Model.MoTa</p>
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-header bg-primary text-white rounded-top-4 py-2">
+            <strong>📘 Chi tiết môn học</strong>
+        </div>
+
+        <div class="card-body p-4">
+
+            <div class="mb-3">
+                <div class="text-muted small">Tên môn học</div>
+                <h4 class="fw-bold mb-0">@Model.TenMH</h4>
+            </div>
+
+            <div class="mb-4">
+                <div class="text-muted small">Mô tả</div>
+                <p class="mb-0">
+                    @if (string.IsNullOrWhiteSpace(Model.MoTa))
+                    {
+                        <span class="text-muted fst-italic">Chưa có mô tả</span>
+                    }
+                    else
+                    {
+                        @Model.MoTa
+                    }
+                </p>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary btn-sm px-3">
+                    ← Quay lại
+                </a>
+
+                <a asp-action="Edit"
+                   asp-route-id="@Model.MaMH"
+                   class="btn btn-warning btn-sm px-4">
+                    ✏️ Sửa
+                </a>
+            </div>
+
+        </div>
+    </div>
+
 </div>
-
-<a asp-action="Edit" asp-route-id="@Model.MaMH" class="btn btn-warning">Sửa</a>
-<a asp-action="Index" class="btn btn-secondary">Quay lại</a>

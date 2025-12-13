@@ -4,15 +4,48 @@
     ViewData["Title"] = "Xóa môn học";
 }
 
-<h2>Bạn có chắc chắn muốn xóa?</h2>
+<div class="container pt-5 mt-3" style="max-width:700px;">
 
-<div>
-    <h4>@Model.TenMH</h4>
-    <p>@Model.MoTa</p>
+    <div class="card border-0 shadow-sm rounded-4">
+
+        <!-- HEADER -->
+        <div class="card-header bg-danger text-white py-2 rounded-top-4">
+            <strong>🗑️ Xóa môn học</strong>
+        </div>
+
+        <!-- BODY -->
+        <div class="card-body p-4">
+
+            <div class="alert alert-warning py-2 small mb-3">
+                ⚠️ Hành động này <strong>không thể hoàn tác</strong>.
+                Mọi dữ liệu liên quan đến môn học sẽ bị xóa.
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label small fw-semibold text-muted">Tên môn học</label>
+                <div class="fw-bold">@Model.TenMH</div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label small fw-semibold text-muted">Mô tả</label>
+                <div class="text-muted">@Model.MoTa</div>
+            </div>
+
+            <!-- ACTION -->
+            <form asp-action="DeleteConfirmed" method="post" class="d-flex justify-content-end gap-2">
+                <input type="hidden" asp-for="MaMH" />
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary btn-sm px-3">
+                    ← Hủy
+                </a>
+
+                <button type="submit"
+                        class="btn btn-danger btn-sm px-4">
+                    ❌ Xóa
+                </button>
+            </form>
+
+        </div>
+    </div>
 </div>
-
-<form asp-action="DeleteConfirmed">
-    <input type="hidden" asp-for="MaMH" />
-    <button type="submit" class="btn btn-danger">Xóa</button>
-    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
-</form>

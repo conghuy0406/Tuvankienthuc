@@ -1,27 +1,66 @@
 ﻿@model Tuvankienthuc.Models.KienThuc
 
 @{
-    ViewData["Title"] = "Chi tiết Kiến Thức";
+    ViewData["Title"] = "Chi tiết Kiến thức";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="container pt-5 mt-3" style="max-width: 800px;">
 
-<div>
-    <h4>Thông tin chi tiết</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">Chủ đề</dt>
-        <dd class="col-sm-10">@Model.ChuDe?.TenCD</dd>
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-header bg-info text-white py-2 rounded-top-4">
+            <strong>📘 @ViewData["Title"]</strong>
+        </div>
 
-        <dt class="col-sm-2">Nội dung</dt>
-        <dd class="col-sm-10">@Model.NoiDung</dd>
+        <div class="card-body p-3">
 
-        <dt class="col-sm-2">Độ khó</dt>
-        <dd class="col-sm-10">@Model.DoKho</dd>
-    </dl>
+            <div class="row mb-2">
+                <div class="col-sm-4 text-muted small fw-semibold">
+                    📚 Chủ đề
+                </div>
+                <div class="col-sm-8 fw-semibold">
+                    @Model.ChuDe?.TenCD
+                </div>
+            </div>
+
+            <hr class="my-2" />
+
+            <div class="row mb-2">
+                <div class="col-sm-4 text-muted small fw-semibold">
+                    🧠 Nội dung
+                </div>
+                <div class="col-sm-8">
+                    @Model.NoiDung
+                </div>
+            </div>
+
+            <hr class="my-2" />
+
+            <div class="row mb-3">
+                <div class="col-sm-4 text-muted small fw-semibold">
+                    ⚙️ Độ khó
+                </div>
+                <div class="col-sm-8">
+                    <span class="badge bg-secondary px-3 py-2">
+                        @Model.DoKho / 10
+                    </span>
+                </div>
+            </div>
+
+            <!-- ACTION -->
+            <div class="d-flex justify-content-end gap-2">
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary btn-sm px-3">
+                    ← Quay lại
+                </a>
+
+                <a asp-action="Edit"
+                   asp-route-id="@Model.MaKT"
+                   class="btn btn-warning btn-sm px-4">
+                    ✏️ Sửa
+                </a>
+            </div>
+
+        </div>
+    </div>
+
 </div>
-
-<p>
-    <a asp-action="Edit" asp-route-id="@Model.MaKT" class="btn btn-warning">Sửa</a> |
-    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
-</p>

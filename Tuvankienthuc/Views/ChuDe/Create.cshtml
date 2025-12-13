@@ -1,32 +1,89 @@
 ﻿@model Tuvankienthuc.Models.ChuDe
+
 @{
     ViewData["Title"] = "Thêm Chủ Đề";
 }
 
-<h2>Thêm Chủ Đề</h2>
+<div class="container pt-5 mt-3" style="max-width: 820px;">
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="TenCD" class="control-label"></label>
-        <input asp-for="TenCD" class="form-control" />
-        <span asp-validation-for="TenCD" class="text-danger"></span>
+    <div class="card border-0 shadow-sm rounded-4">
+
+        <!-- HEADER -->
+        <div class="card-header bg-primary text-white py-2 rounded-top-4">
+            <strong>@ViewData["Title"]</strong>
+        </div>
+
+        <!-- BODY -->
+        <div class="card-body p-3">
+
+            <form asp-action="Create" method="post">
+
+                <!-- TÊN CHỦ ĐỀ -->
+                <div class="mb-2">
+                    <label asp-for="TenCD" class="form-label small fw-semibold">
+                        Tên chủ đề
+                    </label>
+                    <input asp-for="TenCD"
+                           class="form-control form-control-sm"
+                           placeholder="Nhập tên chủ đề" />
+                    <span asp-validation-for="TenCD" class="text-danger small"></span>
+                </div>
+
+                <!-- MÔ TẢ -->
+                <div class="mb-2">
+                    <label asp-for="MoTa" class="form-label small fw-semibold">
+                        Mô tả
+                    </label>
+                    <textarea asp-for="MoTa"
+                              class="form-control form-control-sm"
+                              rows="3"
+                              placeholder="Mô tả ngắn cho chủ đề"></textarea>
+                </div>
+
+                <!-- KIẾN THỨC CƠ BẢN -->
+                <div class="form-check mb-3">
+                    <input asp-for="IsKienThucCoBan"
+                           class="form-check-input"
+                           type="checkbox" />
+                    <label asp-for="IsKienThucCoBan"
+                           class="form-check-label small fw-semibold">
+                        Là kiến thức cơ bản
+                    </label>
+                </div>
+
+                <!-- MÔN HỌC -->
+                <div class="mb-3">
+                    <label asp-for="MaMH" class="form-label small fw-semibold">
+                        Môn học
+                    </label>
+                    <select asp-for="MaMH"
+                            class="form-select form-select-sm"
+                            asp-items="ViewBag.MaMH">
+                        <option value="">-- Chọn môn học --</option>
+                    </select>
+                </div>
+
+                <!-- ACTION -->
+                <div class="d-flex justify-content-end gap-2">
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary btn-sm px-3 rounded-pill">
+                        Hủy
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary btn-sm px-4 rounded-pill">
+                        Lưu
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
     </div>
+</div>
 
-    <div class="form-group">
-        <label asp-for="MoTa" class="control-label"></label>
-        <textarea asp-for="MoTa" class="form-control"></textarea>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="IsKienThucCoBan" class="control-label"></label>
-        <input asp-for="IsKienThucCoBan" type="checkbox" />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="MaMH" class="control-label">Môn học</label>
-        <select asp-for="MaMH" class="form-control" asp-items="ViewBag.MaMH"></select>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Lưu</button>
-    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
-</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

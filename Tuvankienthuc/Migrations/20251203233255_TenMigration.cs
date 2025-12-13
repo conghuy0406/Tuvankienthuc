@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Tuvankienthuc.Migrations
 {
     /// <inheritdoc />
-    public partial class Fix_TaiLieuChuDe_FK : Migration
+    public partial class TenMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -92,37 +92,22 @@ namespace Tuvankienthuc.Migrations
                     MaDX = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MaSV = table.Column<int>(type: "int", nullable: false),
-                    NoiDung = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Nguon = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    ThoiGian = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    MaMH = table.Column<int>(type: "int", maxLength: 10, nullable: false),
+                    NoiDung = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
+                    Nguon = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    ThoiGian = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Goal = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DeXuats", x => x.MaDX);
                     table.ForeignKey(
-                        name: "FK_DeXuats_Users_MaSV",
-                        column: x => x.MaSV,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "HoiDaps",
-                columns: table => new
-                {
-                    MaHD = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MaSV = table.Column<int>(type: "int", nullable: false),
-                    CauHoi = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TraLoi = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ThoiGian = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HoiDaps", x => x.MaHD);
+                        name: "FK_DeXuats_MonHocs_MaMH",
+                        column: x => x.MaMH,
+                        principalTable: "MonHocs",
+                        principalColumn: "MaMH");
                     table.ForeignKey(
-                        name: "FK_HoiDaps_Users_MaSV",
+                        name: "FK_DeXuats_Users_MaSV",
                         column: x => x.MaSV,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -135,9 +120,13 @@ namespace Tuvankienthuc.Migrations
                 {
                     MaKT = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MaCD = table.Column<int>(type: "int", nullable: false),
                     NoiDung = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DoKho = table.Column<int>(type: "int", nullable: false)
+                    MaCD = table.Column<int>(type: "int", nullable: false),
+                    DoKho = table.Column<double>(type: "float", nullable: false),
+                    IsKienThucCoBan = table.Column<bool>(type: "bit", nullable: false),
+                    CauHoiAI = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MucDoCauHoi = table.Column<int>(type: "int", nullable: true),
+                    SoKienThucTruoc = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -175,12 +164,69 @@ namespace Tuvankienthuc.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ChatLogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MaSV = table.Column<int>(type: "int", nullable: false),
+                    MaDX = table.Column<int>(type: "int", nullable: true),
+                    NoiDung = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TraLoi = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ThoiGian = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChatLogs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChatLogs_DeXuats_MaDX",
+                        column: x => x.MaDX,
+                        principalTable: "DeXuats",
+                        principalColumn: "MaDX",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_ChatLogs_Users_MaSV",
+                        column: x => x.MaSV,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DeXuatChiTiets",
+                columns: table => new
+                {
+                    MaDX = table.Column<int>(type: "int", nullable: false),
+                    MaKT = table.Column<int>(type: "int", nullable: false),
+                    Score = table.Column<float>(type: "real", nullable: false),
+                    RankIndex = table.Column<int>(type: "int", nullable: false),
+                    Reason = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsAccepted = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DeXuatChiTiets", x => new { x.MaDX, x.MaKT });
+                    table.ForeignKey(
+                        name: "FK_DeXuatChiTiets_DeXuats_MaDX",
+                        column: x => x.MaDX,
+                        principalTable: "DeXuats",
+                        principalColumn: "MaDX",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DeXuatChiTiets_KienThucs_MaKT",
+                        column: x => x.MaKT,
+                        principalTable: "KienThucs",
+                        principalColumn: "MaKT");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "KienThucSinhViens",
                 columns: table => new
                 {
                     MaSV = table.Column<int>(type: "int", nullable: false),
                     MaKT = table.Column<int>(type: "int", nullable: false),
-                    TrangThai = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    TrangThai = table.Column<int>(type: "int", nullable: false),
+                    LanHocCuoi = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -200,18 +246,33 @@ namespace Tuvankienthuc.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ChatLogs_MaDX",
+                table: "ChatLogs",
+                column: "MaDX");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChatLogs_MaSV",
+                table: "ChatLogs",
+                column: "MaSV");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ChuDes_MaMH",
                 table: "ChuDes",
                 column: "MaMH");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DeXuats_MaSV",
-                table: "DeXuats",
-                column: "MaSV");
+                name: "IX_DeXuatChiTiets_MaKT",
+                table: "DeXuatChiTiets",
+                column: "MaKT");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HoiDaps_MaSV",
-                table: "HoiDaps",
+                name: "IX_DeXuats_MaMH",
+                table: "DeXuats",
+                column: "MaMH");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DeXuats_MaSV",
+                table: "DeXuats",
                 column: "MaSV");
 
             migrationBuilder.CreateIndex(
@@ -240,10 +301,10 @@ namespace Tuvankienthuc.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DeXuats");
+                name: "ChatLogs");
 
             migrationBuilder.DropTable(
-                name: "HoiDaps");
+                name: "DeXuatChiTiets");
 
             migrationBuilder.DropTable(
                 name: "KienThucSinhViens");
@@ -252,13 +313,16 @@ namespace Tuvankienthuc.Migrations
                 name: "TaiLieuChuDe");
 
             migrationBuilder.DropTable(
+                name: "DeXuats");
+
+            migrationBuilder.DropTable(
                 name: "KienThucs");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "TaiLieus");
 
             migrationBuilder.DropTable(
-                name: "TaiLieus");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "ChuDes");

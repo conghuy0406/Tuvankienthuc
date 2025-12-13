@@ -1,37 +1,79 @@
 ﻿@model IEnumerable<Tuvankienthuc.Models.KienThuc>
 
 @{
-    ViewData["Title"] = "Danh sách Kiến Thức";
+    ViewData["Title"] = "Danh sách kiến thức";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="container pt-5 mt-3">
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Thêm kiến thức mới</a>
-</p>
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold text-primary mb-0">
+            📚 @ViewData["Title"]
+        </h4>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Chủ đề</th>
-            <th>Nội dung</th>
-            <th>Độ khó</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.ChuDe?.TenCD</td>
-                <td>@item.NoiDung</td>
-                <td>@item.DoKho</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.MaKT" class="btn btn-info btn-sm">Chi tiết</a> |
-                    <a asp-action="Edit" asp-route-id="@item.MaKT" class="btn btn-warning btn-sm">Sửa</a> |
-                    <a asp-action="Delete" asp-route-id="@item.MaKT" class="btn btn-danger btn-sm">Xóa</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        <a asp-action="Create" class="btn btn-primary btn-sm px-3">
+            ➕ Thêm kiến thức
+        </a>
+    </div>
+
+    <!-- TABLE -->
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width:25%">Chủ đề</th>
+                        <th>Nội dung</th>
+                        <th style="width:120px" class="text-center">Độ khó</th>
+                        <th style="width:200px" class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <span class="fw-semibold">
+                                    @item.ChuDe?.TenCD
+                                </span>
+                            </td>
+
+                            <td>
+                                @item.NoiDung
+                            </td>
+
+                            <td class="text-center">
+                                <span class="badge bg-secondary">
+                                    @item.DoKho
+                                </span>
+                            </td>
+
+                            <td class="text-center">
+                                <a asp-action="Details"
+                                   asp-route-id="@item.MaKT"
+                                   class="btn btn-outline-info btn-sm">
+                                    Chi tiết
+                                </a>
+
+                                <a asp-action="Edit"
+                                   asp-route-id="@item.MaKT"
+                                   class="btn btn-outline-warning btn-sm mx-1">
+                                    Sửa
+                                </a>
+
+                                <a asp-action="Delete"
+                                   asp-route-id="@item.MaKT"
+                                   class="btn btn-outline-danger btn-sm">
+                                    Xóa
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

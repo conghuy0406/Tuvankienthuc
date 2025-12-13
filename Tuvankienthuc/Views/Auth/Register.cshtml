@@ -1,43 +1,158 @@
 ﻿@model Tuvankienthuc.Models.User
-
 @{
-    ViewData["Title"] = "Đăng ký tài khoản";
+    Layout = null;
+    ViewData["Title"] = "Đăng ký";
 }
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký tài khoản</title>
 
-<div class="container mt-5" style="max-width: 500px;">
-    <h3 class="text-center mb-4">Đăng ký tài khoản</h3>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom, #89D2C5, #845EC2);
+            font-family: "Poppins", Arial, sans-serif;
+        }
 
-    @if (ViewBag.Error != null)
-    {
-        <div class="alert alert-danger">@ViewBag.Error</div>
-    }
+        .register-wrapper {
+            width: 360px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            padding: 35px 30px 30px;
+            box-sizing: border-box;
+            text-align: center;
+        }
 
-    <form asp-action="Register" method="post">
-        @Html.AntiForgeryToken()
+        .register-title {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
 
-        <div class="form-group mb-3">
-            <label asp-for="HoTen"></label>
-            <input asp-for="HoTen" class="form-control" />
-        </div>
+        .register-form {
+            text-align: left;
+        }
 
-        <div class="form-group mb-3">
-            <label asp-for="Email"></label>
-            <input asp-for="Email" class="form-control" />
-        </div>
+        .register-input {
+            width: 100%;
+            padding: 11px 12px;
+            border-radius: 4px;
+            border: none;
+            background: #f2f2f2;
+            margin-bottom: 15px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
 
-        <div class="form-group mb-3">
-            <label asp-for="MatKhau"></label>
-            <input asp-for="MatKhau" type="password" class="form-control" />
-        </div>
+            .register-input:focus {
+                outline: none;
+                box-shadow: 0 0 0 2px #89D2C533;
+            }
 
-        <div class="form-group mb-3">
-            <label>Nhập lại mật khẩu</label>
-            <input type="password" name="passwordConfirm" class="form-control" />
-        </div>
+        label {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 4px;
+            display: block;
+        }
 
-        <!-- Hidden Role -->
-        <input type="hidden" name="Role" value="SinhVien" />
+        .register-btn {
+            width: 100%;
+            padding: 11px;
+            border-radius: 4px;
+            border: none;
+            background: #89D2C5;
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
 
-        <button type="submit" class="btn btn-success w-100">Đăng ký</button>
-    </form>
-</div>
+            .register-btn:hover {
+                background: #7BC8BA;
+            }
+
+        .login-text {
+            margin-top: 18px;
+            font-size: 13px;
+            text-align: center;
+            color: #555;
+        }
+
+            .login-text a {
+                color: #89D2C5;
+                text-decoration: none;
+            }
+
+                .login-text a:hover {
+                    text-decoration: underline;
+                }
+
+        .error-box {
+            background: #ffe3e6;
+            border-radius: 4px;
+            padding: 8px 10px;
+            font-size: 13px;
+            color: #0A718E;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="register-wrapper">
+        <div class="register-title">REGISTER</div>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="error-box">@ViewBag.Error</div>
+        }
+
+        <form asp-action="Register" method="post" class="register-form">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-2">
+                <label>Họ và tên</label>
+                <input asp-for="HoTen" class="register-input" placeholder="Nhập họ tên" required />
+            </div>
+
+            <div class="mb-2">
+                <label>Email</label>
+                <input asp-for="Email" class="register-input" placeholder="Nhập Email" required />
+            </div>
+
+            <div class="mb-2">
+                <label>Mật khẩu</label>
+                <input asp-for="MatKhau" type="password" class="register-input" placeholder="Nhập mật khẩu" required />
+            </div>
+
+            <div class="mb-2">
+                <label>Nhập lại mật khẩu</label>
+                <input type="password" name="passwordConfirm" class="register-input" placeholder="Xác nhận mật khẩu" required />
+            </div>
+
+            <input type="hidden" name="Role" value="SinhVien" />
+
+            <button type="submit" class="register-btn">Đăng ký</button>
+        </form>
+
+        <p class="login-text">
+            Đã có tài khoản?
+            <a asp-action="Login">Đăng nhập ngay</a>
+        </p>
+    </div>
+
+</body>
+</html>

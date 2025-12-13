@@ -1,56 +1,83 @@
 ﻿@model Tuvankienthuc.Models.KienThucSinhVien
 
 @{
-    ViewData["Title"] = "Chỉnh sửa Kiến thức sinh viên";
+    ViewData["Title"] = "Chỉnh sửa kiến thức sinh viên";
 }
 
-<h2>Chỉnh sửa Kiến thức sinh viên</h2>
+<div class="container pt-5 mt-3" style="max-width:720px;">
 
-<form asp-action="Edit" method="post" class="mt-3">
-    <!-- Ẩn khóa chính -->
-    <input type="hidden" asp-for="MaSV" />
-    <input type="hidden" asp-for="MaKT" />
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-header bg-primary text-white py-2 rounded-top-4">
+            <strong>✏️ Chỉnh sửa kiến thức sinh viên</strong>
+        </div>
 
-    <!-- Sinh viên -->
-    <div class="form-group mb-3">
-        <label asp-for="MaSV" class="control-label">Sinh viên</label>
-        <select asp-for="MaSV" class="form-control" asp-items="ViewBag.MaSV" disabled>
-            <option value="">-- Chọn sinh viên --</option>
-        </select>
-        <input type="hidden" asp-for="MaSV" />
+        <div class="card-body p-3">
+
+            <form asp-action="Edit" method="post">
+
+                <!-- KHÓA CHÍNH -->
+                <input type="hidden" asp-for="MaSV" />
+                <input type="hidden" asp-for="MaKT" />
+
+                <!-- SINH VIÊN -->
+                <div class="mb-2">
+                    <label class="form-label small fw-semibold">Sinh viên</label>
+                    <select class="form-select form-select-sm" disabled>
+                        @foreach (var sv in ViewBag.MaSV as SelectList)
+                        {
+                            <option selected="@sv.Selected">@sv.Text</option>
+                        }
+                    </select>
+                </div>
+
+                <!-- KIẾN THỨC -->
+                <div class="mb-2">
+                    <label class="form-label small fw-semibold">Kiến thức</label>
+                    <select class="form-select form-select-sm" disabled>
+                        @foreach (var kt in ViewBag.MaKT as SelectList)
+                        {
+                            <option selected="@kt.Selected">@kt.Text</option>
+                        }
+                    </select>
+                </div>
+
+                <!-- TRẠNG THÁI -->
+                <div class="mb-2">
+                    <label asp-for="TrangThai" class="form-label small fw-semibold">
+                        Trạng thái học
+                    </label>
+                    <select asp-for="TrangThai" class="form-select form-select-sm">
+                        <option value="0">Chưa nắm vững</option>
+                        <option value="1">Hiểu cơ bản</option>
+                        <option value="2">Đã nắm vững</option>
+                    </select>
+                    <span asp-validation-for="TrangThai" class="text-danger small"></span>
+                </div>
+
+                <!-- LẦN HỌC CUỐI -->
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold">
+                        Lần học gần nhất
+                    </label>
+                    <input class="form-control form-control-sm" readonly
+                           value="@Model.LanHocCuoi?.ToString("dd/MM/yyyy HH:mm")" />
+                </div>
+
+                <!-- ACTION -->
+                <div class="d-flex justify-content-end gap-2">
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-sm px-3">
+                        ← Quay lại
+                    </a>
+                    <button type="submit" class="btn btn-primary btn-sm px-4">
+                        💾 Cập nhật
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
     </div>
-
-    <!-- Kiến thức -->
-    <div class="form-group mb-3">
-        <label asp-for="MaKT" class="control-label">Kiến thức</label>
-        <select asp-for="MaKT" class="form-control" asp-items="ViewBag.MaKT" disabled>
-            <option value="">-- Chọn kiến thức --</option>
-        </select>
-        <input type="hidden" asp-for="MaKT" />
-    </div>
-
-    <!-- Trạng thái -->
-    <div class="form-group mb-3">
-        <label asp-for="TrangThai" class="control-label">Trạng thái</label>
-        <select asp-for="TrangThai" class="form-control">
-            <option value="0">Chưa nắm vững</option>
-            <option value="1">Hiểu cơ bản</option>
-            <option value="2">Đã nắm vững</option>
-        </select>
-        <span asp-validation-for="TrangThai" class="text-danger"></span>
-    </div>
-
-    <!-- Lần học gần nhất -->
-    <div class="form-group mb-3">
-        <label asp-for="LanHocCuoi" class="control-label">Lần học gần nhất</label>
-        <input asp-for="LanHocCuoi" class="form-control" readonly
-               value="@Model.LanHocCuoi?.ToString("yyyy-MM-dd HH:mm:ss")" />
-        <span asp-validation-for="LanHocCuoi" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Cập nhật</button>
-    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
-</form>
+</div>
 
 @section Scripts {
     @{

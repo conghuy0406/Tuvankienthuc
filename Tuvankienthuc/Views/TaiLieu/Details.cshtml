@@ -3,53 +3,91 @@
     ViewData["Title"] = "Chi tiết tài liệu";
     var chuDeNames = ViewBag.ChuDeNames as List<string> ?? new List<string>();
 }
+<div class="container" style="max-width:900px; margin-top:100px;">
 
-<h2>Chi tiết tài liệu</h2>
 
-<div class="card">
-    <div class="card-body">
-        <dl class="row">
-            <dt class="col-sm-3">Tiêu đề</dt>
-            <dd class="col-sm-9">@Model.TieuDe</dd>
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">📄 Chi tiết tài liệu</h5>
+        </div>
 
-            <dt class="col-sm-3">Mô tả</dt>
-            <dd class="col-sm-9">@Model.MoTa</dd>
+        <div class="card-body">
 
-            <dt class="col-sm-3">Đường dẫn</dt>
-            <dd class="col-sm-9">
-                @if (!string.IsNullOrWhiteSpace(Model.DuongDan))
-                {
-                    <a href="@Model.DuongDan" target="_blank">@Model.DuongDan</a>
-                }
-            </dd>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-semibold text-muted">Tiêu đề</div>
+                <div class="col-md-9 fw-bold">@Model.TieuDe</div>
+            </div>
 
-            <dt class="col-sm-3">Loại tài liệu</dt>
-            <dd class="col-sm-9">@Model.LoaiTL</dd>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-semibold text-muted">Mô tả</div>
+                <div class="col-md-9">
+                    @if (!string.IsNullOrWhiteSpace(Model.MoTa))
+                    {
+                        <div class="border rounded p-2 bg-light">@Model.MoTa</div>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Không có mô tả</span>
+                    }
+                </div>
+            </div>
 
-            <dt class="col-sm-3">Ngày thêm</dt>
-            <dd class="col-sm-9">@Model.NgayThem.ToString("dd/MM/yyyy HH:mm")</dd>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-semibold text-muted">Đường dẫn</div>
+                <div class="col-md-9">
+                    @if (!string.IsNullOrWhiteSpace(Model.DuongDan))
+                    {
+                        <a href="@Model.DuongDan" target="_blank" class="text-decoration-none">
+                            🔗 Mở tài liệu
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Chưa có đường dẫn</span>
+                    }
+                </div>
+            </div>
 
-            <dt class="col-sm-3">Chủ đề</dt>
-            <dd class="col-sm-9">
-                @if (chuDeNames.Any())
-                {
-                    <ul>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-semibold text-muted">Loại tài liệu</div>
+                <div class="col-md-9">
+                    <span class="badge bg-primary">@Model.LoaiTL</span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-3 fw-semibold text-muted">Ngày thêm</div>
+                <div class="col-md-9">
+                    @Model.NgayThem.ToString("dd/MM/yyyy HH:mm")
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 fw-semibold text-muted">Chủ đề</div>
+                <div class="col-md-9">
+                    @if (chuDeNames.Any())
+                    {
                         @foreach (var cd in chuDeNames)
                         {
-                            <li>@cd</li>
+                            <span class="badge bg-secondary me-1 mb-1">@cd</span>
                         }
-                    </ul>
-                }
-                else
-                {
-                    <span class="text-muted">Chưa gắn chủ đề</span>
-                }
-            </dd>
-        </dl>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Chưa gắn chủ đề</span>
+                    }
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card-footer bg-light d-flex justify-content-end gap-2">
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                ← Quay lại
+            </a>
+            <a asp-action="Edit" asp-route-id="@Model.MaTL" class="btn btn-warning">
+                ✏️ Sửa
+            </a>
+        </div>
     </div>
 </div>
-
-<p class="mt-3">
-    <a asp-action="Edit" asp-route-id="@Model.MaTL" class="btn btn-warning">Sửa</a>
-    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
-</p>

@@ -6,20 +6,89 @@
     int index = 0;
 }
 
-<div class="container my-4">
+<style>
+    body {
+        background: linear-gradient(180deg, #EAFBF7, #F4F7FF);
+        font-size: 14px;
+    }
 
-    <h2 class="fw-bold text-primary mb-3">🚀 Kết quả tư vấn – @ViewBag.TenMonHoc</h2>
+    .page-title {
+        font-weight: 800;
+        font-size: 22px;
+        background: linear-gradient(90deg,#2563EB,#7C3AED);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
-    <div class="alert alert-info shadow-sm">
-        🤖 <strong>Mô hình AI đang sử dụng:</strong> @ViewBag.AIModel
+    /* CARD KIẾN THỨC */
+    .roadmap-card {
+        border-radius: 14px;
+        box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    }
+
+    .roadmap-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .urgency-badge {
+        font-size: 12px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .kt-meta {
+        font-size: 13px;
+        color: #555;
+    }
+
+    .kt-desc {
+        background: #f8fafc;
+        border-left: 4px solid #7C3AED;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+    }
+
+    /* ALERT AI */
+    .ai-box {
+        background: linear-gradient(90deg,#2563EB,#7C3AED);
+        color: white;
+        border-radius: 14px;
+        padding: 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,.12);
+    }
+
+    .advice-box {
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 16px;
+        box-shadow: 0 8px 24px rgba(0,0,0,.1);
+        border-left: 5px solid #10B981;
+    }
+</style>
+
+<div class="container my-4 pt-5" style="margin-top:70px; max-width:1000px;">
+
+    <!-- TIÊU ĐỀ -->
+    <h2 class="page-title mb-2">🚀 Kết quả tư vấn – @ViewBag.TenMonHoc</h2>
+
+    <!-- AI MODEL -->
+    <div class="ai-box mb-3">
+        🤖 <strong>Mô hình AI:</strong> @ViewBag.AIModel<br />
+        ⏳ <strong>Số ngày còn lại:</strong> @daysLeft ngày
     </div>
 
-    <div class="alert alert-success shadow-sm">
-        <strong>Lời khuyên học tập:</strong><br />
+    <!-- LỜI KHUYÊN -->
+    <div class="advice-box mb-4">
+        <strong>💡 Lời khuyên học tập:</strong><br />
         @Html.Raw(ViewBag.LoiKhuyen)
     </div>
 
-    <h4 class="fw-bold text-secondary mt-4 mb-2">📌 Lộ trình kiến thức ưu tiên</h4>
+    <h5 class="fw-bold text-secondary mb-3">📌 Lộ trình kiến thức ưu tiên</h5>
 
     @foreach (var item in Model)
     {
@@ -41,25 +110,26 @@
 
         int day = Math.Min(daysLeft, index);
 
-        <div class="card shadow-sm border-0 mb-3">
+        <div class="card roadmap-card border-0 mb-3">
             <div class="card-body">
 
-                <div class="d-flex justify-content-between">
-                    <h5>@kt.NoiDung</h5>
-                    <span class="badge @urgencyClass px-3 py-2">@urgencyLabel – @score.ToString("0.00")</span>
+                <div class="roadmap-header mb-1">
+                    <h6 class="fw-bold mb-0">@kt.NoiDung</h6>
+                    <span class="urgency-badge @urgencyClass">
+                        @urgencyLabel · @score.ToString("0.00")
+                    </span>
                 </div>
 
-                <div class="text-muted small">Chủ đề: @kt.ChuDe?.TenCD</div>
-
-                <div class="small mt-1">
-                    ⏱ Thời gian học: <strong>@minutes phút</strong><br />
-                    📅 Nên học vào: <strong>Ngày @day</strong>
+                <div class="kt-meta mb-2">
+                    📚 Chủ đề: <strong>@kt.ChuDe?.TenCD</strong> |
+                    ⏱ @minutes phút |
+                    📅 Ngày @day
                 </div>
 
                 @if (moTaKT != null && moTaKT.ContainsKey(kt.MaKT))
                 {
-                    <div class="alert alert-light border mt-2">
-                        🧠 <em>@moTaKT[kt.MaKT]</em>
+                    <div class="kt-desc mt-2">
+                        🧠 @moTaKT[kt.MaKT]
                     </div>
                 }
             </div>

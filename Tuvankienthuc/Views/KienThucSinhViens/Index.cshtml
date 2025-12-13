@@ -1,32 +1,97 @@
 ﻿@model IEnumerable<Tuvankienthuc.Models.KienThucSinhVien>
 
-<h2>Danh sách Kiến thức sinh viên</h2>
-<p>
-    <a asp-action="Create" class="btn btn-primary">Thêm mới</a>
-</p>
+@{
+    ViewData["Title"] = "Kiến thức sinh viên";
+}
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Sinh viên</th>
-            <th>Kiến thức</th>
-            <th>Trạng thái</th>
-            <th>Hành động</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.user?.HoTen</td>
-                <td>@item.KienThuc?.NoiDung</td>
-                <td>@item.TrangThai</td>
-                <td>
-                    <a asp-action="Edit" asp-route-MaSV="@item.MaSV" asp-route-MaKT="@item.MaKT">Sửa</a> |
-                    <a asp-action="Details" asp-route-MaSV="@item.MaSV" asp-route-MaKT="@item.MaKT">Chi tiết</a> |
-                    <a asp-action="Delete" asp-route-MaSV="@item.MaSV" asp-route-MaKT="@item.MaKT">Xóa</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container pt-5 mt-3" style="max-width:1100px;">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold text-primary mb-0">
+            📘 Kiến thức sinh viên
+        </h4>
+
+        <a asp-action="Create" class="btn btn-primary btn-sm px-3">
+            ➕ Thêm mới
+        </a>
+    </div>
+
+    <!-- TABLE -->
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-0">
+
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width:25%">Sinh viên</th>
+                        <th>Kiến thức</th>
+                        <th style="width:15%">Trạng thái</th>
+                        <th style="width:20%" class="text-center">Hành động</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-4">
+                                Chưa có dữ liệu
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@item.user?.HoTen</strong>
+                                </td>
+
+                                <td>
+                                    @item.KienThuc?.NoiDung
+                                </td>
+
+                                <td>
+                                    @if (item.TrangThai == 2)
+                                    {
+                                        <span class="badge bg-success">Đã hiểu</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Chưa hiểu</span>
+                                    }
+                                </td>
+
+                                <td class="text-center">
+                                    <a asp-action="Details"
+                                       asp-route-MaSV="@item.MaSV"
+                                       asp-route-MaKT="@item.MaKT"
+                                       class="btn btn-outline-info btn-sm">
+                                        Chi tiết
+                                    </a>
+
+                                    <a asp-action="Edit"
+                                       asp-route-MaSV="@item.MaSV"
+                                       asp-route-MaKT="@item.MaKT"
+                                       class="btn btn-outline-warning btn-sm mx-1">
+                                        Sửa
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-MaSV="@item.MaSV"
+                                       asp-route-MaKT="@item.MaKT"
+                                       class="btn btn-outline-danger btn-sm">
+                                        Xóa
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

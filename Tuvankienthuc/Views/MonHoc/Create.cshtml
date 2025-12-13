@@ -4,24 +4,63 @@
     ViewData["Title"] = "Thêm môn học";
 }
 
-<h2>Thêm môn học</h2>
+<div class="container pt-5 mt-3" style="max-width:700px;">
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="TenMH" class="control-label"></label>
-        <input asp-for="TenMH" class="form-control" />
-        <span asp-validation-for="TenMH" class="text-danger"></span>
+    <div class="card border-0 shadow-sm rounded-4">
+
+        <!-- HEADER -->
+        <div class="card-header bg-primary text-white py-2 rounded-top-4">
+            <strong>➕ Thêm môn học mới</strong>
+        </div>
+
+        <!-- BODY -->
+        <div class="card-body p-4">
+
+            <form asp-action="Create" method="post">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger py-2 small mb-3"></div>
+
+                <!-- TÊN MÔN HỌC -->
+                <div class="mb-3">
+                    <label asp-for="TenMH" class="form-label small fw-semibold">
+                        Tên môn học
+                    </label>
+                    <input asp-for="TenMH"
+                           class="form-control form-control-sm"
+                           placeholder="Ví dụ: Lập trình Web ASP.NET" />
+                    <span asp-validation-for="TenMH" class="text-danger small"></span>
+                </div>
+
+                <!-- MÔ TẢ -->
+                <div class="mb-4">
+                    <label asp-for="MoTa" class="form-label small fw-semibold">
+                        Mô tả
+                    </label>
+                    <textarea asp-for="MoTa"
+                              class="form-control form-control-sm"
+                              rows="3"
+                              placeholder="Mô tả ngắn về nội dung môn học"></textarea>
+                    <span asp-validation-for="MoTa" class="text-danger small"></span>
+                </div>
+
+                <!-- ACTION -->
+                <div class="d-flex justify-content-end gap-2">
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary btn-sm px-3">
+                        ← Quay lại
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary btn-sm px-4">
+                        💾 Lưu
+                    </button>
+                </div>
+
+            </form>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="MoTa" class="control-label"></label>
-        <textarea asp-for="MoTa" class="form-control"></textarea>
-        <span asp-validation-for="MoTa" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Lưu</button>
-    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
-</form>
+</div>
 
 @section Scripts {
     @{

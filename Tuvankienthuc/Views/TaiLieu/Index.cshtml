@@ -1,36 +1,118 @@
 ﻿@model IEnumerable<Tuvankienthuc.Models.TaiLieu>
+
 @{
-    ViewData["Title"] = "Tài liệu";
+    ViewData["Title"] = "Tài liệu học tập";
 }
 
-<h2>Tài liệu</h2>
+<style>
+    body {
+        background: linear-gradient(180deg,#EAFBF7,#F4F7FF);
+        font-size: 14px;
+    }
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Thêm tài liệu</a>
-</p>
+    .page-title {
+        font-weight: 800;
+        font-size: 22px;
+    }
 
-<table class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>Tiêu đề</th>
-            <th>Loại</th>
-            <th>Ngày thêm</th>
-            <th style="width:180px;">Thao tác</th>
-        </tr>
-    </thead>
-    <tbody>
+    .doc-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 16px;
+    }
+
+    .doc-item {
+        background: #fff;
+        border-radius: 14px;
+        padding: 16px;
+        box-shadow: 0 6px 18px rgba(0,0,0,.08);
+        transition: .2s;
+    }
+
+        .doc-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 26px rgba(0,0,0,.12);
+        }
+
+    .doc-title {
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 6px;
+    }
+
+    .doc-meta {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .doc-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+    }
+
+        .doc-actions .btn {
+            font-size: 12px;
+            padding: 5px 10px;
+        }
+</style>
+
+<div class="container my-4 pt-5" style="margin-top:70px; max-width:1100px;">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="page-title">📚 Tài liệu học tập</h2>
+
+        <a asp-action="Create" class="btn btn-success fw-semibold">
+            ➕ Thêm tài liệu
+        </a>
+    </div>
+
+    <!-- GRID TÀI LIỆU -->
+    <div class="doc-grid">
+
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.TieuDe</td>
-                <td>@item.LoaiTL</td>
-                <td>@item.NgayThem.ToString("dd/MM/yyyy HH:mm")</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.MaTL" class="btn btn-sm btn-info">Chi tiết</a>
-                    <a asp-action="Edit" asp-route-id="@item.MaTL" class="btn btn-sm btn-warning">Sửa</a>
-                    <a asp-action="Delete" asp-route-id="@item.MaTL" class="btn btn-sm btn-danger">Xoá</a>
-                </td>
-            </tr>
+            <div class="doc-item">
+
+                <div class="doc-title">
+                    @item.TieuDe
+                </div>
+
+                <div class="doc-meta">
+                    📂 <strong>@item.LoaiTL</strong><br />
+                    🕒 @item.NgayThem.ToString("dd/MM/yyyy HH:mm")
+                </div>
+
+                <div class="doc-actions">
+                    <a asp-action="Details"
+                       asp-route-id="@item.MaTL"
+                       class="btn btn-outline-primary">
+                        👁 Xem
+                    </a>
+
+                    <a asp-action="Edit"
+                       asp-route-id="@item.MaTL"
+                       class="btn btn-outline-warning">
+                        ✏ Sửa
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@item.MaTL"
+                       class="btn btn-outline-danger">
+                        🗑 Xoá
+                    </a>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+
+        @if (!Model.Any())
+        {
+            <div class="text-muted">
+                📭 Chưa có tài liệu nào
+            </div>
+        }
+    </div>
+
+</div>
