@@ -1,156 +1,105 @@
-﻿@model List<(Tuvankienthuc.Models.KienThuc kt, float score)>
+﻿@using Newtonsoft.Json.Linq
+@model List<(Tuvankienthuc.Models.KienThuc kt, float score)>
 
 @{
-    var moTaKT = ViewBag.MoTaKT as Dictionary<int, string>;
-    string plan = ViewBag.StudyPlan;
-    string timelineJson = ViewBag.TimelineJson;
-    string tenMonHoc = ViewBag.TenMonHoc;
+    ViewData["Title"] = "Kết quả tư vấn học tập";
+
+    string monHoc = ViewBag.MonHoc ?? "";
+    string goal = ViewBag.Goal ?? "";
     int daysLeft = ViewBag.DaysLeft ?? 7;
-    var timeline = Newtonsoft.Json.JsonConvert.DeserializeObject<List<dynamic>>(ViewBag.TimelineJson);
-}
+
+    string studyPlan = ViewBag.StudyPlan ?? "";
+    string timelineJson = ViewBag.TimelineJson ?? "[]";
+
+    var goiYBoSung =
+        ViewBag.GoiYBoSung as Dictionary<int, string>
+        ?? new Dictionary<int, string>();
+
+    JArray timeline = JArray.Parse(timelineJson);
 }
 
 <div class="container my-4">
 
-    <h2 class="fw-bold text-primary mb-3">📘 Tư vấn học tập – @tenMonHoc</h2>
+    <h2 class="fw-bold text-primary mb-2">
+        📘 Tư vấn học tập – @monHoc
+    </h2>
 
-    <!-- STUDY PLAN AI -->
+    <p class="text-muted mb-4">
+        🎯 Mục tiêu: <strong>@goal</strong> |
+        ⏱ Còn <strong>@daysLeft ngày</strong>
+    </p>
+
+    <!-- STUDY PLAN -->
     <div class="card shadow mb-4">
         <div class="card-header bg-primary text-white fw-bold">
-            📝 Kế hoạch học tập chi tiết (AI Generated)
+            📝 Chiến lược ôn tập
         </div>
         <div class="card-body">
-            @Html.Raw(plan)
+            @Html.Raw(studyPlan.Replace("\n", "<br/>"))
         </div>
     </div>
 
+    <!-- TIMELINE -->
     <div class="card shadow-sm mb-4">
-        <div class="card-header bg-info text-white fw-bold">
-            📊 Biểu đồ thời gian học theo ngày
-        </div>
-        <div class="card-body">
-            <canvas id="timelineChart" height="120"></canvas>
-        </div>
-    </div>
-    <div class="card shadow-sm border-0 mb-4">
         <div class="card-header bg-secondary text-white fw-bold">
-            📅 Timeline học (AI tự chia)
+            📅 Timeline học tập
         </div>
-
         <div class="card-body">
 
             @foreach (var day in timeline)
             {
-                <h4 class="fw-bold text-primary mt-3">Ngày @day["day"]</h4>
+                <h5 class="fw-bold text-primary mt-3">
+                    Ngày @day["day"]
+                </h5>
 
                 <ul class="list-group mb-3">
-
-                    @foreach (var it in day["items"])
+                    @foreach (var it in day["items"]!)
                     {
                         <li class="list-group-item d-flex justify-content-between">
-                            <span>📘 @((string)it["noiDung"])</span>
-                            <span class="badge bg-info text-dark">@((int)it["minutes"]) phút</span>
+                            <span>📘 @it["noiDung"]</span>
+                            <span class="badge bg-info text-dark">
+                                @it["minutes"] phút
+                            </span>
                         </li>
                     }
-
                 </ul>
             }
 
         </div>
     </div>
-    <pre style="color:red">@ViewBag.TimelineJson</pre>
-<pre style="color:blue">@ViewBag.TimelineModel</pre>
-    <h4 class="fw-bold text-secondary mt-4">📌 Lộ trình kiến thức ưu tiên</h4>
+
+    <!-- KIẾN THỨC -->
+    <h4 class="fw-bold text-secondary mt-4">
+        📌 Kiến thức cần bổ sung
+    </h4>
 
     @foreach (var item in Model)
     {
         var kt = item.kt;
         var score = item.score;
 
-        string badge = score switch
-        {
-            > 1.2f => "bg-danger",
-            > 0.9f => "bg-warning text-dark",
-            > 0.6f => "bg-info text-dark",
-            > 0.3f => "bg-secondary",
-            _ => "bg-success"
-        };
-
-        <div class="card shadow-sm border-0 mb-3">
+        <div class="card shadow-sm mb-3">
             <div class="card-body">
 
                 <div class="d-flex justify-content-between">
-                    <h5 class="fw-semibold">@kt.NoiDung</h5>
-                    <span class="badge @badge px-3 py-2">@score.ToString("0.00")</span>
+                    <strong>@kt.NoiDung</strong>
+                    <span class="badge bg-primary">
+                        @score.ToString("0.00")
+                    </span>
                 </div>
 
-                <div class="small text-muted">Chủ đề: @kt.ChuDe?.TenCD</div>
+                <div class="text-muted small mb-2">
+                    Chủ đề: @kt.ChuDe?.TenCD
+                </div>
 
-                @if (moTaKT != null && moTaKT.ContainsKey(kt.MaKT))
+                @if (goiYBoSung.ContainsKey(kt.MaKT))
                 {
-                    <div class="alert alert-light border mt-2">
-                        🧠 <em>@moTaKT[kt.MaKT]</em>
+                    <div class="alert alert-info mb-0">
+                        🧠 <strong>Gợi ý ôn tập:</strong><br />
+                        @Html.Raw(goiYBoSung[kt.MaKT].Replace("\n", "<br/>"))
                     </div>
                 }
             </div>
         </div>
     }
-    <div class="card shadow-sm mb-4">
-        <div class="card-header bg-secondary text-white fw-bold">
-            📅 Lộ trình học (Progress Bar)
-        </div>
-        <div class="card-body">
-
-            @foreach (var day in Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(ViewBag.TimelineJson))
-            {
-                int total = 0;
-                foreach (var it in day.items) { total += (int)it.minutes; }
-
-                <div class="mb-3">
-                    <div class="fw-bold">Ngày @day.day – @total phút</div>
-                    <div class="progress">
-                        <div class="progress-bar bg-primary"
-                             role="progressbar"
-                             style="width:@(total)px">
-                            @total phút
-                        </div>
-                    </div>
-                </div>
-            }
-
-        </div>
-    </div>
-
 </div>
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <script>
-        const timeline = @Html.Raw(ViewBag.TimelineJson);
-
-        const labels = timeline.map(x => "Ngày " + x.day);
-        const data = timeline.map(x =>
-            x.items.reduce((sum, it) => sum + it.minutes, 0)
-        );
-
-        new Chart(document.getElementById("timelineChart"), {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Tổng phút học mỗi ngày',
-                    data: data,
-                    borderWidth: 2,
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { display: false }
-                }
-            }
-        });
-    </script>
-}

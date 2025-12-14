@@ -10,12 +10,18 @@
 
 <div class="container my-4">
 
-    <h2 class="fw-bold text-primary">@tenMonHoc – Tự đánh giá</h2>
-    <p class="text-muted mb-4">Tick vào các kiến thức bạn đã nắm rõ.</p>
+    <h2 class="fw-bold text-primary">
+        📘 @tenMonHoc – Tự đánh giá kiến thức
+    </h2>
+
+    <p class="text-muted mb-4">
+        Hãy đánh dấu những kiến thức bạn <strong>đã nắm vững</strong>.
+        Hệ thống sẽ dựa vào kết quả này để <strong>đề xuất lộ trình bổ sung kiến thức phù hợp</strong>.
+    </p>
 
     @foreach (var g in groups)
     {
-        <div class="card shadow-sm border-0 mb-3">
+        <div class="card shadow-sm border-0 mb-4">
             <div class="card-header bg-primary text-white fw-bold">
                 @g.Key
             </div>
@@ -26,16 +32,31 @@
                     var kt = item.KienThuc;
 
                     <div class="p-3 bg-white rounded shadow-sm mb-3">
-                        <div class="d-flex justify-content-between">
-                            <div class="">
-                                <div class="fw-semibold">@kt.NoiDung</div>
-                                <div class="small text-muted">Câu hỏi: @kt.CauHoiAI</div>
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div class="me-3">
+                                <div class="fw-semibold">
+                                    @kt.NoiDung
+                                </div>
+
+                                @if (!string.IsNullOrWhiteSpace(kt.CauHoiAI))
+                                {
+                                    <div class="small text-muted mt-1">
+                                        🧠 Câu hỏi tự kiểm tra: <em>@kt.CauHoiAI</em>
+                                    </div>
+                                }
                             </div>
 
-                            <input type="checkbox"
-                                   class="form-check-input js-kt-toggle"
-                                   data-id="@kt.MaKT"
-                                   @(item.TrangThai == 2 ? "checked" : "") />
+                            <div class="form-check mt-1">
+                                <input type="checkbox"
+                                       class="form-check-input js-kt-toggle"
+                                       data-id="@kt.MaKT"
+                                       @(item.TrangThai == 2 ? "checked" : "") />
+                                <label class="form-check-label small">
+                                    Đã hiểu
+                                </label>
+                            </div>
+
                         </div>
                     </div>
                 }
@@ -48,19 +69,30 @@
 
         <input type="hidden" name="maMH" value="@maMH" />
 
-        <label class="fw-bold">🎯 Mục tiêu học tập</label>
+        <label class="fw-bold mb-1">
+            🎯 Mục tiêu học tập
+        </label>
         <select name="goal" class="form-select mb-3" required>
             <option value="">-- Chọn mục tiêu --</option>
-            <option>Thi qua môn</option>
-            <option>Đạt điểm cao</option>
-            <option>Hiểu sâu kiến thức</option>
-            <option>Làm bài tập lớn</option>
+            <option>Ôn để đạt yêu cầu môn học</option>
+            <option>Ôn tập để đạt điểm cao</option>
+            <option>Nắm vững và hiểu sâu kiến thức</option>
+            <option>Hoàn thành bài tập / đồ án</option>
         </select>
 
-        <label class="fw-bold">⏱ Số ngày còn lại</label>
-        <input type="number" name="daysLeft" class="form-control mb-3" min="1" value="7" required />
+        <label class="fw-bold mb-1">
+            ⏱ Số ngày còn lại để ôn tập
+        </label>
+        <input type="number"
+               name="daysLeft"
+               class="form-control mb-4"
+               min="1"
+               value="7"
+               required />
 
-        <button class="btn btn-primary btn-lg w-100">🚀 Bắt đầu tư vấn</button>
+        <button class="btn btn-primary btn-lg w-100">
+            🚀 Nhận tư vấn học tập
+        </button>
     </form>
 </div>
 

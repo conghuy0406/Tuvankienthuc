@@ -1,43 +1,39 @@
 ﻿@model IEnumerable<Tuvankienthuc.Models.MonHoc>
 
 @{
-    ViewData["Title"] = "Chọn môn học tư vấn";
+    ViewData["Title"] = "Chọn môn học cần tư vấn";
 }
 
 @section Styles {
     <style>
-        /* Card tùy chỉnh cho môn học */
         .subject-card {
             border: 1px solid #e2e8f0;
             border-radius: 20px;
             transition: all 0.3s ease;
             background: white;
             overflow: hidden;
-            position: relative;
         }
 
             .subject-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 15px 30px rgba(15, 118, 110, 0.1); /* Màu Teal nhạt */
-                border-color: var(--primary); /* Viền đổi màu khi hover */
+                transform: translateY(-6px);
+                box-shadow: 0 18px 35px rgba(15, 118, 110, 0.12);
+                border-color: var(--primary);
             }
 
-        /* Phần trang trí icon phía trên card */
         .card-icon-wrapper {
-            background: linear-gradient(135deg, rgba(15, 118, 110, 0.1) 0%, rgba(45, 212, 191, 0.1) 100%);
-            height: 80px;
+            background: linear-gradient(135deg, rgba(15,118,110,.12), rgba(45,212,191,.12));
+            height: 90px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--primary);
-            font-size: 2rem;
-            margin-bottom: 15px;
+            font-size: 2.2rem;
         }
 
         .subject-title {
             font-weight: 700;
-            color: var(--text-dark);
-            min-height: 48px; /* Giữ độ cao đều nhau nếu tên dài ngắn khác nhau */
+            color: #0f172a;
+            min-height: 48px;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -65,7 +61,7 @@
         }
 
             .btn-consult:hover {
-                background-color: #134E4A; /* Màu đậm hơn khi hover */
+                background-color: #134E4A;
                 border-color: #134E4A;
             }
     </style>
@@ -73,12 +69,21 @@
 
 <div class="container my-5">
 
+    <!-- HEADER -->
     <div class="text-center mb-5">
-        <h6 class="text-uppercase text-primary fw-bold letter-spacing-1">Tư vấn học tập AI</h6>
-        <h2 class="fw-bold text-dark mb-3">Chọn môn học bạn cần hỗ trợ</h2>
-        <p class="text-muted">Hệ thống sẽ phân tích và đưa ra lộ trình kiến thức phù hợp dựa trên môn học bạn chọn.</p>
+        <h6 class="text-uppercase text-primary fw-bold letter-spacing-1">
+            Hệ thống tư vấn học tập thông minh
+        </h6>
+        <h2 class="fw-bold text-dark mb-3">
+            Chọn môn học cần bổ sung kiến thức
+        </h2>
+        <p class="text-muted mb-0">
+            Dựa trên kết quả tự đánh giá và mục tiêu học tập, hệ thống sẽ gợi ý
+            <strong>những kiến thức cần học</strong> và <strong>cách ôn tập phù hợp</strong>.
+        </p>
     </div>
 
+    <!-- LIST SUBJECT -->
     <div class="row g-4">
         @foreach (var m in Model)
         {
@@ -86,25 +91,29 @@
                 <div class="subject-card h-100 d-flex flex-column">
 
                     <div class="card-icon-wrapper">
-                        <i class="bi bi-journal-bookmark-fill"></i>
+                        <i class="bi bi-journal-text"></i>
                     </div>
 
-                    <div class="card-body d-flex flex-column pt-0">
-                        <h5 class="subject-title mb-3" title="@m.TenMH">@m.TenMH</h5>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="subject-title mb-3" title="@m.TenMH">
+                            @m.TenMH
+                        </h5>
 
                         <div class="mb-4">
                             @if (m.GiangVien != null)
                             {
                                 <div class="lecturer-info">
                                     <i class="bi bi-person-video3 text-primary"></i>
-                                    <span class="text-truncate">GV: @m.GiangVien.HoTen</span>
+                                    <span class="text-truncate">
+                                        Giảng viên: @m.GiangVien.HoTen
+                                    </span>
                                 </div>
                             }
                             else
                             {
                                 <div class="lecturer-info">
                                     <i class="bi bi-building text-muted"></i>
-                                    <span>Bộ môn quản lý</span>
+                                    <span>Bộ môn phụ trách</span>
                                 </div>
                             }
                         </div>
@@ -112,8 +121,9 @@
                         <div class="mt-auto">
                             <a asp-action="TuDanhGia"
                                asp-route-maMH="@m.MaMH"
-                               class="btn btn-primary btn-consult w-100 text-white shadow-sm">
-                                Bắt đầu ngay <i class="bi bi-arrow-right ms-1"></i>
+                               class="btn btn-consult w-100 text-white shadow-sm">
+                                Tự đánh giá & tư vấn
+                                <i class="bi bi-arrow-right ms-1"></i>
                             </a>
                         </div>
                     </div>
