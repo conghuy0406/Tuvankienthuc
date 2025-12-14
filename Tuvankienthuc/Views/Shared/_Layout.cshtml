@@ -5,6 +5,10 @@
     var role = Context.Session.GetString("Role");
 
     bool isLoggedIn = userId != null;
+    var userInitial = !string.IsNullOrEmpty(userName)
+        ? userName[0].ToString().ToUpper()
+        : "?";
+
 }
 
 <!DOCTYPE html>
@@ -17,7 +21,7 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- CSS -->
+    <!-- Bootstrap CSS -->
     <link href="~/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/bootstrap-icons.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/templatemo-topic-listing.css" rel="stylesheet" asp-append-version="true" />
@@ -25,51 +29,54 @@
     <style>
         :root {
             --primary: #0F766E;
-            --primary-light: #14B8A6;
-            --primary-soft: #F0FDFA;
-            --accent: #F59E0B;
-            --text-dark: #134E4A;
-            --text-body: #334155;
-            --text-muted: #64748B;
+            --primary-soft: #E6FFFA;
+            --text-main: #0F172A;
+            --text-muted: #475569;
             --bg-body: #F8FAFC;
-            --glass-nav: rgba(255, 255, 255, 0.95);
+            --glass-bg: rgba(255,255,255,0.9);
         }
 
         body {
-            background-color: var(--bg-body);
             font-family: 'Montserrat', sans-serif;
-            color: var(--text-body);
+            background: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
+        /* ================= NAVBAR ================= */
         .navbar-custom {
-            background: var(--glass-nav);
-            backdrop-filter: blur(10px);
-            padding: 12px 24px;
-            border-radius: 50px;
+            position: sticky; /* ✅ dán khi cuộn */
+            top: 15px;
+            z-index: 1050;
             width: 95%;
-            max-width: 1320px;
-            margin: 20px auto 0;
-            box-shadow: 0 4px 20px rgba(15, 118, 110, 0.08);
-            border: 1px solid rgba(255,255,255,0.8);
-            transition: .3s;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px 28px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            transition: all .3s ease;
         }
 
             .navbar-custom.scrolled {
-                margin-top: 10px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                padding: 6px 26px;
+                box-shadow: 0 12px 32px rgba(0,0,0,0.12);
             }
 
         .navbar-brand {
-            font-size: 26px;
             font-weight: 800;
+            font-size: 1.5rem;
             color: var(--primary) !important;
         }
 
         .navbar-nav .nav-link {
             font-weight: 600;
-            color: var(--text-dark) !important;
-            padding: 8px 20px !important;
-            border-radius: 30px;
+            color: var(--text-main) !important;
+            padding: 8px 18px !important;
+            border-radius: 25px;
         }
 
             .navbar-nav .nav-link:hover,
@@ -78,26 +85,50 @@
                 color: var(--primary) !important;
             }
 
-        footer {
-            background: #111827;
-            padding: 60px 0 30px;
-            border-top: 5px solid var(--primary);
+        /* ================= AUTH BUTTON ================= */
+        .btn-login {
+            border: 2px solid var(--primary);
+            color: var(--primary) !important;
+            font-weight: 600;
+            border-radius: 999px;
+            padding: 6px 18px;
         }
 
-            footer h5, footer h6 {
-                color: white;
-                font-weight: 700;
-            }
+        .btn-register {
+            background: var(--primary);
+            color: white !important;
+            font-weight: 600;
+            border-radius: 999px;
+            padding: 6px 18px;
+            margin-left: 8px;
+        }
 
-            footer p, footer a {
-                color: #94A3B8 !important;
-                text-decoration: none;
-            }
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
 
-                footer a:hover {
-                    color: var(--primary-light) !important;
-                    padding-left: 5px;
-                }
+        /* ================= MAIN ================= */
+        main {
+
+            flex: 1;
+        }
+
+        /* ================= FOOTER ================= */
+        footer {
+            background: #ffffff;
+            border-top: 1px solid #e5e7eb;
+            padding: 24px 0;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
     </style>
 
     @RenderSection("Styles", required: false)
@@ -106,8 +137,8 @@
 <body>
 
     <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
-        <div class="container-fluid px-4">
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid px-0">
 
             <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">
                 <i class="bi bi-journal-bookmark-fill me-2"></i> 2PIG
@@ -118,7 +149,8 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
+
+                <ul class="navbar-nav mx-auto align-items-center">
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Home" asp-action="Index">Trang chủ</a>
                     </li>
@@ -129,9 +161,8 @@
                     @if (role == "GiangVien")
                     {
                         <li class="nav-item">
-                            <a class="nav-link" style="color: var(--accent) !important"
-                               asp-controller="GiangVien" asp-action="Index">
-                                <i class="bi bi-briefcase"></i> Giảng viên
+                            <a class="nav-link text-warning" asp-controller="GiangVien" asp-action="Index">
+                                Giảng viên
                             </a>
                         </li>
                     }
@@ -140,67 +171,75 @@
                     {
                         <li class="nav-item">
                             <a class="nav-link text-danger" asp-controller="Admin" asp-action="Index">
-                                <i class="bi bi-shield-lock"></i> Quản trị
+                                Quản trị
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-warning" asp-controller="GiangVien" asp-action="Index">
+                                Giảng viên
                             </a>
                         </li>
                     }
                 </ul>
 
-                <ul class="navbar-nav ms-auto align-items-center">
+                <div class="d-flex align-items-center mt-3 mt-lg-0">
                     @if (!isLoggedIn)
                     {
-                        <li class="nav-item me-2">
-                            <a class="nav-link btn btn-outline-success" asp-controller="Auth" asp-action="Login">Đăng nhập</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-success text-white" asp-controller="Auth" asp-action="Register">Đăng ký</a>
-                        </li>
+                        <a class="btn-login text-decoration-none" asp-controller="Auth" asp-action="Login">
+                            Đăng nhập
+                        </a>
+                        <a class="btn-register text-decoration-none" asp-controller="Auth" asp-action="Register">
+                            Đăng ký
+                        </a>
                     }
                     else
                     {
-                        <li class="nav-item d-flex align-items-center me-3">
-                            <span class="fw-bold me-2">Hi, @userName</span>
-                            <div class="bg-warning rounded-circle text-white d-flex justify-content-center align-items-center"
-                                 style="width:38px;height:38px;">
-                                @(userName?[0].ToString().ToUpper())
+                        <div class="dropdown">
+                            <div class="d-flex align-items-center gap-2"
+                                 role="button"
+                                 data-bs-toggle="dropdown">
+                                <span class="fw-semibold d-none d-md-inline">@userName</span>
+                                <div class="user-avatar">@userInitial</div>
                             </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Auth" asp-action="Logout">
-                                <i class="bi bi-box-arrow-right"></i>
-                            </a>
-                        </li>
+
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
+                                <li class="dropdown-header">Xin chào, @userName</li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger"
+                                       asp-controller="Auth" asp-action="Logout">
+                                        <i class="bi bi-box-arrow-right me-2"></i> Đăng xuất
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     }
-                </ul>
+                </div>
+
             </div>
         </div>
     </nav>
 
     <!-- MAIN -->
-    <main class="mt-4">
+    <main>
         @RenderBody()
     </main>
 
     <!-- FOOTER -->
-    <footer class="mt-auto">
-        <div class="container text-center text-muted small">
-            © 2025 2PIG Learning System
+    <footer>
+        <div class="container text-center">
+            © 2025 <strong>2PIG Learning System</strong>. All rights reserved.
         </div>
     </footer>
 
-    <!-- ================= JS ================= -->
-    <!-- Bootstrap -->
+    <!-- JS -->
     <script src="~/js/bootstrap.bundle.min.js"></script>
-
-    <!-- ✅ BẮT BUỘC: jQuery (cho TuVan, Ajax, Timeline, Chart) -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-            integrity="sha256-3gJwYp8pNQZ0r3nQq8Yx1Cq5c5e8JD7BqXc9Ejo4kL0="
-            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     <script>
         window.addEventListener("scroll", function () {
             const nav = document.querySelector(".navbar-custom");
-            if (window.scrollY > 20) nav.classList.add("scrolled");
+            if (window.scrollY > 60) nav.classList.add("scrolled");
             else nav.classList.remove("scrolled");
         });
     </script>
