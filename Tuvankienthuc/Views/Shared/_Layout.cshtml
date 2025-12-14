@@ -14,27 +14,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@title</title>
 
+    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+    <!-- CSS -->
     <link href="~/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/bootstrap-icons.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/templatemo-topic-listing.css" rel="stylesheet" asp-append-version="true" />
 
     <style>
-        /* ================== COLOR SYSTEM (THEME TEAL/OCEAN) ================== */
         :root {
-            /* Màu chính dựa trên ảnh: Teal/Green Sea */
-            --primary: #0F766E; /* Teal đậm (cho text chính, nút active) */
-            --primary-light: #14B8A6; /* Teal sáng (cho gradient) */
-            --primary-soft: #F0FDFA; /* Nền nhạt hover */
-
-            --accent: #F59E0B; /* Màu cam nhấn (icon conghuy) */
-
-            --text-dark: #134E4A; /* Text đậm (Dark slate teal) */
-            --text-body: #334155; /* Text nội dung */
-            --text-muted: #64748B; /* Text phụ */
-
-            --bg-body: #F8FAFC; /* Nền web hơi xám xanh nhẹ */
+            --primary: #0F766E;
+            --primary-light: #14B8A6;
+            --primary-soft: #F0FDFA;
+            --accent: #F59E0B;
+            --text-dark: #134E4A;
+            --text-body: #334155;
+            --text-muted: #64748B;
+            --bg-body: #F8FAFC;
             --glass-nav: rgba(255, 255, 255, 0.95);
         }
 
@@ -44,129 +41,57 @@
             color: var(--text-body);
         }
 
-        /* ================== HELPER CLASSES (Cho Banner) ================== */
-        /* Class này để bạn dùng cho thẻ div banner ở trang Index */
-        .bg-gradient-teal {
-            background: linear-gradient(135deg, #115e59 0%, #2dd4bf 100%);
-            color: white;
-        }
-
-        /* ================== NAVBAR ================== */
         .navbar-custom {
             background: var(--glass-nav);
             backdrop-filter: blur(10px);
             padding: 12px 24px;
-            border-radius: 50px; /* Bo tròn kiểu viên thuốc như ảnh layout hiện đại */
+            border-radius: 50px;
             width: 95%;
             max-width: 1320px;
-            margin: 20px auto 0 auto;
-            box-shadow: 0 4px 20px rgba(15, 118, 110, 0.08); /* Shadow màu teal nhẹ */
-            transition: all 0.3s ease;
+            margin: 20px auto 0;
+            box-shadow: 0 4px 20px rgba(15, 118, 110, 0.08);
             border: 1px solid rgba(255,255,255,0.8);
+            transition: .3s;
         }
 
             .navbar-custom.scrolled {
-                padding: 10px 24px;
-                width: 98%;
                 margin-top: 10px;
                 box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             }
 
         .navbar-brand {
             font-size: 26px;
-            font-weight: 800; /* Đậm hơn cho giống logo */
+            font-weight: 800;
             color: var(--primary) !important;
-            letter-spacing: -0.5px;
         }
-
-            .navbar-brand i {
-                color: var(--primary-light);
-            }
 
         .navbar-nav .nav-link {
             font-weight: 600;
             color: var(--text-dark) !important;
             padding: 8px 20px !important;
             border-radius: 30px;
-            transition: all 0.2s ease;
-            font-size: 15px;
         }
 
-            .navbar-nav .nav-link:hover {
-                color: var(--primary) !important;
-                background: var(--primary-soft);
-            }
-
+            .navbar-nav .nav-link:hover,
             .navbar-nav .nav-link.active {
+                background: var(--primary-soft);
                 color: var(--primary) !important;
-                background: var(--primary-soft);
             }
 
-        /* ================== BUTTONS & BADGES ================== */
-        .btn-auth {
-            padding: 8px 24px !important;
-            border-radius: 50px !important;
-            font-weight: 600;
-            transition: 0.3s;
-            font-size: 14px;
-        }
-
-        .btn-login {
-            background: transparent;
-            color: var(--primary) !important;
-            border: 1px solid var(--primary);
-        }
-
-            .btn-login:hover {
-                background: var(--primary-soft);
-            }
-
-        .btn-register {
-            background: var(--primary);
-            color: white !important;
-            box-shadow: 0 4px 10px rgba(15, 118, 110, 0.3);
-        }
-
-            .btn-register:hover {
-                background: var(--primary-light);
-                transform: translateY(-1px);
-            }
-
-        /* Badge User */
-        .user-greeting {
-            color: var(--text-dark);
-            font-weight: 700;
-        }
-
-        .role-badge {
-            background: linear-gradient(45deg, var(--primary), var(--primary-light));
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* ================== FOOTER ================== */
         footer {
-            background: #111827; /* Gần đen nhưng ám xanh */
-            padding-top: 60px;
-            padding-bottom: 30px;
+            background: #111827;
+            padding: 60px 0 30px;
             border-top: 5px solid var(--primary);
         }
 
             footer h5, footer h6 {
                 color: white;
                 font-weight: 700;
-                margin-bottom: 20px;
             }
 
             footer p, footer a {
                 color: #94A3B8 !important;
                 text-decoration: none;
-                transition: 0.2s;
             }
 
                 footer a:hover {
@@ -178,8 +103,9 @@
     @RenderSection("Styles", required: false)
 </head>
 
-<body id="top">
+<body>
 
+    <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container-fluid px-4">
 
@@ -187,19 +113,14 @@
                 <i class="bi bi-journal-bookmark-fill me-2"></i> 2PIG
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
-
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Home" asp-action="Index">Trang chủ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Index" asp-fragment="section_2">Chủ đề</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="TuVan" asp-action="Index">Tư vấn học tập</a>
@@ -208,7 +129,8 @@
                     @if (role == "GiangVien")
                     {
                         <li class="nav-item">
-                            <a class="nav-link" style="color: var(--accent) !important" asp-controller="GiangVien" asp-action="Index">
+                            <a class="nav-link" style="color: var(--accent) !important"
+                               asp-controller="GiangVien" asp-action="Index">
                                 <i class="bi bi-briefcase"></i> Giảng viên
                             </a>
                         </li>
@@ -221,11 +143,6 @@
                                 <i class="bi bi-shield-lock"></i> Quản trị
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" style="color: var(--accent) !important" asp-controller="GiangVien" asp-action="Index">
-                                <i class="bi bi-briefcase"></i> Giảng viên
-                            </a>
-                        </li>
                     }
                 </ul>
 
@@ -233,90 +150,62 @@
                     @if (!isLoggedIn)
                     {
                         <li class="nav-item me-2">
-                            <a class="nav-link btn-auth btn-login" asp-controller="Auth" asp-action="Login">Đăng nhập</a>
+                            <a class="nav-link btn btn-outline-success" asp-controller="Auth" asp-action="Login">Đăng nhập</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link btn-auth btn-register" asp-controller="Auth" asp-action="Register">Đăng ký</a>
+                            <a class="nav-link btn btn-success text-white" asp-controller="Auth" asp-action="Register">Đăng ký</a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item d-flex align-items-center me-3">
-                            <div class="d-flex flex-column align-items-end me-2" style="line-height: 1.2;">
-                                <span class="user-greeting">Hi, @userName</span>
-   
-                            </div>
-                            <div class="bg-warning rounded-circle d-flex justify-content-center align-items-center text-white"
-                                 style="width: 40px; height: 40px; font-weight:bold;">
-                                @(userName?.Length > 0 ? userName[0].ToString().ToUpper() : "U")
+                            <span class="fw-bold me-2">Hi, @userName</span>
+                            <div class="bg-warning rounded-circle text-white d-flex justify-content-center align-items-center"
+                                 style="width:38px;height:38px;">
+                                @(userName?[0].ToString().ToUpper())
                             </div>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link text-muted" asp-controller="Auth" asp-action="Logout" title="Đăng xuất">
-                                <i class="bi bi-box-arrow-right fs-5"></i>
+                            <a class="nav-link" asp-controller="Auth" asp-action="Logout">
+                                <i class="bi bi-box-arrow-right"></i>
                             </a>
                         </li>
                     }
                 </ul>
-
             </div>
         </div>
     </nav>
 
-
-    <main>
+    <!-- MAIN -->
+    <main class="mt-4">
         @RenderBody()
     </main>
 
-
+    <!-- FOOTER -->
     <footer class="mt-auto">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-5 col-12 mb-4">
-                    <h5 class="d-flex align-items-center">
-                        <i class="bi bi-journal-bookmark-fill me-2 text-primary"></i> 2PIG Learning
-                    </h5>
-                    <p class="pe-lg-5">Nền tảng hỗ trợ sinh viên tìm kiếm lộ trình môn học, đề xuất kiến thức và quản lý học tập hiệu quả với sự hỗ trợ của AI.</p>
-                </div>
-
-                <div class="col-lg-3 col-6">
-                    <h6>Khám phá</h6>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
-                        <li class="mb-2"><a asp-controller="TuVan" asp-action="Index">Tư vấn AI</a></li>
-                        <li class="mb-2"><a asp-controller="Home" asp-action="Index" asp-fragment="section_2">Danh sách chủ đề</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-4 col-6">
-                    <h6>Liên hệ</h6>
-                    <p class="mb-2"><i class="bi bi-geo-alt-fill me-2 text-primary"></i> ĐH Công Nghệ TP.HCM</p>
-                    <p class="mb-2"><i class="bi bi-telephone-fill me-2 text-primary"></i> 034-235-3400</p>
-                    <p><i class="bi bi-envelope-fill me-2 text-primary"></i> support@2pig.edu.vn</p>
-                </div>
-            </div>
-
-            <hr style="border-color: rgba(255,255,255,0.1); margin: 30px 0;">
-
-            <div class="text-center text-muted small">
-                &copy; 2025 2PIG Learning System. All rights reserved.
-            </div>
+        <div class="container text-center text-muted small">
+            © 2025 2PIG Learning System
         </div>
     </footer>
 
-
+    <!-- ================= JS ================= -->
+    <!-- Bootstrap -->
     <script src="~/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ✅ BẮT BUỘC: jQuery (cho TuVan, Ajax, Timeline, Chart) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-3gJwYp8pNQZ0r3nQq8Yx1Cq5c5e8JD7BqXc9Ejo4kL0="
+            crossorigin="anonymous"></script>
 
     <script>
         window.addEventListener("scroll", function () {
             const nav = document.querySelector(".navbar-custom");
-            // Thêm hiệu ứng shadow đậm hơn khi scroll
             if (window.scrollY > 20) nav.classList.add("scrolled");
             else nav.classList.remove("scrolled");
         });
     </script>
 
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>
