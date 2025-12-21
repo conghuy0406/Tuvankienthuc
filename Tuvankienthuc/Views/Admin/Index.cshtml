@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Quản trị hệ thống";
-	Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="container py-4">
@@ -11,14 +11,18 @@
 
     <div class="row g-4">
 
-        <!-- Quản lý người dùng -->
+        <!-- Người dùng -->
         <div class="col-md-4">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="bi bi-people"></i> Người dùng</h5>
-                    <p class="card-text text-muted">Quản lý tài khoản: sinh viên, giảng viên, quản trị.</p>
+                    <h5 class="card-title">
+                        <i class="bi bi-people"></i> Người dùng
+                    </h5>
+                    <p class="text-muted">
+                        Quản lý tài khoản sinh viên, giảng viên, quản trị.
+                    </p>
                     <a href="/Users" class="btn btn-primary w-100">
-                        <i class="bi bi-arrow-right-circle"></i> Truy cập
+                        Truy cập
                     </a>
                 </div>
             </div>
@@ -28,10 +32,14 @@
         <div class="col-md-4">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="bi bi-journal-bookmark"></i> Môn học</h5>
-                    <p class="card-text text-muted">Quản lý danh sách môn học trong hệ thống.</p>
+                    <h5 class="card-title">
+                        <i class="bi bi-journal-bookmark"></i> Môn học
+                    </h5>
+                    <p class="text-muted">
+                        Quản lý danh sách môn học.
+                    </p>
                     <a href="/MonHoc" class="btn btn-primary w-100">
-                        <i class="bi bi-arrow-right-circle"></i> Truy cập
+                        Truy cập
                     </a>
                 </div>
             </div>
@@ -41,10 +49,14 @@
         <div class="col-md-4">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="bi bi-layers"></i> Chủ đề</h5>
-                    <p class="card-text text-muted">Quản lý chủ đề của từng môn học.</p>
+                    <h5 class="card-title">
+                        <i class="bi bi-layers"></i> Chủ đề
+                    </h5>
+                    <p class="text-muted">
+                        Quản lý chủ đề theo môn học.
+                    </p>
                     <a href="/ChuDe" class="btn btn-primary w-100">
-                        <i class="bi bi-arrow-right-circle"></i> Truy cập
+                        Truy cập
                     </a>
                 </div>
             </div>
@@ -54,10 +66,14 @@
         <div class="col-md-4">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="bi bi-lightbulb"></i> Kiến thức</h5>
-                    <p class="card-text text-muted">Quản lý kiến thức thuộc các chủ đề.</p>
+                    <h5 class="card-title">
+                        <i class="bi bi-lightbulb"></i> Kiến thức
+                    </h5>
+                    <p class="text-muted">
+                        Quản lý nội dung kiến thức.
+                    </p>
                     <a href="/KienThuc" class="btn btn-primary w-100">
-                        <i class="bi bi-arrow-right-circle"></i> Truy cập
+                        Truy cập
                     </a>
                 </div>
             </div>
@@ -67,10 +83,14 @@
         <div class="col-md-4">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="bi bi-file-earmark-text"></i> Tài liệu</h5>
-                    <p class="card-text text-muted">Quản lý tài liệu PDF, video, slide.</p>
+                    <h5 class="card-title">
+                        <i class="bi bi-file-earmark-text"></i> Tài liệu
+                    </h5>
+                    <p class="text-muted">
+                        PDF, video, slide học tập.
+                    </p>
                     <a href="/TaiLieu" class="btn btn-primary w-100">
-                        <i class="bi bi-arrow-right-circle"></i> Truy cập
+                        Truy cập
                     </a>
                 </div>
             </div>
@@ -80,10 +100,42 @@
         <div class="col-md-4">
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="bi bi-stars"></i> Đề xuất</h5>
-                    <p class="card-text text-muted">Quản lý hệ thống gợi ý và đề xuất kiến thức.</p>
+                    <h5 class="card-title">
+                        <i class="bi bi-stars"></i> Đề xuất
+                    </h5>
+                    <p class="text-muted">
+                        Lịch sử & hệ thống tư vấn.
+                    </p>
                     <a href="/DeXuat" class="btn btn-primary w-100">
-                        <i class="bi bi-arrow-right-circle"></i> Truy cập
+                        Truy cập
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🔥 BÁO CÁO VẤN ĐỀ (MỚI) -->
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100 border-danger">
+                <div class="card-body">
+                    <h5 class="card-title text-danger">
+                        <i class="bi bi-exclamation-triangle"></i> Báo cáo vấn đề
+                    </h5>
+
+                    <p class="text-muted">
+                        Tổng hợp phản hồi từ sinh viên & giảng viên
+                        (lỗi hệ thống, đề xuất chưa hợp lý).
+                    </p>
+
+                    @if (ViewBag.SoBaoCaoMoi > 0)
+                    {
+                        <div class="alert alert-warning py-2 mb-2">
+                            🔔 Có <strong>@ViewBag.SoBaoCaoMoi</strong> báo cáo mới
+                        </div>
+                    }
+
+                    <a href="Admin/BaoCaoVanDe"
+                       class="btn btn-danger w-100">
+                        Xử lý báo cáo
                     </a>
                 </div>
             </div>

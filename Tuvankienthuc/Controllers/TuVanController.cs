@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Tuvankienthuc.Models;
 using Tuvankienthuc.Services;
+using Tuvankienthuc.ViewModels;
 
 namespace Tuvankienthuc.Controllers
 {
@@ -115,39 +116,53 @@ namespace Tuvankienthuc.Controllers
             var mon = await _context.MonHocs.FindAsync(maMH);
             if (mon == null) return NotFound();
 
-            // 1️⃣ Data
+            // 1️⃣ Phân tích
             var (listKT, svData) =
                 await _svc.PhanTichHocTapAsync(maSV.Value, maMH);
 
-            // 2️⃣ SCORE – LOCAL (KHÔNG AI, KHÔNG FALLBACK)
             var scoredList =
                 _svc.DuDoanThongMinh(listKT, svData, days, goal);
 
-            // 3️⃣ TIMELINE – LOCAL
-            string timelineJson =
-                _svc.BuildTimelineJson(scoredList, days);
+            var timeline =
+                await _svc.BuildTimelineAsync(scoredList, days);
 
-            // 4️⃣ AI – GỘP STUDY PLAN + GỢI Ý (1 LẦN DUY NHẤT)
             var (studyPlan, goiYBoSung) =
-                await _svc.SinhNoiDungTuVanAsync(
+                await _svc.SinhNoiDungTuVanTheoTimelineAsync(
                     mon.TenMH,
                     goal,
                     days,
-                    timelineJson,
-                    scoredList);
+                    timeline);
 
-            // 5️⃣ Push ViewBag
+            // ===============================
+            // 2️⃣ TẠO DEXUAT (CỰC QUAN TRỌNG)
+            // ===============================
+            var deXuat = new DeXuat
+            {
+                MaSV = maSV.Value,
+                MaMH = maMH,
+                Goal = goal,
+                NoiDung = studyPlan,
+                Nguon = "AI",
+                ThoiGian = DateTime.Now
+            };
+
+            _context.DeXuats.Add(deXuat);
+            await _context.SaveChangesAsync(); // 👉 Có MaDX ở đây
+
+            // ===============================
+            // 3️⃣ TRUYỀN SANG VIEW
+            // ===============================
+            ViewBag.MaDX = deXuat.MaDX;
             ViewBag.MonHoc = mon.TenMH;
             ViewBag.Goal = goal;
             ViewBag.DaysLeft = days;
-
-            ViewBag.TimelineJson = timelineJson;
             ViewBag.StudyPlan = studyPlan;
             ViewBag.GoiYBoSung = goiYBoSung;
 
-            // ⚠️ TRẢ ĐÚNG MODEL
-            return View("KetQuaTuVan", scoredList);
+            return View("KetQuaTuVan", timeline);
         }
+
+
 
 
 
@@ -169,5 +184,57 @@ namespace Tuvankienthuc.Controllers
 
             return View(list);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> LichSuTuVan()
+        {
+            int? maSV = HttpContext.Session.GetInt32("UserId");
+            if (maSV == null)
+                return RedirectToAction("Login", "Auth");
+
+            var lichSu = await _context.DeXuats
+                .Include(x => x.MonHoc)
+                .Where(x => x.MaSV == maSV)
+                .OrderByDescending(x => x.ThoiGian)
+                .ToListAsync();
+
+            return View(lichSu);
+        }
+
+        // =========================================
+        // 📄 CHI TIẾT 1 LẦN TƯ VẤN
+        // =========================================
+        public async Task<IActionResult> ChiTietTuVan(int maDX)
+        {
+            var dx = await _context.DeXuats
+                .Include(x => x.MonHoc)
+                .FirstOrDefaultAsync(x => x.MaDX == maDX);
+
+            if (dx == null) return NotFound();
+
+            // ⚠️ Lấy lại dữ liệu giống lúc tư vấn
+            var (listKT, svData) =
+                await _svc.PhanTichHocTapAsync(dx.MaSV, dx.MaMH);
+
+            var scored =
+                _svc.DuDoanThongMinh(listKT, svData, 7, dx.Goal);
+
+            var timeline =
+                await _svc.BuildTimelineAsync(scored, 7);
+
+            // ❗ Có thể load gợi ý AI nếu đã lưu, hoặc để trống
+            var vm = new ChiTietTuVanVm
+            {
+                DeXuat = dx,
+                Timeline = timeline,
+                GoiYBoSung = new Dictionary<int, string>() // sau này mở rộng
+            };
+
+            return View(vm);
+        }
+
+
+
     }
 }

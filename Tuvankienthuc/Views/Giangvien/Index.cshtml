@@ -1,8 +1,13 @@
-﻿@{
-    ViewData["Title"] = "Trang giang vien";
+﻿@model IEnumerable<Tuvankienthuc.Models.MonHoc>
+
+@{
+    ViewData["Title"] = "Trang giảng viên";
     Layout = "~/Views/Shared/_LayoutGiangVien.cshtml";
+
+    int soDanhGiaMoi = ViewBag.SoDanhGiaMoi != null
+        ? (int)ViewBag.SoDanhGiaMoi
+        : 0;
 }
-@model IEnumerable<Tuvankienthuc.Models.MonHoc>
 
 <h2 class="mb-4 text-info fw-bold">
     <i class="bi bi-person-video3"></i> Trang giảng viên
@@ -12,14 +17,30 @@
     Bạn đang phụ trách <strong>@ViewBag.SoMon</strong> môn học.
 </div>
 
+@if (soDanhGiaMoi > 0)
+{
+    <div class="alert alert-warning d-flex align-items-center mb-4">
+        🔔 <strong class="me-2">
+            Có @soDanhGiaMoi đánh giá đề xuất mới từ sinh viên
+        </strong>
+        <a asp-action="DanhGiaDeXuat"
+           class="btn btn-sm btn-outline-dark ms-auto">
+            Xem ngay
+        </a>
+    </div>
+}
+
 <div class="row g-4">
     @foreach (var m in Model)
     {
         <div class="col-md-4">
-            <div class="card shadow-sm border-0">
-                <div class="card-body">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body d-flex flex-column">
+
                     <h5 class="fw-bold">@m.TenMH</h5>
-                    <p class="text-muted">@m.MoTa</p>
+                    <p class="text-muted flex-grow-1">
+                        @m.MoTa
+                    </p>
 
                     <a class="btn btn-info text-white w-100 mt-2"
                        asp-action="ChuDe"
@@ -30,4 +51,5 @@
             </div>
         </div>
     }
+
 </div>

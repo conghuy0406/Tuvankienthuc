@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Tuvankienthuc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251219123911_AddIsReadToDeXuatDanhGia")]
+    partial class AddIsReadToDeXuatDanhGia
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,50 +23,6 @@ namespace Tuvankienthuc.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("BaoCaoVanDe", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsResolved")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LoaiVanDe")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("MaDX")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaUser")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NoiDung")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ThoiGian")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TieuDe")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MaDX");
-
-                    b.HasIndex("MaUser");
-
-                    b.ToTable("BaoCaoVanDes");
-                });
 
             modelBuilder.Entity("Tuvankienthuc.Models.ChatLog", b =>
                 {
@@ -434,24 +393,6 @@ namespace Tuvankienthuc.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("BaoCaoVanDe", b =>
-                {
-                    b.HasOne("Tuvankienthuc.Models.DeXuat", "DeXuat")
-                        .WithMany()
-                        .HasForeignKey("MaDX")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("Tuvankienthuc.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("MaUser")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DeXuat");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Tuvankienthuc.Models.ChatLog", b =>

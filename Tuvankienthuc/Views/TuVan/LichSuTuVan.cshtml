@@ -1,0 +1,56 @@
+﻿@model List<Tuvankienthuc.Models.DeXuat>
+
+@{
+    ViewData["Title"] = "Lịch sử tư vấn";
+}
+
+<div class="container my-4">
+    <h2 class="fw-bold text-primary mb-4">
+        📜 Lịch sử tư vấn học tập
+    </h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Bạn chưa có lần tư vấn nào.
+        </div>
+    }
+    else
+    {
+        <table class="table table-hover shadow-sm">
+            <thead class="table-light">
+                <tr>
+                    <th>Môn học</th>
+                    <th>Mục tiêu</th>
+                    <th>Thời gian</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var dx in Model)
+                {
+                    <tr>
+                        <td>@dx.MonHoc?.TenMH</td>
+                        <td>@dx.Goal</td>
+                        <td>@dx.ThoiGian.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td class="text-end">
+                            <a asp-action="ChiTietTuVan"
+                               asp-route-maDX="@dx.MaDX"
+                               class="btn btn-sm btn-outline-primary">
+                                Xem chi tiết
+                            </a>
+                            <a asp-controller="BaoCaoVanDe"
+                               asp-action="Create"
+                               asp-route-maDX="@dx.MaDX"
+                               class="btn btn-sm btn-outline-danger">
+                                Báo cáo
+                            </a>
+                        </td>
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

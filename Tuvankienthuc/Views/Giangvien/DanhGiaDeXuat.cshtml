@@ -1,0 +1,57 @@
+﻿@model List<Tuvankienthuc.Models.DeXuatDanhGia>
+
+<h3>📋 Đánh giá đề xuất</h3>
+
+@foreach (var dg in Model)
+{
+    <div class="card mb-3 @(dg.IsRead ? "" : "border-warning")">
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between">
+                <strong>@dg.User.HoTen</strong>
+
+                @if (!dg.IsRead)
+                {
+                    <span class="badge bg-warning">Chưa đọc</span>
+                }
+            </div>
+
+            <div class="text-muted small">
+                Môn: @dg.DeXuat.MonHoc.TenMH |
+                ⭐ @dg.Rating |
+                @dg.ThoiGian.ToString("dd/MM/yyyy HH:mm")
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(dg.NhanXet))
+            {
+                <div class="alert alert-light mt-2">
+                    @dg.NhanXet
+                </div>
+            }
+
+            <a asp-action="DanhDauDaDoc"
+               asp-route-id="@dg.Id"
+               class="btn btn-sm btn-outline-success">
+                Đánh dấu đã đọc
+            </a>
+        </div>
+    </div>
+}
+<div class="card mt-3 border-danger">
+    <div class="card-header bg-danger text-white fw-bold">
+        🚨 Báo cáo vấn đề
+    </div>
+    <div class="card-body">
+        <p class="text-muted small">
+            Nếu bạn thấy tư vấn chưa hợp lý hoặc có lỗi, hãy báo để hệ thống cải thiện.
+        </p>
+
+        <a asp-controller="BaoCaoVanDe"
+           asp-action="Create"
+           asp-route-maDX="@ViewBag.MaDX"
+           class="btn btn-outline-danger">
+            Gửi báo cáo
+        </a>
+    </div>
+</div>
+

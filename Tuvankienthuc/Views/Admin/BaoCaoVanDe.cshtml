@@ -1,0 +1,37 @@
+﻿@model List<Tuvankienthuc.Models.BaoCaoVanDe>
+
+<h3 class="fw-bold text-danger">📋 Báo cáo vấn đề</h3>
+
+<table class="table table-bordered align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Người gửi</th>
+            <th>Loại</th>
+            <th>Tiêu đề</th>
+            <th>Thời gian</th>
+            <th>Trạng thái</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bc in Model)
+        {
+            <tr class="@(bc.IsRead ? "" : "table-warning")">
+                <td>@bc.User.HoTen</td>
+                <td>@bc.LoaiVanDe</td>
+                <td>@bc.TieuDe</td>
+                <td>@bc.ThoiGian.ToString("dd/MM HH:mm")</td>
+                <td>
+                    @(bc.IsResolved ? "Đã xử lý" : "Chưa xử lý")
+                </td>
+                <td>
+                    <a asp-action="Resolve"
+                       asp-route-id="@bc.Id"
+                       class="btn btn-sm btn-success">
+                        Đánh dấu xử lý
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

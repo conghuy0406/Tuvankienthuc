@@ -157,6 +157,9 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="TuVan" asp-action="Index">Tư vấn học tập</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="TuVan" asp-action="LichSuTuVan">lịch sử tư vấn</a>
+                    </li>
 
                     @if (role == "GiangVien")
                     {
@@ -180,6 +183,7 @@
                             </a>
                         </li>
                     }
+
                 </ul>
 
                 <div class="d-flex align-items-center mt-3 mt-lg-0">
@@ -227,6 +231,11 @@
 
     <!-- FOOTER -->
     <footer>
+        <a asp-controller="BaoCaoVanDe"
+           asp-action="Create"
+           class="text-danger text-decoration-none">
+            🚨 Gửi báo cáo / phản ánh hệ thống
+        </a>
         <div class="container text-center">
             © 2025 <strong>2PIG Learning System</strong>. All rights reserved.
         </div>

@@ -6,65 +6,83 @@ public class ApplicationDbContext : DbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options) { }
 
-    // ======== BẢNG CHÍNH ========
+    // =======================
+    // DBSETS
+    // =======================
     public DbSet<User> Users { get; set; }
     public DbSet<MonHoc> MonHocs { get; set; }
     public DbSet<ChuDe> ChuDes { get; set; }
     public DbSet<KienThuc> KienThucs { get; set; }
     public DbSet<KienThucSinhVien> KienThucSinhViens { get; set; }
+
     public DbSet<DeXuat> DeXuats { get; set; }
     public DbSet<DeXuatChiTiet> DeXuatChiTiets { get; set; }
+    public DbSet<DeXuatDanhGia> DeXuatDanhGias { get; set; }
+
     public DbSet<TaiLieu> TaiLieus { get; set; }
     public DbSet<TaiLieuChuDe> TaiLieuChuDes { get; set; }
-    public DbSet<ChatLog> ChatLogs { get; set; }   // NEW
+    public DbSet<BaoCaoVanDe> BaoCaoVanDes { get; set; }
+    public DbSet<ChatLog> ChatLogs { get; set; }
 
+    // =======================
+    // FLUENT API
+    // =======================
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        // ======== USERS ========
+        // ===== USERS =====
         modelBuilder.Entity<User>(e =>
         {
             e.HasKey(u => u.Id);
             e.HasIndex(u => u.Email).IsUnique();
         });
 
-        // ======== MONHOC ========
-        modelBuilder.Entity<MonHoc>().HasKey(mh => mh.MaMH);
-
-        // ======== CHUDE ========
-        modelBuilder.Entity<ChuDe>().HasKey(cd => cd.MaCD);
-        modelBuilder.Entity<ChuDe>()
-            .HasOne(cd => cd.MonHoc)
-            .WithMany(mh => mh.ChuDes)
-            .HasForeignKey(cd => cd.MaMH)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        // ======== KIENTHUC ========
-        modelBuilder.Entity<KienThuc>().HasKey(kt => kt.MaKT);
-        modelBuilder.Entity<KienThuc>()
-            .HasOne(kt => kt.ChuDe)
-            .WithMany(cd => cd.KienThucs)
-            .HasForeignKey(kt => kt.MaCD)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        // ======== KIENTHUCSINHVIEN ========
-        modelBuilder.Entity<KienThucSinhVien>(e =>
+        // ===== MONHOC =====
+        modelBuilder.Entity<MonHoc>(e =>
         {
-            e.HasKey(k => new { k.MaSV, k.MaKT });
+            e.HasKey(mh => mh.MaMH);
+        });
 
-            e.HasOne(k => k.user)
-             .WithMany()
-             .HasForeignKey(k => k.MaSV)
-             .OnDelete(DeleteBehavior.Cascade);
+        // ===== CHUDE =====
+        modelBuilder.Entity<ChuDe>(e =>
+        {
+            e.HasKey(cd => cd.MaCD);
 
-            e.HasOne(k => k.KienThuc)
-             .WithMany(kt => kt.KienThucSinhViens)
-             .HasForeignKey(k => k.MaKT)
+            e.HasOne(cd => cd.MonHoc)
+             .WithMany(mh => mh.ChuDes)
+             .HasForeignKey(cd => cd.MaMH)
              .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // ======== DEXUAT ========
+        // ===== KIENTHUC =====
+        modelBuilder.Entity<KienThuc>(e =>
+        {
+            e.HasKey(kt => kt.MaKT);
+
+            e.HasOne(kt => kt.ChuDe)
+             .WithMany(cd => cd.KienThucs)
+             .HasForeignKey(kt => kt.MaCD)
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // ===== KIENTHUCSINHVIEN =====
+        modelBuilder.Entity<KienThucSinhVien>(e =>
+        {
+            e.HasKey(x => new { x.MaSV, x.MaKT });
+
+            e.HasOne(x => x.user)
+             .WithMany()
+             .HasForeignKey(x => x.MaSV)
+             .OnDelete(DeleteBehavior.Cascade);
+
+            e.HasOne(x => x.KienThuc)
+             .WithMany(kt => kt.KienThucSinhViens)
+             .HasForeignKey(x => x.MaKT)
+             .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // ===== DEXUAT =====
         modelBuilder.Entity<DeXuat>(e =>
         {
             e.HasKey(dx => dx.MaDX);
@@ -77,10 +95,10 @@ public class ApplicationDbContext : DbContext
             e.HasOne(dx => dx.MonHoc)
              .WithMany(mh => mh.DeXuats)
              .HasForeignKey(dx => dx.MaMH)
-             .OnDelete(DeleteBehavior.NoAction);
+             .OnDelete(DeleteBehavior.Restrict);
         });
 
-        // ======== DEXUATCHITIET ========
+        // ===== DEXUATCHITIET =====
         modelBuilder.Entity<DeXuatChiTiet>(e =>
         {
             e.HasKey(x => new { x.MaDX, x.MaKT });
@@ -93,13 +111,35 @@ public class ApplicationDbContext : DbContext
             e.HasOne(x => x.KienThuc)
              .WithMany()
              .HasForeignKey(x => x.MaKT)
-             .OnDelete(DeleteBehavior.NoAction);
+             .OnDelete(DeleteBehavior.Restrict);
         });
 
-        // ======== TAILIEU ========
-        modelBuilder.Entity<TaiLieu>().HasKey(tl => tl.MaTL);
+        // ===== DEXUAT DANH GIA =====
+        modelBuilder.Entity<DeXuatDanhGia>(e =>
+        {
+            e.HasKey(x => x.Id);
 
-        // ======== TAILIEUCHUDE (bảng trung gian n-n) ========
+            e.HasOne(x => x.DeXuat)
+             .WithMany()
+             .HasForeignKey(x => x.MaDX)
+             .OnDelete(DeleteBehavior.Cascade);
+
+            e.HasOne(x => x.User)
+             .WithMany()
+             .HasForeignKey(x => x.MaUser)
+             .OnDelete(DeleteBehavior.Cascade);
+
+            e.Property(x => x.Rating)
+             .IsRequired();
+        });
+
+        // ===== TAILIEU =====
+        modelBuilder.Entity<TaiLieu>(e =>
+        {
+            e.HasKey(tl => tl.MaTL);
+        });
+
+        // ===== TAILIEU-CHUDE (N-N) =====
         modelBuilder.Entity<TaiLieuChuDe>(e =>
         {
             e.ToTable("TaiLieuChuDe");
@@ -113,10 +153,10 @@ public class ApplicationDbContext : DbContext
             e.HasOne(x => x.ChuDe)
              .WithMany()
              .HasForeignKey(x => x.MaCD)
-             .OnDelete(DeleteBehavior.NoAction);
+             .OnDelete(DeleteBehavior.Restrict);
         });
 
-        // ======== CHATLOGS ========
+        // ===== CHATLOG =====
         modelBuilder.Entity<ChatLog>(e =>
         {
             e.HasKey(c => c.Id);
@@ -134,5 +174,32 @@ public class ApplicationDbContext : DbContext
             e.Property(c => c.NoiDung).IsRequired();
             e.Property(c => c.TraLoi).IsRequired();
         });
+        // ===== BAO CAO VAN DE =====
+        modelBuilder.Entity<BaoCaoVanDe>(e =>
+        {
+            e.HasKey(x => x.Id);
+
+            e.HasOne(x => x.User)
+             .WithMany()
+             .HasForeignKey(x => x.MaUser)
+             .OnDelete(DeleteBehavior.Cascade);
+
+            e.HasOne(x => x.DeXuat)
+             .WithMany()
+             .HasForeignKey(x => x.MaDX)
+             .OnDelete(DeleteBehavior.SetNull);
+
+            e.Property(x => x.TieuDe)
+             .IsRequired();
+
+            e.Property(x => x.NoiDung)
+             .IsRequired();
+
+            e.Property(x => x.LoaiVanDe)
+             .IsRequired();
+        });
+
+
+
     }
 }

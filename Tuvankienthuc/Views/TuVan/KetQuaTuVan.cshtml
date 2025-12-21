@@ -1,5 +1,4 @@
-﻿@using Newtonsoft.Json.Linq
-@model List<(Tuvankienthuc.Models.KienThuc kt, float score)>
+﻿@model List<Tuvankienthuc.Services.TimelineVm>
 
 @{
     ViewData["Title"] = "Kết quả tư vấn học tập";
@@ -9,13 +8,11 @@
     int daysLeft = ViewBag.DaysLeft ?? 7;
 
     string studyPlan = ViewBag.StudyPlan ?? "";
-    string timelineJson = ViewBag.TimelineJson ?? "[]";
 
     var goiYBoSung =
         ViewBag.GoiYBoSung as Dictionary<int, string>
         ?? new Dictionary<int, string>();
 
-    JArray timeline = JArray.Parse(timelineJson);
 }
 
 <div class="container my-4">
@@ -46,60 +43,109 @@
         </div>
         <div class="card-body">
 
-            @foreach (var day in timeline)
+            @foreach (var day in Model)
             {
                 <h5 class="fw-bold text-primary mt-3">
-                    Ngày @day["day"]
+                    Ngày @day.Day
                 </h5>
 
-                <ul class="list-group mb-3">
-                    @foreach (var it in day["items"]!)
-                    {
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>📘 @it["noiDung"]</span>
-                            <span class="badge bg-info text-dark">
-                                @it["minutes"] phút
-                            </span>
-                        </li>
-                    }
-                </ul>
+                @foreach (var it in day.Items)
+                {
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <strong>📘 @it.NoiDung</strong>
+                                <span class="badge bg-info text-dark">
+                                    ⏱ @it.Minutes phút
+                                </span>
+                            </div>
+
+                            <div class="text-muted small mb-2">
+                                Chủ đề: @it.ChuDe
+                            </div>
+
+                            <!-- TÀI LIỆU -->
+                            @if (it.TaiLieu.Any())
+                            {
+                                <div class="mb-2">
+                                    @foreach (var tl in it.TaiLieu)
+                                    {
+                                        <a href="@tl.DuongDan"
+                                           target="_blank"
+                                           class="badge bg-light text-dark border me-2 mb-1">
+                                            @if (tl.LoaiTL == "PDF")
+                                            {
+                                                <i class="bi bi-file-earmark-pdf text-danger"></i>
+                                            }
+                                            else if (tl.LoaiTL == "Video")
+                                            {
+                                                <i class="bi bi-play-circle text-success"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="bi bi-link-45deg"></i>
+                                            }
+                                            @tl.TieuDe
+                                        </a>
+                                    }
+                                </div>
+                            }
+
+                            <!-- GỢI Ý AI -->
+                            @if (goiYBoSung.ContainsKey(it.MaKT))
+                            {
+                                <div class="alert alert-info mb-0 mt-2">
+                                    🧠 <strong>Gợi ý ôn tập:</strong><br />
+                                    @Html.Raw(goiYBoSung[it.MaKT].Replace("\n", "<br/>"))
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                }
             }
 
         </div>
     </div>
-
-    <!-- KIẾN THỨC -->
-    <h4 class="fw-bold text-secondary mt-4">
-        📌 Kiến thức cần bổ sung
-    </h4>
-
-    @foreach (var item in Model)
-    {
-        var kt = item.kt;
-        var score = item.score;
-
-        <div class="card shadow-sm mb-3">
-            <div class="card-body">
-
-                <div class="d-flex justify-content-between">
-                    <strong>@kt.NoiDung</strong>
-                    <span class="badge bg-primary">
-                        @score.ToString("0.00")
-                    </span>
-                </div>
-
-                <div class="text-muted small mb-2">
-                    Chủ đề: @kt.ChuDe?.TenCD
-                </div>
-
-                @if (goiYBoSung.ContainsKey(kt.MaKT))
-                {
-                    <div class="alert alert-info mb-0">
-                        🧠 <strong>Gợi ý ôn tập:</strong><br />
-                        @Html.Raw(goiYBoSung[kt.MaKT].Replace("\n", "<br/>"))
-                    </div>
-                }
-            </div>
+    <div class="card mt-4 shadow-sm">
+        <div class="card-header bg-warning fw-bold">
+            ⭐ Đánh giá đề xuất
         </div>
-    }
+
+        <div class="card-body">
+            <form asp-controller="DeXuatDanhGia"
+                  asp-action="Create"
+                  method="post">
+
+                <!-- MaDX BẮT BUỘC -->
+                <input type="hidden" name="maDX" value="@ViewBag.MaDX" />
+
+                <div class="mb-2">
+                    <label class="form-label">Mức độ phù hợp</label>
+                    <select name="rating" class="form-select" required>
+                        <option value="5">⭐⭐⭐⭐⭐ Rất hợp lý</option>
+                        <option value="4">⭐⭐⭐⭐ Hợp lý</option>
+                        <option value="3">⭐⭐⭐ Bình thường</option>
+                        <option value="2">⭐⭐ Chưa hợp lý</option>
+                        <option value="1">⭐ Không phù hợp</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Nhận xét (tuỳ chọn)</label>
+                    <textarea name="nhanXet"
+                              class="form-control"
+                              rows="3"
+                              placeholder="VD: Timeline hợp lý nhưng thiếu phần Index..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Gửi đánh giá
+                </button>
+            </form>
+        </div>
+    </div>
+
+
 </div>

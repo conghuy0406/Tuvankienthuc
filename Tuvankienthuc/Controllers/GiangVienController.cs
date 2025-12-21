@@ -23,14 +23,30 @@ namespace Tuvankienthuc.Controllers
             if (gvId == null)
                 return RedirectToAction("Login", "Auth");
 
+            // 1. Môn giảng viên phụ trách
             var monHocGiangDay = await _context.MonHocs
                 .Where(m => m.GiangVienId == gvId)
                 .ToListAsync();
 
-            ViewBag.SoMon = monHocGiangDay.Count;
+            var maMHs = monHocGiangDay.Select(m => m.MaMH).ToList();
 
-            return View(monHocGiangDay);
+            // 2. Đếm đánh giá CHƯA ĐỌC
+            int soDanhGiaMoi = await _context.DeXuatDanhGias
+                .Include(dg => dg.DeXuat)
+                .Where(dg =>
+                    !dg.IsRead &&
+                    dg.DeXuat != null &&
+                    maMHs.Contains(dg.DeXuat.MaMH)
+                )
+                .CountAsync();
+
+            ViewBag.SoMon = monHocGiangDay.Count;
+            ViewBag.SoDanhGiaMoi = soDanhGiaMoi;
+
+            return View(monHocGiangDay); // ⚠️ đảm bảo không null
         }
+
+
         // =======================
         // CHỦ ĐỀ TRONG MÔN
         // =======================
@@ -209,5 +225,38 @@ namespace Tuvankienthuc.Controllers
             }
             return RedirectToAction("Index");
         }
+        // =======================
+        // 📊 ĐÁNH GIÁ ĐỀ XUẤT (THEO MÔN GIẢNG DẠY)
+        // =======================
+        public async Task<IActionResult> DanhGiaDeXuat()
+        {
+            int? gvId = HttpContext.Session.GetInt32("UserId");
+            if (gvId == null)
+                return RedirectToAction("Login", "Auth");
+
+            var danhGia = await _context.DeXuatDanhGias
+                .Include(dg => dg.User)
+                .Include(dg => dg.DeXuat)
+                    .ThenInclude(dx => dx.MonHoc)
+                .Where(dg => dg.DeXuat.MonHoc.GiangVienId == gvId)
+                .OrderBy(dg => dg.IsRead)        // chưa đọc lên trước
+                .ThenByDescending(dg => dg.ThoiGian)
+                .ToListAsync();
+
+            return View(danhGia);
+        }
+        public async Task<IActionResult> DanhDauDaDoc(int id)
+        {
+            var dg = await _context.DeXuatDanhGias.FindAsync(id);
+            if (dg != null)
+            {
+                dg.IsRead = true;
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction("DanhGiaDeXuat");
+        }
+
+
     }
 }

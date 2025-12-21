@@ -1,0 +1,113 @@
+﻿@model Tuvankienthuc.ViewModels.ChiTietTuVanVm
+
+@{
+    ViewData["Title"] = "Chi tiết tư vấn";
+    var dx = Model.DeXuat;
+}
+
+<div class="container my-4">
+
+    <h2 class="fw-bold text-primary mb-2">
+        📘 @dx.MonHoc?.TenMH
+    </h2>
+
+    <p class="text-muted">
+        🎯 Mục tiêu: <strong>@dx.Goal</strong><br />
+        ⏱ Thời gian: @dx.ThoiGian.ToString("dd/MM/yyyy HH:mm")
+    </p>
+
+    <!-- NỘI DUNG TƯ VẤN -->
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white fw-bold">
+            📝 Nội dung tư vấn
+        </div>
+        <div class="card-body">
+            @Html.Raw((dx.NoiDung ?? "").Replace("\n", "<br/>"))
+        </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white fw-bold">
+            📅 Timeline học tập
+        </div>
+        <div class="card-body">
+
+            @foreach (var day in Model.Timeline)
+            {
+                <h5 class="fw-bold text-primary mt-3">
+                    Ngày @day.Day
+                </h5>
+
+                @foreach (var it in day.Items)
+                {
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between">
+                                <strong>📘 @it.NoiDung</strong>
+                                <span class="badge bg-info">
+                                    ⏱ @it.Minutes phút
+                                </span>
+                            </div>
+
+                            <div class="text-muted small mb-2">
+                                Chủ đề: @it.ChuDe
+                            </div>
+
+                            @if (it.TaiLieu.Any())
+                            {
+                                <div class="mb-2">
+                                    @foreach (var tl in it.TaiLieu)
+                                    {
+                                        <a href="@tl.DuongDan"
+                                           target="_blank"
+                                           class="badge bg-light border text-dark me-2 mb-1">
+                                            @tl.TieuDe
+                                        </a>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+    <!-- KIẾN THỨC ĐỀ XUẤT -->
+    <h4 class="fw-bold text-secondary mb-3">
+        📌 Kiến thức được đề xuất
+    </h4>
+
+    @foreach (var ct in dx.ChiTiets.OrderBy(x => x.RankIndex))
+    {
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <strong>@ct.KienThuc?.NoiDung</strong>
+                    <span class="badge bg-info">
+                        Score: @ct.Score.ToString("0.00")
+                    </span>
+                </div>
+
+                <div class="text-muted small mb-2">
+                    Chủ đề: @ct.KienThuc?.ChuDe?.TenCD
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(ct.Reason))
+                {
+                    <div class="alert alert-light border mb-0">
+                        <strong>Lý do đề xuất:</strong><br />
+                        @ct.Reason
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <a asp-action="LichSuTuVan"
+       class="btn btn-secondary mt-3">
+        ← Quay lại lịch sử
+    </a>
+</div>

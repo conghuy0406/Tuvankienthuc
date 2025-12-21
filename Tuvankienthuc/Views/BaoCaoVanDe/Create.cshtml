@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Báo cáo vấn đề";
+}
+
+<div class="container mt-4">
+    <h3 class="fw-bold text-danger">🚨 Báo cáo vấn đề</h3>
+
+    <form method="post">
+        <input type="hidden" name="maDX" value="@ViewBag.MaDX" />
+
+        <div class="mb-3">
+            <label class="form-label">Loại vấn đề</label>
+            <select name="loaiVanDe" class="form-select" required>
+                <option value="DeXuatKhongHopLy">Đề xuất chưa hợp lý</option>
+                <option value="ThieuNoiDung">Thiếu kiến thức / tài liệu</option>
+                <option value="LoiHeThong">Lỗi hệ thống / giao diện</option>
+                <option value="Khac">Khác</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Tiêu đề</label>
+            <input name="tieuDe" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Nội dung chi tiết</label>
+            <textarea name="noiDung"
+                      class="form-control"
+                      rows="4"
+                      placeholder="Mô tả rõ vấn đề bạn gặp..."></textarea>
+        </div>
+
+        <button class="btn btn-danger">Gửi báo cáo</button>
+    </form>
+</div>
