@@ -1,31 +1,38 @@
-﻿namespace Tuvankienthuc.ML
+﻿using Microsoft.ML.Data;
+
+namespace Tuvankienthuc.ML
 {
-    public class MLTypes
+    public class LearningData
     {
-        public class TrainRow
-        {
-            public int MaSV { get; set; }
-            public int MaMH { get; set; }
-            public int MaKT { get; set; }
 
-            public float Mastery { get; set; }
-            public float DoKho { get; set; }
-            public float IsBasic { get; set; }
-            public float RecencyDays { get; set; }
+        [LoadColumn(0)]
+        public float Score { get; set; }
 
-            public bool Label { get; set; } // chỉ dùng khi train, WebApp không cần gán
-        }
+        [LoadColumn(1)]
+        public float DoKho { get; set; }
 
-        public class TrainPred
-        {
-            public bool PredictedLabel { get; set; }
-            public float Probability { get; set; }
-            public float Score { get; set; }
-        }
+        [LoadColumn(2)]
+        public float SoKienThucTruoc { get; set; }
 
-        public interface IMLScoreService
-        {
-            float Score(TrainRow row);
-        }
+        [LoadColumn(3)]
+        public float TrangThai { get; set; }
+    }
+    public class TrainResultVm
+    {
+        public string ModelPath { get; set; } = "";
+        public string DataPath { get; set; } = "";
+
+        // Regression metrics
+        public double R2 { get; set; }
+        public double RMSE { get; set; }
+        public double MAE { get; set; }
+
+        public string Note { get; set; } = "";
+    }
+
+    public class ModelOutput
+    {
+        [ColumnName("Score")]
+        public float PredictedScore { get; set; }
     }
 }

@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Quản lý & huấn luyện AI";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container py-4">
+    <h2 class="fw-bold text-danger mb-3">
+        <i class="bi bi-cpu"></i> Quản lý & huấn luyện mô hình AI
+    </h2>
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="fw-bold">Thu thập dữ liệu + Huấn luyện</h5>
+                    <p class="text-muted mb-3">
+                        Export dữ liệu từ hệ thống → train model → lưu model mới.
+                    </p>
+                    <a asp-action="TrainModel" class="btn btn-primary w-100">
+                        <i class="bi bi-play-circle"></i> Train model
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="fw-bold">Đánh giá mô hình</h5>
+                    <p class="text-muted mb-3">
+                        Xem Accuracy/AUC/F1, quyết định có deploy model mới hay không.
+                    </p>
+                    <a asp-action="Evaluate" class="btn btn-outline-danger w-100">
+                        <i class="bi bi-graph-up"></i> Evaluate
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

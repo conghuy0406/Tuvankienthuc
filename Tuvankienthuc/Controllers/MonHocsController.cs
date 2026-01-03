@@ -17,8 +17,18 @@ namespace Tuvankienthuc.Controllers
         // GET: MonHoc
         public async Task<IActionResult> Index()
         {
-            // Tối ưu: Nếu không có dữ liệu, danh sách sẽ trống chứ không bị lỗi.
-            return View(await _context.MonHocs.ToListAsync());
+
+            var monHocs = await _context.MonHocs.ToListAsync();
+
+            var giangViens = await _context.Users
+                                           .Where(u => u.Role == "GiangVien")
+                                           .Select(u => new { u.Id, u.HoTen }) 
+                                           .ToListAsync();
+
+    
+            ViewBag.GiangVienList = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(giangViens, "Id", "HoTen");
+
+            return View(monHocs);
         }
 
         // GET: MonHoc/Details/5

@@ -32,6 +32,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 builder.Services.AddScoped<Tuvankienthuc.Services.TuVanService>();
+builder.Services.AddScoped<Tuvankienthuc.Services.GeminiService>();
+
+builder.Services.AddScoped<DataCollectorService>();
+builder.Services.AddScoped<DataPreprocessingService>();
+builder.Services.AddScoped<ModelTrainingService>();
+builder.Services.AddScoped<ModelEvaluationService>();
+
 
 var app = builder.Build();
 
